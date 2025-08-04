@@ -76,7 +76,7 @@ chore: [MUS-012] actualizar dependencias de NextJS
 - Crea tu rama desde `develop`
 - git checkout `develop`
 - git checkout -b _nombre de tu rama_
-- git pull origin `develop`
+- git push origin `develop`
 
 Realiza commits siguiendo la convención,
 Sube tu rama y abre un PR hacia `develop` ,
