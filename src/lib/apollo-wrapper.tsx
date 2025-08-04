@@ -1,5 +1,6 @@
 "use client";
 
+import { GRAPHQL_ENDPOINT } from "@/shared/constants";
 import { ApolloLink, HttpLink } from "@apollo/client";
 import {
   ApolloClient,
@@ -10,7 +11,7 @@ import {
 
 function makeClient() {
   const httpLink = new HttpLink({
-    uri: process.env.GRAPHQL_ENDPOINT,
+    uri: GRAPHQL_ENDPOINT,
   });
 
   return new ApolloClient({
