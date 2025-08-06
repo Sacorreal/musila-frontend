@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useAuth } from "@/domains/auth/store/authStore";
 import { routes } from "@/routes";
 import { House, ListMusic, Users } from "lucide-react";
+import Toggle from "../UI/Toggle";
 
 export default function Sidebar({
   isOpen,
@@ -110,6 +111,9 @@ export default function Sidebar({
 
         {/* Botón de Cerrar Sesión */}
         <div className="mt-auto">
+          <div className="flex justify-center mb-4">
+            <Toggle />
+          </div>
           <button
             onClick={logout}
             className="w-full flex items-center justify-center p-2 mt-4 text-white bg-error rounded-lg hover:bg-red-700 transition-colors cursor-pointer"

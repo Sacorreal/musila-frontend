@@ -8,6 +8,7 @@ import { Input } from "@/shared/components/UI/Inputs";
 import { Button } from "@/shared/components/UI/Buttons";
 import { useRouter } from "next/navigation";
 import { routes } from "@/routes";
+import Link from "next/link";
 
 const loginSchema = z.object({
   email: z
@@ -37,7 +38,7 @@ export default function LoginForm({
 
   const onSubmit: SubmitHandler<LoginSchema> = (data) => {
     setIsSubmitting(true);
-    // llamada a una API en services/auth.ts
+    // llamada a una API en services/auth.service.ts
     setTimeout(() => {
       onLoginSuccess(data.email);
       setIsSubmitting(false);
@@ -83,22 +84,19 @@ export default function LoginForm({
             </label>
           </div>
         </div>
-        <a
-          href="#"
-          className="text-sm font-medium text-primary hover:underline dark:text-primary"
-        >
+        <Link href="#" className="text-sm font-medium text-white hover:underline ">
           ¿Olvidaste la contraseña?
-        </a>
+        </Link>
       </div>
 
       <Button type="submit" disabled={isSubmitting}>
         {isSubmitting ? "Iniciando sesión..." : "Iniciar sesión"}
       </Button>
-      <p className="text-sm font-light text-text-secondary dark:text-gray-400">
+      <p className="text-sm font-light text-secondary dark:text-gray-400">
         ¿No tienes una cuenta?{" "}
         <a
           href="#"
-          className="font-medium text-primary hover:underline dark:text-primary"
+          className="font-medium text-white hover:underline dark:text-primary"
         >
           Regístrate
         </a>

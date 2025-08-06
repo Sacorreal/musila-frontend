@@ -1,37 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
 
 @import "tailwindcss";
 
 :root {
-  --color-primary: #156BA4;
-  --color-primary-dark: #0F5282;
-  --color-secondary: #D6EFFF;
-  --color-accent: #10B981;
-  --color-background-light: #F9FAFB;
-  --color-background-dark: #0A2540;
-  --color-text-main: #1F2937;
-  --color-text-secondary: #6B7280;
+  --color-primary: #156ba4;
+  --color-secondary: #d6efff;
+  --color-accent: #10b981;
+  --color-background-light: #f9fafb;
+  --color-background-dark: #0a2540;
+  --color-text-main: #1f2937;
+  --color-text-secondary: #6b7280;
   --color-warning: #e1b60b;
-  --color-error: #EF4444;
+  --color-error: #ef4444;
 
   --font-manrope: "Manrope", sans-serif;
-}
 
-:root {
   --background: var(--color-background-light);
   --foreground: var(--color-text-main);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: var(--color-background-dark);
-    --foreground: var(--color-text-main);
-  }
-}
-
-html.dark, :root.dark {
+html.dark,
+:root.dark {
   --background: var(--color-background-dark);
-  --foreground: var(--color-text-main);
+  --foreground: var(--color-background-light);
 }
 
 body {

@@ -2,37 +2,29 @@
 
 import React, { useState, useEffect } from "react";
 
-export default function ToggleSwitch() {
-  const [isChecked, setIsChecked] = useState(false);
+export default function Toggle() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
-    
-    const storedTheme = localStorage.getItem("theme");
+    const theme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
 
-    if (storedTheme === "dark") {
+    if (theme === "dark" || (!theme && prefersDark)) {
       document.documentElement.classList.add("dark");
-      setIsChecked(true);
-    } else if (storedTheme === "light") {
-      document.documentElement.classList.remove("dark");
-      setIsChecked(false);
+      setIsDarkMode(true);
     } else {
-      
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      if (prefersDark) {
-        document.documentElement.classList.add("dark");
-        setIsChecked(true);
-      } else {
-        document.documentElement.classList.remove("dark");
-        setIsChecked(false);
-      }
+      document.documentElement.classList.remove("dark");
+      setIsDarkMode(false);
     }
   }, []);
 
   const handleToggle = () => {
-    const newCheckedState = !isChecked;
-    setIsChecked(newCheckedState);
+    const newIsDarkMode = !isDarkMode;
+    setIsDarkMode(newIsDarkMode);
 
-    if (newCheckedState) {
+    if (newIsDarkMode) {
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
     } else {
@@ -47,7 +39,7 @@ export default function ToggleSwitch() {
         type="checkbox"
         id="darkModeToggle"
         className="sr-only"
-        checked={isChecked}
+        checked={isDarkMode}
         onChange={handleToggle}
       />
 
@@ -56,13 +48,13 @@ export default function ToggleSwitch() {
         className={`
           relative w-12 h-7 rounded-full cursor-pointer transition-colors duration-200 ease-in-out
           flex items-center p-1
-          ${isChecked ? "bg-gray-700" : "bg-gray-500"}
+          ${isDarkMode ? "bg-gray-300" : "bg-gray-300"}
         `}
       >
         <span
           className={`
             w-5 h-5 bg-white rounded-full transition-transform duration-200 ease-in-out shadow-md
-            ${isChecked ? "translate-x-5" : "translate-x-0"}
+            ${isDarkMode ? "translate-x-5" : "translate-x-0"}
           `}
         />
       </label>
