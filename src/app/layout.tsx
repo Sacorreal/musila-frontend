@@ -1,7 +1,7 @@
 import { ApolloWrapper } from "@/lib/apollo-wrapper";
 import type { Metadata } from "next";
 import "./globals.css";
-import { AuthProvider } from "../domains/auth/Store/authStore";
+import { AuthProvider } from "../domains/auth/store/authStore";
 
 export const metadata: Metadata = {
   title: "Musila app",

@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useSidebar } from "@/shared/hooks/useSidebar";
-import Sidebar from "@/shared/components/UI/Sidebar";
+import Sidebar from "@/shared/components/Layout/Sidebar";
 import ContentApp from "@/shared/components/Layout/ContentApp";
 
 export default function MusicAppLayout({

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/domains/auth/Store/authStore";
+import { useAuth } from "@/domains/auth/store/authStore";
 import { routes } from "@/routes";
 
 export const useSidebar = () => {

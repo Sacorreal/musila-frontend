@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { useAuth } from "@/domains/auth/Store/authStore";
+import { useAuth } from "@/domains/auth/store/authStore";
 import { routes } from "@/routes";
 import { House, ListMusic, Users } from "lucide-react";
 

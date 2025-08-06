@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
-import { useAuth } from "@/domains/auth/Store/authStore";
-import LoginForm from "@/domains/auth/LoginForm";
+import { useAuth } from "@/domains/auth/store/authStore";
+import LoginForm from "@/domains/auth/components/LoginForm";
 import ToggleSwitch from "@/shared/components/UI/Toggle";
 
 export default function LoginPage() {
