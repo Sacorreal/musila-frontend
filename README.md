@@ -71,17 +71,21 @@ chore: [MUS-012] actualizar dependencias de NextJS
 
 ## 🔁 5. Flujo de trabajo con Pull Requests
 
-- Toma una de las tareas asignadas a tu nombre en el tablero en Jira, sigue el mismo orden de asignación de tareas.
-- Copia el nombre de la rama que se encuentra en la tarea en el tablero en Jira.
-- Crea tu rama desde `develop`
-- git checkout `develop`
-- git checkout -b _nombre de tu rama_
-- git push origin `develop`
+- Clona el repositorio en tu local con el comando `git clone https://github.com/Sacorreal/musila-frontend.git ` (**solo se hace una única vez**).
 
-Realiza commits siguiendo la convención,
-Sube tu rama y abre un PR hacia `develop` ,
-Asocia el PR con el ticket de Jira ejemplo: _(MUS-101)_.
-Espera revisión y aprobación de otro desarrollador.
+- Actualiza los cambios del repositorio en GitHub a tu repositorio local con `git pull origin main` (**se debe hacer siempre, antes de crear una nueva rama**).
+
+- En tu repositorio local ubicate en la rama `develop`, ingresando el comando `git checkout -b develop`.
+
+- Toma una de las tareas asignadas en el tablero en Jira, sigue el mismo orden de asignación de tareas.
+
+- Estando en la rama `develop` crea una nueva rama, copiando el nombre de la rama que se encuentra en la tarea en Jira `git checkout -b "nombre de tu rama"`.
+
+- Al terminar de trabajar en tu rama local, agrega los cambios `git add .` y envía commit siguiendo la convención, ejemplo: `git commit -m "feature/MUS-101-login-form" `.
+
+- Envia los cambios desde tu repositorio local al repositorio remoto en Github con el comando `git push origin "nombre de tu rama"`.
+
+- Desde Github crea el **Pull Requests** asociando el ticket de Jira ejemplo: _(MUS-101)_, hacia la rama `develop`del repositorio de Musila.
 
 ---
 
