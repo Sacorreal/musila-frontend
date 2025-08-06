@@ -1,7 +1,7 @@
 export default async function MusicPage() {
   return (
     <>
-      <h1>Landing Page - Music</h1>
+      <h1 className="text-foreground">Landing Page </h1>
     </>
   );
 }
