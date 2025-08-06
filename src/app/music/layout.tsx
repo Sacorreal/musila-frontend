@@ -1,9 +1,9 @@
 "use client";
 
-import React from 'react';
-import { useSidebar } from '@/hooks/useSidebar';
-import Sidebar from '@/components/Sidebar';
-import ContentApp from '@/components/Layout/ContentApp';
+import React from "react";
+import { useSidebar } from "@/shared/hooks/useSidebar";
+import Sidebar from "@/shared/components/UI/Sidebar";
+import ContentApp from "@/shared/components/Layout/ContentApp";
 
 export default function MusicAppLayout({
   children,
@@ -20,7 +20,7 @@ export default function MusicAppLayout({
     <div className="flex min-h-screen bg-background-light dark:bg-background-dark">
       {/* Sidebar */}
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
-      
+
       {/* Contenido principal*/}
       <ContentApp onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}>
         {children}

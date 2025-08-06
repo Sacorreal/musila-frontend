@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/app/Store/authStore';
-import { routes } from '@/app/routes';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/domains/auth/Store/authStore";
+import { routes } from "@/routes";
 
 export const useSidebar = () => {
-  const { isLoggedIn } = useAuth(); 
+  const { isLoggedIn } = useAuth();
   const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 

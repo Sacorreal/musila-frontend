@@ -1,7 +1,7 @@
 import { ApolloWrapper } from "@/lib/apollo-wrapper";
 import type { Metadata } from "next";
 import "./globals.css";
-import { AuthProvider } from "./Store/authStore";
+import { AuthProvider } from "../domains/auth/Store/authStore";
 
 export const metadata: Metadata = {
   title: "Musila app",
@@ -17,9 +17,7 @@ export default function RootLayout({
     <html lang="es">
       <ApolloWrapper>
         <AuthProvider>
-          <body className={`antialiased`}>
-            {children}
-          </body>
+          <body className={`antialiased`}>{children}</body>
         </AuthProvider>
       </ApolloWrapper>
     </html>
