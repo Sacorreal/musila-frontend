@@ -60,7 +60,7 @@ export default function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose:
             <li>
               <a href={routes.artists} className="flex items-center p-2 text-text-main dark:text-gray-100 rounded-lg hover:bg-primary hover:text-white dark:hover:bg-primary-dark transition-colors">
                 {/* Icono de Artistas */}
-                <Users className='pr-1'/>
+                <Users />
                 Artistas
               </a>
             </li>

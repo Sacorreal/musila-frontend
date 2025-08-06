@@ -56,7 +56,7 @@ export default function ToggleSwitch() {
         className={`
           relative w-12 h-7 rounded-full cursor-pointer transition-colors duration-200 ease-in-out
           flex items-center p-1
-          ${isChecked ? "bg-primary" : "bg-gray-500"}
+          ${isChecked ? "bg-gray-700" : "bg-gray-500"}
         `}
       >
         <span

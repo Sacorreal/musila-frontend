@@ -12,7 +12,7 @@ module.exports = {
         colors: {
           primary: {
             DEFAULT: 'var(--color-primary)',
-            dark: 'var(--color-background-dark)', 
+            dark: 'var(--color-primary-dark)', 
           },
           secondary: 'var(--color-secondary)',
           accent: 'var(--color-accent)',
