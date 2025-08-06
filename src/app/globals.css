@@ -30,3 +30,15 @@ body {
   color: var(--foreground);
   font-family: var(--font-manrope);
 }
+
+@theme {
+  --color-primary: #156ba4;
+  --color-secondary: #d6efff;
+  --color-accent: #10b981;
+  --color-background-light: #f9fafb;
+  --color-background-dark: #0a2540;
+  --color-text-main: #1f2937;
+  --color-text-secondary: #6b7280;
+  --color-warning: #e1b60b;
+  --color-error: #ef4444;
+}

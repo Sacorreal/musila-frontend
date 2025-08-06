@@ -17,7 +17,7 @@ export default function LoginPage() {
   }
 
   return (
-    <section className="bg-background-light dark:bg-background-dark min-h-screen relative">
+    <section className="bg-background min-h-screen relative">
       <div className="absolute top-4 right-4">
         <ToggleSwitch />
       </div>
@@ -35,7 +35,7 @@ export default function LoginPage() {
           />
           Musila{" "}
         </Link>
-        <div className="w-full bg-background-light rounded-lg shadow-lg dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+        <div className="w-full bg-text-main rounded-lg shadow-lg dark:border md:mt-0 sm:max-w-md xl:p-0 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight md:text-2xl dark:text-white">
               Inicia sesión en tu cuenta

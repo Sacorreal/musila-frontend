@@ -12,7 +12,7 @@ export default function ContentApp({
 }>) {
   return (
     <main className="flex-1 flex flex-col bg-transparent">
-      <header className="bg-white dark:bg-gray-800 shadow-md p-4 flex items-center justify-between">
+      <header className="bg-background shadow-md p-4 flex items-center justify-between">
         <button
           onClick={onToggleSidebar}
           className="text-text-main dark:text-white focus:outline-none md:hidden"
@@ -34,7 +34,7 @@ export default function ContentApp({
           </svg>
         </button>
 
-        <h2 className="text-xl font-semibold text-text-main dark:text-white">
+        <h2 className="text-xl font-semibold text-foreground">
           Contenido de la Aplicación
         </h2>
 

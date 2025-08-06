@@ -15,7 +15,7 @@ export const Button = ({
     type={type}
     onClick={onClick}
     disabled={disabled}
-    className="w-full bg-[#156ba4] text-white focus:ring-2 focus:outline-none focus:ring-primary/50 font-medium rounded-lg text-sm px-5 py-3 text-center transition-colors shadow-lg cursor-pointer"
+    className="w-full bg-primary text-white focus:ring-2 focus:outline-none focus:ring-primary/50 font-medium rounded-lg text-sm px-5 py-3 text-center transition-colors shadow-lg cursor-pointer"
   >
     {children}
   </button>

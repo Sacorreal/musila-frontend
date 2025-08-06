@@ -111,7 +111,7 @@ export default function Sidebar({
           <div className="flex justify-center mb-4"></div>
           <button
             onClick={logout}
-            className="w-full flex items-center justify-center p-2 mt-4 text-white bg-[#ef4444] rounded-lg hover:bg-red-500 transition-colors cursor-pointer"
+            className="w-full flex items-center justify-center p-2 mt-4 text-white bg-error rounded-lg hover:bg-red-500 transition-colors cursor-pointer"
           >
             {/* Icono de Salir */}
             <svg

@@ -17,7 +17,7 @@ export default function MusicAppLayout({
   }
 
   return (
-    <div className="flex min-h-screen bg-background-light dark:bg-background-dark">
+    <div className="flex min-h-screen bg-background">
       {/* Sidebar */}
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
