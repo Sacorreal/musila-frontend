@@ -11,15 +11,13 @@ export default function ContentApp({
   onToggleSidebar: () => void;
 }>) {
   return (
-    <main className="flex-1 flex flex-col">
-      {/* Barra superior para móvil */}
-      <header className="bg-white dark:bg-gray-900 shadow-md p-4 flex items-center justify-between md:hidden">
+    <main className="flex-1 flex flex-col bg-transparent">
+      <header className="bg-white dark:bg-gray-800 shadow-md p-4 flex items-center justify-between">
         <button
           onClick={onToggleSidebar}
-          className="text-text-main dark:text-white focus:outline-none"
+          className="text-text-main dark:text-white focus:outline-none md:hidden"
           aria-label="Abrir menú"
         >
-          {/* Icono de hamburguesa */}
           <svg
             className="w-6 h-6"
             fill="none"
@@ -35,24 +33,15 @@ export default function ContentApp({
             ></path>
           </svg>
         </button>
-        <span className="text-xl font-semibold text-text-main dark:text-white">
-          Musila App
-        </span>
+
+        <h2 className="text-xl font-semibold text-text-main dark:text-white">
+          Contenido de la Aplicación
+        </h2>
+
         <ToggleSwitch />
       </header>
 
-      <div className="flex-1 p-6 bg-white dark:bg-gray-900">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-text-main dark:text-white">
-            Contenido de la Aplicación
-          </h1>
-
-          <div className="hidden md:block">
-            <ToggleSwitch />
-          </div>
-        </div>
-        {children}
-      </div>
+      <div className="flex-1 p-6">{children}</div>
     </main>
   );
 }

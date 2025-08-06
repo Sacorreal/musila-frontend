@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useAuth } from "@/domains/auth/store/authStore";
 import { routes } from "@/routes";
 import { House, ListMusic, Users } from "lucide-react";
-import Toggle from "../UI/Toggle";
 
 export default function Sidebar({
   isOpen,
@@ -33,9 +32,7 @@ export default function Sidebar({
         fixed inset-y-0 left-0 z-50 // Posición fija para móvil
         md:static md:translate-x-0 // Estático y visible en desktop
         transform transition-transform duration-300 ease-in-out // Transición para el deslizamiento
-        ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        } // Controla el deslizamiento en móvil
+        ${isOpen ? "translate-x-0" : "-translate-x-full"}
       `}
         onClick={(e) => e.stopPropagation()}
       >
@@ -102,7 +99,7 @@ export default function Sidebar({
                 className="flex items-center p-2 text-text-main dark:text-gray-100 rounded-lg hover:bg-primary hover:text-white dark:hover:bg-primary-dark transition-colors"
               >
                 {/* Icono de Artistas */}
-                <Users />
+                <Users className="pr-1" />
                 Artistas
               </a>
             </li>
@@ -111,12 +108,10 @@ export default function Sidebar({
 
         {/* Botón de Cerrar Sesión */}
         <div className="mt-auto">
-          <div className="flex justify-center mb-4">
-            <Toggle />
-          </div>
+          <div className="flex justify-center mb-4"></div>
           <button
             onClick={logout}
-            className="w-full flex items-center justify-center p-2 mt-4 text-white bg-error rounded-lg hover:bg-red-700 transition-colors cursor-pointer"
+            className="w-full flex items-center justify-center p-2 mt-4 text-white bg-[#ef4444] rounded-lg hover:bg-red-500 transition-colors cursor-pointer"
           >
             {/* Icono de Salir */}
             <svg
