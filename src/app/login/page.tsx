@@ -11,7 +11,7 @@ export default function LoginPage() {
   const { isLoggedIn, login } = useAuth();
   const router = useRouter();
 
-useEffect(() => {
+  useEffect(() => {
     if (isLoggedIn) {
       router.push("/music");
     }
@@ -22,7 +22,7 @@ useEffect(() => {
   };
 
   if (isLoggedIn) {
-    return null; 
+    return null;
   }
 
   return (
@@ -44,9 +44,9 @@ useEffect(() => {
           />
           Musila{" "}
         </Link>
-        <div className="w-full bg-text-main rounded-lg shadow-lg dark:border md:mt-0 sm:max-w-md xl:p-0 dark:border-gray-700">
+        <div className="w-full bg-[#111827] rounded-lg shadow-lg md:mt-0 sm:max-w-md xl:p-0 ">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight md:text-2xl dark:text-white">
+            <h1 className="text-xl font-bold text-white leading-tight tracking-tight md:text-2xl">
               Inicia sesión en tu cuenta
             </h1>
             <LoginForm onLoginSuccess={handleLoginSuccess} />

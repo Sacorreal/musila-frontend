@@ -15,8 +15,8 @@ interface FaqItemProps {
 const FaqItem = ({ question, answer, isOpenDefault = false }: FaqItemProps) => (
   <details className="group rounded-xl border border-border-color bg-background p-4" open={isOpenDefault}>
     <summary className="flex cursor-pointer list-none items-center justify-between">
-      <p className="text-white text-sm font-medium leading-normal">{question}</p>
-      <div className="text-white transition-transform duration-300 group-open:rotate-180">
+      <p className="text-foreground text-sm font-medium leading-normal">{question}</p>
+      <div className="text-foreground transition-transform duration-300 group-open:rotate-180">
         <IconCaretDown />
       </div>
     </summary>
@@ -46,7 +46,7 @@ const faqData = [
 export function Faq() {
   return (
     <section className="w-full max-w-5xl py-10 px-4">
-      <h2 className="text-3xl font-bold leading-tight tracking-[-0.015em] text-white mb-8">
+      <h2 className="text-3xl font-bold leading-tight tracking-[-0.015em] text-foreground mb-8">
         Preguntas Frecuentes
       </h2>
       <div className="flex flex-col gap-3">

@@ -10,12 +10,12 @@ import { Faq } from "./components/Faq";
 
 export default function LandingPage() {
   return (
-    <div className="relative flex size-full min-h-screen flex-col bg-bg-landing text-text-main group/design-root overflow-x-hidden">
+    <div className="relative flex size-full min-h-screen flex-col text-text-main group/design-root overflow-x-hidden">
       <div className="layout-container flex h-full grow flex-col">
         <Header />
 
         {/* === MAIN CONTENT === */}
-        <main className="px-40 flex flex-1 justify-center py-5">
+        <main className="md:px-40 flex flex-1 justify-center py-5">
           <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
             {/* Hero Section */}
             <div className="@container">
@@ -35,7 +35,7 @@ export default function LandingPage() {
                   </p>
                   <Link
                     href="/login?plan=true"
-                    className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base hover:bg-main-landing/90"
+                    className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-primary text-foreground text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base hover:bg-main-landing/90"
                   >
                     <span className="truncate">Elige un plan</span>
                   </Link>
@@ -49,10 +49,10 @@ export default function LandingPage() {
             {/* Benefits Section */}
             <section
               id="benefits"
-              className="flex w-full flex-col items-center gap-8 py-10 px-4"
+              className="flex w-full flex-col gap-8 py-10 px-4"
             >
-              <div className="flex flex-col gap-2 text-center">
-                <h2 className="text-3xl font-bold leading-tight tracking-[-0.015em] text-white">
+              <div className="flex flex-col gap-2">
+                <h2 className="text-3xl font-bold leading-tight tracking-[-0.015em] text-foreground">
                   Beneficios de Musila
                 </h2>
                 <p className="max-w-[600px] text-base font-normal leading-normal text-text-secondary">
@@ -70,7 +70,7 @@ export default function LandingPage() {
                     width={50}
                     height={50}
                   />
-                  <h3 className="text-white text-base font-bold leading-tight">
+                  <h3 className="text-foreground text-base font-bold leading-tight">
                     Autores y Cantautores
                   </h3>
                   <p className="text-text-secondary text-sm font-normal leading-normal">
@@ -87,7 +87,7 @@ export default function LandingPage() {
                     width={50}
                     height={50}
                   />
-                  <h3 className="text-white text-base font-bold leading-tight">
+                  <h3 className="text-foreground text-base font-bold leading-tight">
                     Intérpretes
                   </h3>
                   <p className="text-text-secondary text-sm font-normal leading-normal">
@@ -105,7 +105,7 @@ export default function LandingPage() {
                     width={50}
                     height={50}
                   />
-                  <h3 className="text-white text-base font-bold leading-tight">
+                  <h3 className="text-foreground text-base font-bold leading-tight">
                     Editoras
                   </h3>
                   <p className="text-text-secondary text-sm font-normal leading-normal">

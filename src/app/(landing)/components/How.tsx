@@ -38,9 +38,11 @@ interface FeatureCardProps {
 
 const FeatureCard = ({ icon, title, description }: FeatureCardProps) => (
   <div className="flex flex-1 flex-col gap-3 rounded-lg border border-border-color bg-card-bg p-6 text-left">
-    <div className="text-white w-6 h-6">{icon}</div>
+    <div className="text-foreground w-6 h-6">{icon}</div>
     <div className="flex flex-col gap-1">
-      <h3 className="text-white text-base font-bold leading-tight">{title}</h3>
+      <h3 className="text-foreground text-base font-bold leading-tight">
+        {title}
+      </h3>
       <p className="text-text-secondary text-sm font-normal leading-normal">
         {description}
       </p>
@@ -71,9 +73,9 @@ const featuresData = [
 
 export function HowItWorks() {
   return (
-    <section className="flex w-full flex-col items-center gap-8 py-10 px-4">
-      <div className="flex flex-col gap-2 text-center">
-        <h2 className="text-3xl font-bold leading-tight tracking-[-0.015em] text-white">
+    <section className="flex w-full flex-col gap-8 py-10 px-4">
+      <div className="flex flex-col gap-2">
+        <h2 className="text-3xl font-bold leading-tight tracking-[-0.015em] text-foreground">
           ¿Cómo funciona Musila?
         </h2>
         <p className="max-w-[600px] text-base font-normal leading-normal text-text-secondary">

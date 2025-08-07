@@ -96,7 +96,7 @@ export default function LoginForm({
         ¿No tienes una cuenta?{" "}
         <a
           href="#"
-          className="font-medium text-white hover:underline dark:text-primary"
+          className="font-medium text-white hover:underline"
         >
           Regístrate
         </a>

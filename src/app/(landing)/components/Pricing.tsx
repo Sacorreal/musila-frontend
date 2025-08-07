@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 const IconCheck = () => (
   <svg
-    className="w-5 h-5 text-white shrink-0"
+    className="w-5 h-5 text-foreground shrink-0"
     fill="currentColor"
     viewBox="0 0 256 256"
   >
@@ -103,30 +103,26 @@ const PricingCard = ({
       }`}
     >
       <div className="flex flex-col gap-1">
-        <h3 className="text-white text-base font-bold leading-tight">
+        <h3 className="text-foreground text-base font-bold leading-tight">
           {plan.type}
         </h3>
         {formattedPrice && (
-          <p className="flex items-baseline gap-1 text-white">
-            <span className="text-white text-4xl font-black leading-tight tracking-[-0.033em]">
+          <p className="flex items-baseline gap-1 text-foreground">
+            <span className="text-foreground text-4xl font-black leading-tight tracking-[-0.033em]">
               ${formattedPrice}
             </span>
-            <span className="text-white text-base font-bold leading-tight">
+            <span className="text-foreground text-base font-bold leading-tight">
               {billingUnit}
             </span>
           </p>
         )}
       </div>
       <button
-        className={`flex w-full cursor-pointer items-center justify-center rounded-full h-10 px-4 text-white text-sm font-bold ${
-          plan.customCTA
-            ? "bg-primary hover:bg-primary/90"
-            : "bg-border-color-light hover:bg-primary"
-        }`}
+        className={`flex w-full cursor-pointer items-center justify-center rounded-full h-10 px-4 text-white text-sm font-bold bg-primary hover:bg-primary/90`}
       >
         <span className="truncate">{plan.buttonText}</span>
       </button>
-      <div className="flex flex-col gap-2 text-[13px] font-normal leading-normal text-white">
+      <div className="flex flex-col gap-2 text-[13px] font-normal leading-normal text-foreground">
         {plan.prelude && <p className="mb-2">{plan.prelude}</p>}
         {plan.features.map((feature, index) => (
           <div key={index} className="flex gap-3 items-start">
@@ -139,9 +135,7 @@ const PricingCard = ({
   );
 };
 
-
-
-//  Componente Principal 
+//  Componente Principal
 export function Pricing() {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "annually">(
     "monthly"
@@ -155,7 +149,7 @@ export function Pricing() {
       id="pricing"
       className="w-full max-w-6xl flex flex-col items-center gap-2 px-4 py-10"
     >
-      <h2 className="text-3xl font-bold leading-tight tracking-[-0.015em] pb-3 pt-5 text-center text-white">
+      <h2 className="text-3xl font-bold leading-tight tracking-[-0.015em] pb-3 pt-5 text-center text-foreground">
         Precios
       </h2>
       <div className="flex justify-center py-3 w-full max-w-sm">
@@ -164,7 +158,7 @@ export function Pricing() {
             onClick={() => setBillingCycle("monthly")}
             className={`h-full w-full rounded-full text-sm font-medium transition-colors ${
               billingCycle === "monthly"
-                ? "bg-background shadow-md text-white"
+                ? "bg-background shadow-md text-foreground"
                 : "text-text-secondary"
             }`}
           >
@@ -174,7 +168,7 @@ export function Pricing() {
             onClick={() => setBillingCycle("annually")}
             className={`h-full w-full rounded-full text-sm font-medium transition-colors ${
               billingCycle === "annually"
-                ? "bg-background shadow-md text-white"
+                ? "bg-background shadow-md text-foreground"
                 : "text-text-secondary"
             }`}
           >
