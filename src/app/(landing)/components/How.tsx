@@ -37,7 +37,7 @@ interface FeatureCardProps {
 }
 
 const FeatureCard = ({ icon, title, description }: FeatureCardProps) => (
-  <div className="flex flex-1 flex-col gap-3 rounded-lg border border-border-color bg-card-bg p-6 text-left">
+  <div className="flex flex-1 flex-col gap-3 rounded-lg border border-[#3c3069] bg-card-bg p-6 text-left">
     <div className="text-foreground w-6 h-6">{icon}</div>
     <div className="flex flex-col gap-1">
       <h3 className="text-foreground text-base font-bold leading-tight">

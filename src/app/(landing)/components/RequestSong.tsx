@@ -1,6 +1,5 @@
 import React from "react";
 
-// --- Datos de Contenido ---
 const timelineData = [
   {
     title: "Autores publican sus canciones",

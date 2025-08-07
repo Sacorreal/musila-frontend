@@ -98,7 +98,7 @@ const PricingCard = ({
 
   return (
     <div
-      className={`flex flex-1 flex-col gap-4 rounded-xl border border-solid border-border-color bg-card-bg p-6 h-full ${
+      className={`flex flex-1 flex-col gap-4 rounded-xl border border-solid border-[#3c3069] bg-card-bg p-6 h-full ${
         plan.layout === "enterprise" ? "lg:col-span-2" : ""
       }`}
     >

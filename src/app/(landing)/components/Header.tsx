@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ToggleSwitch from "@/shared/components/UI/Toggle";
-import {Menu} from "lucide-react";
+import { Menu } from "lucide-react";
 
 const navLinks = [
   { href: "#benefits", label: "Beneficios" },
@@ -43,7 +43,7 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b border-solid border-border-color bg-background/80 backdrop-blur-md">
+      <header className="sticky top-0 z-50 w-full border-b border-solid border-[#3c3069]">
         <div className="container mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
           <Link
             href="/"

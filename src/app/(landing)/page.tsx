@@ -14,7 +14,7 @@ export default function LandingPage() {
       <div className="layout-container flex h-full grow flex-col">
         <Header />
 
-        {/* === MAIN CONTENT === */}
+        {/*  MAIN CONTENT  */}
         <main className="md:px-40 flex flex-1 justify-center py-5">
           <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
             {/* Hero Section */}
@@ -63,7 +63,7 @@ export default function LandingPage() {
 
               <div className="grid w-full max-w-5xl grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {/* Primer Beneficio */}
-                <div className="flex flex-col gap-3 rounded-lg border border-border-color bg-card-bg p-6 text-left">
+                <div className="flex flex-col gap-3 rounded-lg border border-[#3c3069] bg-card-bg p-6 text-left">
                   <Image
                     src={"/icons/benefit1.svg"}
                     alt="Beneficio 1"
@@ -80,7 +80,7 @@ export default function LandingPage() {
                   </p>
                 </div>
                 {/* Segundo Beneficio */}
-                <div className="flex flex-col gap-3 rounded-lg border border-border-color bg-card-bg p-6 text-left">
+                <div className="flex flex-col gap-3 rounded-lg border border-[#3c3069] bg-card-bg p-6 text-left">
                   <Image
                     src={"/icons/benefit1.svg"}
                     alt="Beneficio 1"
@@ -98,7 +98,7 @@ export default function LandingPage() {
                 </div>
 
                 {/* Tercer Beneficio */}
-                <div className="flex flex-col gap-3 rounded-lg border border-border-color bg-card-bg p-6 text-left">
+                <div className="flex flex-col gap-3 rounded-lg border border-[#3c3069] bg-card-bg p-6 text-left">
                   <Image
                     src={"/icons/benefit1.svg"}
                     alt="Beneficio 1"
@@ -129,8 +129,8 @@ export default function LandingPage() {
           </div>
         </main>
 
-        {/* === FOOTER === */}
-        <footer className="flex justify-center border-t border-solid border-border-color-light">
+        {/* FOOTER */}
+        <footer className="flex justify-center border-t border-solid border-[#3c3069]">
           <div className="flex max-w-[960px] flex-1 flex-col items-center gap-6 px-5 py-10 text-center">
             <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 @[480px]:justify-around">
               <Link
