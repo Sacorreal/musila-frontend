@@ -4,16 +4,25 @@ import Link from "next/link";
 import { useAuth } from "@/domains/auth/store/authStore";
 import LoginForm from "@/domains/auth/components/LoginForm";
 import ToggleSwitch from "@/shared/components/UI/Toggle";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const { isLoggedIn, login } = useAuth();
+  const router = useRouter();
+
+useEffect(() => {
+    if (isLoggedIn) {
+      router.push("/music");
+    }
+  }, [isLoggedIn, router]);
 
   const handleLoginSuccess = (email: string) => {
     login(email);
   };
 
   if (isLoggedIn) {
-    return null;
+    return null; 
   }
 
   return (
