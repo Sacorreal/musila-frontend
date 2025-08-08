@@ -65,6 +65,12 @@ const pricingData: Plan[] = [
     buttonText: "Hablemos",
     customCTA: true,
     layout: "enterprise",
+    ctaAction: {
+      type: "whatsapp",
+      number: "573142461052",
+      message:
+        "Hola, estoy interesado/a en el plan para Editoras (Publisher) y me gustaría obtener más información.",
+    },
   },
 ];
 
@@ -78,6 +84,11 @@ interface Plan {
   buttonText: string;
   customCTA?: boolean;
   layout: "main" | "enterprise";
+  ctaAction?: {
+    type: "whatsapp";
+    number: string;
+    message: string;
+  };
 }
 
 const PricingCard = ({
@@ -98,7 +109,7 @@ const PricingCard = ({
 
   return (
     <div
-      className={`flex flex-1 flex-col gap-4 rounded-xl border border-solid border-[#3c3069] bg-card-bg p-6 h-full ${
+      className={`flex flex-1 flex-col gap-4 rounded-xl border border-solid border-assets bg-card-bg p-6 h-full ${
         plan.layout === "enterprise" ? "lg:col-span-2" : ""
       }`}
     >
@@ -135,7 +146,6 @@ const PricingCard = ({
   );
 };
 
-//  Componente Principal
 export function Pricing() {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "annually">(
     "monthly"
@@ -149,16 +159,17 @@ export function Pricing() {
       id="pricing"
       className="w-full max-w-6xl flex flex-col items-center gap-2 px-4 py-10"
     >
-      <h2 className="text-3xl font-bold leading-tight tracking-[-0.015em] pb-3 pt-5 text-center text-foreground">
+      <h2 className="text-3xl font-bold leading-tight tracking-[-0.015em] pb-3 pt-5 text-foreground">
         Precios
       </h2>
-      <div className="flex justify-center py-3 w-full max-w-sm">
-        <div className="flex h-10 w-full items-center justify-center rounded-full bg-border-color-light p-1">
+
+      <div className="flex justify-center py-3 w-full max-w-6xl">
+        <div className="flex h-10 w-full items-center justify-center rounded-full bg-card-bg p-1">
           <button
             onClick={() => setBillingCycle("monthly")}
-            className={`h-full w-full rounded-full text-sm font-medium transition-colors ${
+            className={`h-full w-full rounded-full text-sm font-medium transition-colors cursor-pointer ${
               billingCycle === "monthly"
-                ? "bg-background shadow-md text-foreground"
+                ? "bg-assets shadow-md text-foreground"
                 : "text-text-secondary"
             }`}
           >
@@ -166,9 +177,9 @@ export function Pricing() {
           </button>
           <button
             onClick={() => setBillingCycle("annually")}
-            className={`h-full w-full rounded-full text-sm font-medium transition-colors ${
+            className={`h-full w-full rounded-full text-sm font-medium transition-colors cursor-pointer ${
               billingCycle === "annually"
-                ? "bg-background shadow-md text-foreground"
+                ? "bg-assets shadow-md text-foreground"
                 : "text-text-secondary"
             }`}
           >

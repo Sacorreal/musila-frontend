@@ -13,7 +13,7 @@ interface FaqItemProps {
 }
 
 const FaqItem = ({ question, answer, isOpenDefault = false }: FaqItemProps) => (
-  <details className="group rounded-xl border border-[#3c3069] bg-background p-4" open={isOpenDefault}>
+  <details className="group rounded-xl border border-assets bg-background p-4" open={isOpenDefault}>
     <summary className="flex cursor-pointer list-none items-center justify-between">
       <p className="text-foreground text-sm font-medium leading-normal">{question}</p>
       <div className="text-foreground transition-transform duration-300 group-open:rotate-180">

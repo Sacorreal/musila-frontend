@@ -47,8 +47,8 @@ export default function Toggle() {
         htmlFor="darkModeToggle"
         className={`
           relative w-12 h-7 rounded-full cursor-pointer transition-colors duration-200 ease-in-out
-          flex items-center p-1
-          ${isDarkMode ? "bg-gray-300" : "bg-gray-300"}
+          flex items-center p-1 
+          ${isDarkMode ? "bg-[#9b8fcc]" : "bg-[#2a2249]"}
         `}
       >
         <span
