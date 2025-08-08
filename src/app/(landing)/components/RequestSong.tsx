@@ -34,23 +34,23 @@ export function RequestSongSection() {
                   <div className="flex flex-col items-center gap-1 pt-3">
                     {" "}
                     <div className="h-2 w-2 rounded-full bg-primary shrink-0"></div>
-                    <div className="w-[1px] bg-[#3c3069] flex-grow"></div>
+                    <div className="w-[1px] bg-assets flex-grow"></div>
                   </div>
                 );
               }
               if (index === timelineData.length - 1) {
                 return (
                   <div className="flex flex-col items-center gap-1">
-                    <div className="w-[1px] h-4 bg-[#3c3069]"></div>
+                    <div className="w-[1px] h-4 bg-assets"></div>
                     <div className="h-2 w-2 rounded-full bg-primary shrink-0"></div>
                   </div>
                 );
               }
               return (
                 <div className="flex flex-col items-center gap-1">
-                  <div className="w-[1px] h-4 bg-[#3c3069]"></div>
+                  <div className="w-[1px] h-4 bg-assets"></div>
                   <div className="h-2 w-2 rounded-full bg-primary shrink-0"></div>
-                  <div className="w-[1px] bg-[#3c3069] flex-grow"></div>
+                  <div className="w-[1px] bg-assets flex-grow"></div>
                 </div>
               );
             })()}
@@ -60,7 +60,7 @@ export function RequestSongSection() {
               <p className="text-foreground text-base font-medium leading-normal">
                 {item.title}
               </p>
-              <p className="text-text-secondary text-sm font-normal leading-normal mt-1">
+              <p className="text-text-secondary text-md font-normal leading-normal mt-1">
                 {item.description}
               </p>
             </div>
