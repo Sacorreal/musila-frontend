@@ -1,9 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useSidebar } from "@/shared/hooks/useSidebar";
 import Sidebar from "@/shared/components/Layout/Sidebar";
 import ContentApp from "@/shared/components/Layout/ContentApp";
+import { useRouter } from "next/navigation";
 
 export default function MusicAppLayout({
   children,
@@ -12,16 +13,22 @@ export default function MusicAppLayout({
 }>) {
   const { isLoggedIn, isSidebarOpen, setIsSidebarOpen } = useSidebar();
 
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.replace("/login");
+    }
+  }, [isLoggedIn, router]);
+
   if (!isLoggedIn) {
     return null;
   }
 
   return (
     <div className="flex min-h-screen bg-background">
-      {/* Sidebar */}
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
-      {/* Contenido principal*/}
       <ContentApp onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}>
         {children}
       </ContentApp>
