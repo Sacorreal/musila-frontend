@@ -1,23 +1,16 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+// src/shared/hooks/useSidebar.ts
+import { useState } from "react";
 import { useAuth } from "@/domains/auth/store/authStore";
-import { routes } from "@/routes";
 
 export const useSidebar = () => {
-  const { isLoggedIn } = useAuth();
-  const router = useRouter();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { isLoggedIn, isAuthLoading } = useAuth();
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      router.push(routes.login);
-    }
-  }, [isLoggedIn, router]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return {
     isLoggedIn,
+    isAuthLoading,
     isSidebarOpen,
     setIsSidebarOpen,
-    router,
   };
 };

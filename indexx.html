@@ -1,0 +1,276 @@
+<html>
+
+<head>
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+  <link rel="stylesheet" as="style" onload="this.rel='stylesheet'"
+    href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Spline+Sans%3Awght%40400%3B500%3B700" />
+
+  <title>Stitch Design</title>
+  <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+</head>
+
+<body>
+  <div class="relative flex size-full min-h-screen flex-col bg-[#121417] dark group/design-root overflow-x-hidden"
+    style='font-family: "Spline Sans", "Noto Sans", sans-serif;'>
+    <div class="layout-container flex h-full grow flex-col">
+      <header
+        class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#2b3136] px-10 py-3">
+        <div class="flex items-center gap-4 text-white">
+          <div class="size-4">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z"
+                fill="currentColor"></path>
+            </svg>
+          </div>
+          <h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Streamr</h2>
+        </div>
+        <div class="flex flex-1 justify-end gap-8">
+          <div class="flex items-center gap-9">
+            <a class="text-white text-sm font-medium leading-normal" href="#">Home</a>
+            <a class="text-white text-sm font-medium leading-normal" href="#">Search</a>
+            <a class="text-white text-sm font-medium leading-normal" href="#">Your Library</a>
+          </div>
+          <div class="flex gap-2">
+            <button
+              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 bg-[#2b3136] text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+              <div class="text-white" data-icon="Heart" data-size="20px" data-weight="regular">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
+                  viewBox="0 0 256 256">
+                  <path
+                    d="M178,32c-20.65,0-38.73,8.88-50,23.89C116.73,40.88,98.65,32,78,32A62.07,62.07,0,0,0,16,94c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,220.66,240,164,240,94A62.07,62.07,0,0,0,178,32ZM128,206.8C109.74,196.16,32,147.69,32,94A46.06,46.06,0,0,1,78,48c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,147.61,146.24,196.15,128,206.8Z">
+                  </path>
+                </svg>
+              </div>
+            </button>
+            <button
+              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 bg-[#2b3136] text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+              <div class="text-white" data-icon="User" data-size="20px" data-weight="regular">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
+                  viewBox="0 0 256 256">
+                  <path
+                    d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z">
+                  </path>
+                </svg>
+              </div>
+            </button>
+          </div>
+          <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBEm7bnn4k--psxxPozEvch1DZ9cnUbMeH7MivjqsCRqiXoFEKYV3VcYr1_32YssIYEKE098zBs3FxFTIRLkjZUKC7I1LtxA7qwE8_cDJGLZhbtPhGy6h2ryRbK3os-9EhmSa3_QvMqEwpaj35RRGunriclo2I1a7g5ER7_yaibgrhI864XjmxTBnWnx9FnTssrjciYWJOgclO_XTicWTlM9ihY6Q3c5pB_cCjJvdLU4rOTgE8WYcQBfY1cvnwCjJTVTt61gyizf6Q");'>
+          </div>
+        </div>
+      </header>
+      <div class="px-40 flex flex-1 justify-center py-5">
+        <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+          <div class="flex flex-wrap justify-between gap-3 p-4">
+            <p class="text-white tracking-light text-[32px] font-bold leading-tight min-w-72">Song Requests
+            </p>
+          </div>
+          <div class="px-4 py-3 @container">
+            <div class="flex overflow-hidden rounded-xl border border-[#3f4850] bg-[#121417]">
+              <table class="flex-1">
+                <thead>
+                  <tr class="bg-[#1d2125]">
+                    <th
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-120 px-4 py-3 text-left text-white w-[400px] text-sm font-medium leading-normal">
+                      Song Title</th>
+                    <th
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-240 px-4 py-3 text-left text-white w-[400px] text-sm font-medium leading-normal">
+                      Request Date
+                    </th>
+                    <th
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-360 px-4 py-3 text-left text-white w-[400px] text-sm font-medium leading-normal">
+                      Requested By
+                    </th>
+                    <th
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-480 px-4 py-3 text-left text-white w-60 text-sm font-medium leading-normal">
+                      Status</th>
+                    <th
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-600 px-4 py-3 text-left text-white w-[400px] text-sm font-medium leading-normal">
+                      License Type
+                    </th>
+                    <th
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-720 px-4 py-3 text-left text-white w-60 text-sm font-medium leading-normal">
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="border-t border-t-[#3f4850]">
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-120 h-[72px] px-4 py-2 w-[400px] text-white text-sm font-normal leading-normal">
+                      Song 1</td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-240 h-[72px] px-4 py-2 w-[400px] text-[#a1abb5] text-sm font-normal leading-normal">
+                      2024-01-15
+                    </td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-360 h-[72px] px-4 py-2 w-[400px] text-[#a1abb5] text-sm font-normal leading-normal">
+                      User A</td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-480 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
+                      <button
+                        class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-8 px-4 bg-[#2b3136] text-white text-sm font-medium leading-normal w-full">
+                        <span class="truncate">Pending</span>
+                      </button>
+                    </td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-600 h-[72px] px-4 py-2 w-[400px] text-[#a1abb5] text-sm font-normal leading-normal">
+                      Standard</td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-720 h-[72px] px-4 py-2 w-60 text-[#a1abb5] text-sm font-bold leading-normal tracking-[0.015em]">
+                      Edit
+                    </td>
+                  </tr>
+                  <tr class="border-t border-t-[#3f4850]">
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-120 h-[72px] px-4 py-2 w-[400px] text-white text-sm font-normal leading-normal">
+                      Song 2</td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-240 h-[72px] px-4 py-2 w-[400px] text-[#a1abb5] text-sm font-normal leading-normal">
+                      2024-02-20
+                    </td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-360 h-[72px] px-4 py-2 w-[400px] text-[#a1abb5] text-sm font-normal leading-normal">
+                      User B</td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-480 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
+                      <button
+                        class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-8 px-4 bg-[#2b3136] text-white text-sm font-medium leading-normal w-full">
+                        <span class="truncate">Approved</span>
+                      </button>
+                    </td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-600 h-[72px] px-4 py-2 w-[400px] text-[#a1abb5] text-sm font-normal leading-normal">
+                      Premium</td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-720 h-[72px] px-4 py-2 w-60 text-[#a1abb5] text-sm font-bold leading-normal tracking-[0.015em]">
+                      Edit
+                    </td>
+                  </tr>
+                  <tr class="border-t border-t-[#3f4850]">
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-120 h-[72px] px-4 py-2 w-[400px] text-white text-sm font-normal leading-normal">
+                      Song 3</td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-240 h-[72px] px-4 py-2 w-[400px] text-[#a1abb5] text-sm font-normal leading-normal">
+                      2024-03-10
+                    </td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-360 h-[72px] px-4 py-2 w-[400px] text-[#a1abb5] text-sm font-normal leading-normal">
+                      User C</td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-480 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
+                      <button
+                        class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-8 px-4 bg-[#2b3136] text-white text-sm font-medium leading-normal w-full">
+                        <span class="truncate">Rejected</span>
+                      </button>
+                    </td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-600 h-[72px] px-4 py-2 w-[400px] text-[#a1abb5] text-sm font-normal leading-normal">
+                      Standard</td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-720 h-[72px] px-4 py-2 w-60 text-[#a1abb5] text-sm font-bold leading-normal tracking-[0.015em]">
+                      Edit
+                    </td>
+                  </tr>
+                  <tr class="border-t border-t-[#3f4850]">
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-120 h-[72px] px-4 py-2 w-[400px] text-white text-sm font-normal leading-normal">
+                      Song 4</td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-240 h-[72px] px-4 py-2 w-[400px] text-[#a1abb5] text-sm font-normal leading-normal">
+                      2024-04-05
+                    </td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-360 h-[72px] px-4 py-2 w-[400px] text-[#a1abb5] text-sm font-normal leading-normal">
+                      User D</td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-480 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
+                      <button
+                        class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-8 px-4 bg-[#2b3136] text-white text-sm font-medium leading-normal w-full">
+                        <span class="truncate">Pending</span>
+                      </button>
+                    </td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-600 h-[72px] px-4 py-2 w-[400px] text-[#a1abb5] text-sm font-normal leading-normal">
+                      Premium</td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-720 h-[72px] px-4 py-2 w-60 text-[#a1abb5] text-sm font-bold leading-normal tracking-[0.015em]">
+                      Edit
+                    </td>
+                  </tr>
+                  <tr class="border-t border-t-[#3f4850]">
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-120 h-[72px] px-4 py-2 w-[400px] text-white text-sm font-normal leading-normal">
+                      Song 5</td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-240 h-[72px] px-4 py-2 w-[400px] text-[#a1abb5] text-sm font-normal leading-normal">
+                      2024-05-12
+                    </td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-360 h-[72px] px-4 py-2 w-[400px] text-[#a1abb5] text-sm font-normal leading-normal">
+                      User E</td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-480 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
+                      <button
+                        class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-8 px-4 bg-[#2b3136] text-white text-sm font-medium leading-normal w-full">
+                        <span class="truncate">Approved</span>
+                      </button>
+                    </td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-600 h-[72px] px-4 py-2 w-[400px] text-[#a1abb5] text-sm font-normal leading-normal">
+                      Standard</td>
+                    <td
+                      class="table-43d90247-37ac-4711-bca7-16caff132a63-column-720 h-[72px] px-4 py-2 w-60 text-[#a1abb5] text-sm font-bold leading-normal tracking-[0.015em]">
+                      Edit
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <style>
+              @container(max-width:120px) {
+                .table-43d90247-37ac-4711-bca7-16caff132a63-column-120 {
+                  display: none;
+                }
+              }
+
+              @container(max-width:240px) {
+                .table-43d90247-37ac-4711-bca7-16caff132a63-column-240 {
+                  display: none;
+                }
+              }
+
+              @container(max-width:360px) {
+                .table-43d90247-37ac-4711-bca7-16caff132a63-column-360 {
+                  display: none;
+                }
+              }
+
+              @container(max-width:480px) {
+                .table-43d90247-37ac-4711-bca7-16caff132a63-column-480 {
+                  display: none;
+                }
+              }
+
+              @container(max-width:600px) {
+                .table-43d90247-37ac-4711-bca7-16caff132a63-column-600 {
+                  display: none;
+                }
+              }
+
+              @container(max-width:720px) {
+                .table-43d90247-37ac-4711-bca7-16caff132a63-column-720 {
+                  display: none;
+                }
+              }
+            </style>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
