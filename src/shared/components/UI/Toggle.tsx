@@ -1,63 +1,68 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-export default function Toggle() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+const ToggleSwitch = () => {
+  // Estado para saber si el componente ya se montó en el cliente
+  const [mounted, setMounted] = useState(false);
+  // Estado para guardar el tema actual (light o dark)
+  const [theme, setTheme] = useState("light");
 
   useEffect(() => {
-    const theme = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-
-    if (theme === "dark" || (!theme && prefersDark)) {
-      document.documentElement.classList.add("dark");
-      setIsDarkMode(true);
+    // Al montar, leemos la preferencia guardada o la del sistema
+    const savedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    
+    if (savedTheme) {
+      setTheme(savedTheme);
     } else {
-      document.documentElement.classList.remove("dark");
-      setIsDarkMode(false);
+      setTheme(prefersDark ? "dark" : "light");
     }
+    
+    setMounted(true);
   }, []);
 
-  const handleToggle = () => {
-    const newIsDarkMode = !isDarkMode;
-    setIsDarkMode(newIsDarkMode);
-
-    if (newIsDarkMode) {
+  useEffect(() => {
+    // Cada vez que el tema cambie, actualizamos el localStorage y la clase en el HTML
+    if (theme === "dark") {
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
     } else {
       document.documentElement.classList.remove("dark");
       localStorage.setItem("theme", "light");
     }
+  }, [theme]);
+
+  // No renderizamos nada en el servidor para evitar errores de hidratación
+  if (!mounted) {
+    // Retornamos un placeholder del mismo tamaño para evitar saltos de layout
+    return <div className="h-7 w-14" />;
+  }
+
+  const isDarkMode = theme === "dark";
+
+  const toggleTheme = () => {
+    setTheme(isDarkMode ? "light" : "dark");
   };
 
   return (
-    <div className="flex items-center space-x-2">
-      <input
-        type="checkbox"
-        id="darkModeToggle"
-        className="sr-only"
-        checked={isDarkMode}
-        onChange={handleToggle}
+    <button
+      onClick={toggleTheme}
+      className={`relative inline-flex h-7 w-14 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${
+        isDarkMode ? 'bg-primary' : 'bg-assets'
+      }`}
+      aria-label="Toggle theme"
+    >
+      <span className="sr-only">Cambiar tema</span>
+      {/* El círculo que se desliza */}
+      <span
+        aria-hidden="true"
+        className={`pointer-events-none inline-block h-6 w-6 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+          isDarkMode ? 'translate-x-7' : 'translate-x-0'
+        }`}
       />
-
-      <label
-        htmlFor="darkModeToggle"
-        className={`
-          relative w-12 h-7 rounded-full cursor-pointer transition-colors duration-200 ease-in-out
-          flex items-center p-1 
-          ${isDarkMode ? "bg-[#9b8fcc]" : "bg-[#2a2249]"}
-        `}
-      >
-        <span
-          className={`
-            w-5 h-5 bg-white rounded-full transition-transform duration-200 ease-in-out shadow-md
-            ${isDarkMode ? "translate-x-5" : "translate-x-0"}
-          `}
-        />
-      </label>
-    </div>
+    </button>
   );
-}
+};
+
+export default ToggleSwitch;

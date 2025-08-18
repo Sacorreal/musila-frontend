@@ -10,7 +10,6 @@ import { Spinner } from "@/shared/components/UI/Spinner";
 const AuthLoader = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
-      {/* Podrías poner un spinner o cualquier animación aquí */}
       <Spinner />
     </div>
   );
