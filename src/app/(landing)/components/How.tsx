@@ -37,13 +37,13 @@ interface FeatureCardProps {
 }
 
 const FeatureCard = ({ icon, title, description }: FeatureCardProps) => (
-  <div className="flex flex-1 flex-col gap-3 rounded-lg border border-[#3c3069] bg-card-bg p-6 text-left">
+  <div className="flex flex-1 flex-col gap-3 rounded-lg border border-assets bg-card-bg p-4 text-left">
     <div className="text-foreground w-6 h-6">{icon}</div>
     <div className="flex flex-col gap-1">
       <h3 className="text-foreground text-base font-bold leading-tight">
         {title}
       </h3>
-      <p className="text-text-secondary text-sm font-normal leading-normal">
+      <p className="text-text-secondary text-sm font-medium leading-normal">
         {description}
       </p>
     </div>
@@ -78,7 +78,7 @@ export function HowItWorks() {
         <h2 className="text-3xl font-bold leading-tight tracking-[-0.015em] text-foreground">
           ¿Cómo funciona Musila?
         </h2>
-        <p className="max-w-[600px] text-base font-normal leading-normal text-text-secondary">
+        <p className="max-w-[600px] text-base font-normal leading-normal text-text-main">
           Musila simplifica el proceso de compartir e interpretar música de
           forma legal, conectando a compositores e intérpretes sin problemas.
         </p>
