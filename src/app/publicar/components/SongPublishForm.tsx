@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useState, useEffect } from "react";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { FileUpload } from "./FileUpload";
@@ -10,39 +10,49 @@ import { Notification } from "./Notification";
 import { useNotification } from "../hooks/useNotification";
 import { useUpload } from "../hooks/useUpload";
 import { songSchema } from "../types";
+import { SUBGENRES } from "@domains/tracks/constants/genres";
 
 type SongFormData = z.infer<typeof songSchema>;
 
 export function SongPublishForm() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { showSuccess, showError } = useNotification();
-    const { uploadStatus, uploadFiles, resetUpload } = useUpload();
+    const { uploadStatus } = useUpload();
 
     const {
         register,
         handleSubmit,
         formState: { errors },
         setValue,
-        watch,
+        control,
+        resetField,
     } = useForm<SongFormData>({
         resolver: zodResolver(songSchema),
         defaultValues: {
             name: "",
             author: "",
             genre: "",
+            subgenre: "",
+            lyrics: "",
             image: null,
             song: null,
         },
     });
 
-    const watchedImage = watch("image");
-    const watchedSong = watch("song");
+    const genre = useWatch({ control, name: 'genre' });
+    const subgenreOptions = genre ? SUBGENRES[genre] : [];
+
+
+
+    useEffect(() => { 
+        resetField('subgenre', { defaultValue: '' }) 
+    }, [genre, resetField]);
 
     const handleImageUpload = async (file: File) => {
         try {
             setValue("image", file);
             showSuccess("Imagen seleccionada", "La imagen se subirá cuando envíes el formulario");
-        } catch (error) {
+        } catch {
             showError("Error al procesar la imagen", "Por favor, intenta con otra imagen");
         }
     };
@@ -51,7 +61,7 @@ export function SongPublishForm() {
         try {
             setValue("song", file);
             showSuccess("Canción seleccionada", "La canción se subirá cuando envíes el formulario");
-        } catch (error) {
+        } catch {
             showError("Error al procesar la canción", "Por favor, intenta con otro archivo");
         }
     };
@@ -59,23 +69,42 @@ export function SongPublishForm() {
     const onSubmit = async (data: SongFormData) => {
         setIsSubmitting(true);
         try {
-            // Simulación de envío al backend
-            await new Promise((resolve) => setTimeout(resolve, 2000));
+            const hasCoverFile = data.image instanceof File || (typeof File !== 'undefined' && data.image?.[0] instanceof File);
+            let coverUrl = '/logo.webp';
+            if (hasCoverFile) {
+                coverUrl = await uploadCoverAndGetUrl(data.image);
+            }
 
-            console.log("Datos del formulario:", data);
+            const payload: Record<string, unknown> = {
+                title: data.name,
+                author: data.author,
+                genre: data.genre,
+                coverUrl,
+                audioFile: data.song
+            };
+
+            if (data.subgenre) payload.subgenre = data.subgenre;
+            if (data.lyrics && data.lyrics.trim().length > 0) payload.lyrics = data.lyrics.trim();
+
+            console.log("Datos del formulario:", payload);
             showSuccess("Canción publicada exitosamente", "La canción ha sido publicada correctamente");
 
-            // Reset form
             setValue("name", "");
             setValue("author", "");
             setValue("genre", "");
+            setValue("subgenre", "");
+            setValue("lyrics", "");
             setValue("image", null);
             setValue("song", null);
-        } catch (error) {
+        } catch {
             showError("Error al publicar la canción", "Hubo un problema al publicar la canción");
         } finally {
             setIsSubmitting(false);
         }
+    };
+
+    const uploadCoverAndGetUrl = async () => {
+        return '/logo.webp';
     };
 
     return (
@@ -137,21 +166,60 @@ export function SongPublishForm() {
                                 } dark:bg-gray-700 dark:text-white`}
                             >
                                 <option value="">Selecciona un género</option>
-                                <option value="pop">Pop</option>
-                                <option value="rock">Rock</option>
-                                <option value="jazz">Jazz</option>
-                                <option value="classical">Clásica</option>
-                                <option value="electronic">Electrónica</option>
-                                <option value="hip-hop">Hip Hop</option>
-                                <option value="country">Country</option>
-                                <option value="reggae">Reggae</option>
-                                <option value="blues">Blues</option>
-                                <option value="folk">Folk</option>
-                                <option value="r&b">R&B</option>
-                                <option value="latin">Latina</option>
-                                <option value="other">Otro</option>
+                                <option value="Rock">Rock</option>
+                                <option value="Pop">Pop</option>
+                                <option value="Hip Hop">Hip Hop</option>
+                                <option value="Reggaeton">Reggaeton</option>
+                                <option value="Electronica">Electronica</option>
+                                <option value="Jazz">Jazz</option>
+                                <option value="Clasica">Clasica</option>
+                                <option value="Folk">Folk</option>
+                                <option value="Metal">Metal</option>
+                                <option value="Indie">Indie</option>
+                                <option value="R&B">R&B</option>
+                                <option value="Trap">Trap</option>
+                                <option value="Salsa">Salsa</option>
+                                <option value="Cumbia">Cumbia</option>
+                                <option value="Tango">Tango</option>
+                                <option value="Latina">Latina</option>
                             </Select>
                             {errors.genre && <p className="mt-2 text-error text-sm">{errors.genre.message}</p>}
+                        </div>
+
+                        {/* Subgénero */}
+                        <div>
+                            <label htmlFor="subgenre" className="block text-sm font-medium text-text-main dark:text-gray-100 mb-2">
+                                Subgénero *
+                            </label>
+                            <select
+                                {...register("subgenre")}
+                                disabled={!genre}
+                                defaultValue=""
+                                className={`w-full px-3 py-2.5 bg-secondary border text-text-main rounded-lg focus:ring-primary focus:border-primary transition-colors ${
+                                    errors.subgenre ? "border-error" : "border-gray-300 dark:border-gray-600"
+                                } dark:bg-gray-700 dark:text-white ${!genre ? "opacity-50 cursor-not-allowed" : ""}`}
+                            >
+                                <option value="" disabled>Selecciona un subgénero</option>
+                                {subgenreOptions.map(s => (<option key={s} value={s}>{s}</option>))}
+                            </select>
+                            {errors.subgenre && <p className="mt-2 text-error text-sm">{errors.subgenre.message}</p>}
+                        </div>
+
+                        {/* Letra de la canción */}
+                        <div>
+                            <label htmlFor="lyrics" className="block text-sm font-medium text-text-main dark:text-gray-100 mb-2">
+                                Letra de la Canción
+                            </label>
+                            <textarea
+                                {...register("lyrics")}
+                                rows={6}
+                                maxLength={10000}
+                                placeholder="Pega aquí la letra completa…"
+                                className={`w-full px-3 py-2.5 bg-secondary border text-text-main rounded-lg focus:ring-primary focus:border-primary transition-colors resize-y ${
+                                    errors.lyrics ? "border-error" : "border-gray-300 dark:border-gray-600"
+                                } dark:bg-gray-700 dark:text-white dark:placeholder-gray-400`}
+                            />
+                            {errors.lyrics && <p className="mt-2 text-error text-sm">{errors.lyrics.message}</p>}
                         </div>
 
                         {/* Imagen */}

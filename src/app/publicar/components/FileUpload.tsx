@@ -3,7 +3,7 @@
 import React, { useRef, useState } from "react";
 import { UseFormRegister, FieldError } from "react-hook-form";
 import { FieldValues, Path } from "react-hook-form";
-import { Upload, X, Music, Image } from "lucide-react";
+import { X, Music, Image } from "lucide-react";
 
 interface FileUploadProps<T extends FieldValues> {
     label: string;
@@ -111,16 +111,33 @@ export const FileUpload = <T extends FieldValues>({
 
                 {!selectedFile ? (
                     <div className="space-y-4">
-                        {getFileIcon()}
-                        <div>
-                            <p className="text-sm text-text-secondary">
-                                Arrastra y suelta tu archivo aquí, o{" "}
-                                <button type="button" onClick={() => fileInputRef.current?.click()} className="text-primary hover:text-primary/80 underline">
-                                    selecciona un archivo
-                                </button>
-                            </p>
-                            <p className="text-xs text-text-secondary mt-1">Máximo {maxSize}MB</p>
-                        </div>
+                        {fileType === "image" ? (
+                            <div className="space-y-4">
+                                <img src="/logo.webp" alt="Logo por defecto" className="w-16 h-16 mx-auto object-contain" />
+                                <div>
+                                    <p className="text-sm text-text-secondary">
+                                        Arrastra y suelta tu imagen aquí, o{" "}
+                                        <button type="button" onClick={() => fileInputRef.current?.click()} className="text-primary hover:text-primary/80 underline">
+                                            selecciona una imagen
+                                        </button>
+                                    </p>
+                                    <p className="text-xs text-text-secondary mt-1">Máximo {maxSize}MB. Si no subes imagen, se usará el logo por defecto.</p>
+                                </div>
+                            </div>
+                        ) : (
+                            <>
+                                {getFileIcon()}
+                                <div>
+                                    <p className="text-sm text-text-secondary">
+                                        Arrastra y suelta tu archivo aquí, o{" "}
+                                        <button type="button" onClick={() => fileInputRef.current?.click()} className="text-primary hover:text-primary/80 underline">
+                                            selecciona un archivo
+                                        </button>
+                                    </p>
+                                    <p className="text-xs text-text-secondary mt-1">Máximo {maxSize}MB</p>
+                                </div>
+                            </>
+                        )}
                     </div>
                 ) : (
                     <div className="space-y-3">
