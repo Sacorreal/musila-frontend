@@ -1,4 +1,4 @@
-<html>
+<!-- <html>
 
 <head>
   <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
@@ -228,6 +228,106 @@
       </div>
     </div>
   </div>
+</body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Musila- Layout</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-900  text-white min-h-screen flex flex-col">
+  <!-- Sidebar -->
+  <div class="flex flex-1">
+    <aside class="w-64 bg-gray-700 border-r border-gray-800 flex flex-col py-6 px-4 min-h-screen">
+      <div class="flex items-center mb-10">
+        <span class="text-blue-500 font-bold text-2xl mr-1">Logo</span><span
+          class="text-white font-bold text-2xl">-App</span>
+      </div>
+      <nav class="flex-1">
+        <h2 class="text-2xl font-bold mb-4">Barra de Navegacion Vertical</h2>
+
+      </nav>
+    </aside>
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col">
+      <!-- Header -->
+      <header class="flex items-center justify-between px-8 py-6 bg-gray-700 border-b border-gray-800">
+        <h1 class="text-3xl font-bold">Hola, Schneider</h1>
+        <div class="flex items-center space-x-4">
+
+          <div class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center">
+            <span class="material-icons text-gray-400">person</span>
+          </div>
+        </div>
+      </header>
+      <!-- Main Section -->
+      <main class=" bg-gray-700 flex-1 overflow-y-auto px-8 py-6 bg-black">
+        <!-- Aquí va el contenido principal de cada página -->
+        <section>
+          <h2 class="text-2xl font-bold mb-4">Contenido principal</h2>
+
+        </section>
+      </main>
+    </div>
+  </div>
+  <!-- Footer Player extendido -->
+  <footer
+    class="bg-gray-900 border-t border-gray-800 px-8 py-4 flex items-center justify-between w-full fixed bottom-0 left-0 z-50"
+    style="min-width: 100vw;">
+    <div class="flex items-center space-x-4">
+      <img src="https://images.pexels.com/photos/6173868/pexels-photo-6173868.jpeg" alt="Cover"
+        class="w-14 h-14 rounded shadow">
+      <div>
+        <p class="font-semibold">Título de la canción</p>
+        <p class="text-gray-400 text-sm">Autor</p>
+      </div>
+
+    </div>
+    <span id="modal-play" class="relative cursor-pointer">
+      <span onclick="document.getElementById('modal-options').classList.toggle('hidden')">...</span>
+      <div id="modal-options"
+        class="hidden absolute left-1/2 bottom-full mb-2 transform -translate-x-1/2 w-40 bg-gray-800 rounded shadow-lg z-50">
+        <ul class="py-2">
+          <li><a href="#" class="block px-4 py-2 hover:bg-gray-700">Añadir a lista</a></li>
+          <li><a href="#" class="block px-4 py-2 hover:bg-gray-700">Artista</a></li>
+          <li><a href="file:///C:/Users/SCHNEIDER/Desktop/MUSILA/mockup/compartidas/enviar-solicitud.html"
+              class="block px-4 py-2 hover:bg-gray-700">Solicitar</a></li>
+        </ul>
+      </div>
+    </span>
+    <span>❤️</span>
+    <div class="flex flex-col items-center flex-2">
+
+      <div class="flex items-center space-x-4 mb-2">
+        <button><span class="material-icons text-3xl">skip_previous</span></button>
+        <button class="bg-white text-black rounded-full p-2"><span
+            class="material-icons text-3xl">play_arrow</span></button>
+        <button><span class="material-icons text-3xl">skip_next</span></button>
+      </div>
+      <div class="flex items-center space-x-2 w-full">
+        <span class="text-xs">0:00</span>
+        <div class="w-64 h-1 bg-gray-700 rounded">
+          <div class="h-1 bg-red-500 rounded" style="width: 40%"></div>
+        </div>
+        <span class="text-xs">4:00</span>
+      </div>
+    </div>
+    <div class="flex items-center space-x-4">
+      <button><span class="material-icons">playlist_play</span></button>
+      <button><span class="material-icons">volume_up</span></button>
+      <button><span class="material-icons">shuffle</span></button>
+      <button><span class="material-icons">repeat</span></button>
+    </div>
+  </footer>
+  <!-- Google Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </body>
 
 </html>

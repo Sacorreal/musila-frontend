@@ -1,7 +1,6 @@
 export const routes = {
   login: "/",
-  dashboard: "/dashboard",
-  music: "/music",
+  dashboard: "/music",
   artists: "/artists",
   songs: "/songs",
   profile: "/profile",

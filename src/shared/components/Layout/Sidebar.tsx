@@ -27,11 +27,11 @@ export default function Sidebar({
       {/* Sidebar principal */}
       <aside
         className={`
-        w-64 bg-secondary dark:bg-gray-800 text-text-main dark:text-white
-        flex flex-col p-4 shadow-lg
-        fixed inset-y-0 left-0 z-50 // Posición fija para móvil
-        md:static md:translate-x-0 // Estático y visible en desktop
-        transform transition-transform duration-300 ease-in-out // Transición para el deslizamiento
+        w-64 bg-background text-text-main
+        flex flex-col p-4 border-r border-assets
+        fixed inset-y-0 left-0 z-50
+        md:static md:translate-x-0
+        transform transition-transform duration-300 ease-in-out
         ${isOpen ? "translate-x-0" : "-translate-x-full"}
       `}
         onClick={(e) => e.stopPropagation()}
@@ -49,7 +49,7 @@ export default function Sidebar({
           {/* Botón de cerrar para móvil */}
           <button
             onClick={onClose}
-            className="ml-auto text-text-main dark:text-white focus:outline-none md:hidden"
+            className="ml-auto text-text-main focus:outline-none md:hidden"
             aria-label="Cerrar menú"
           >
             <svg
@@ -75,7 +75,7 @@ export default function Sidebar({
             <li>
               <a
                 href={routes.dashboard}
-                className="flex items-center p-2 text-text-main dark:text-gray-100 rounded-lg hover:bg-primary hover:text-white dark:hover:bg-primary-dark transition-colors"
+                className="flex items-center p-2 text-text-main rounded-lg hover:bg-primary hover:text-white transition-colors"
               >
                 <House className="pr-1" />
                 Dashboard
@@ -84,7 +84,7 @@ export default function Sidebar({
             <li>
               <a
                 href={routes.songs}
-                className="flex items-center p-2 text-text-main dark:text-gray-100 rounded-lg hover:bg-primary hover:text-white dark:hover:bg-primary-dark transition-colors"
+                className="flex items-center p-2 text-text-main rounded-lg hover:bg-primary hover:text-white transition-colors"
               >
                 <ListMusic className="pr-1" />
                 Canciones
@@ -93,7 +93,7 @@ export default function Sidebar({
             <li>
               <a
                 href={routes.artists}
-                className="flex items-center p-2 text-text-main dark:text-gray-100 rounded-lg hover:bg-primary hover:text-white dark:hover:bg-primary-dark transition-colors"
+                className="flex items-center p-2 text-text-main rounded-lg hover:bg-primary hover:text-white transition-colors"
               >
                 <Users className="pr-1" />
                 Artistas
@@ -102,7 +102,7 @@ export default function Sidebar({
             <li>
               <a
                 href={routes.solicitudes}
-                className="flex items-center p-2 text-text-main dark:text-gray-100 rounded-lg hover:bg-primary hover:text-white dark:hover:bg-primary-dark transition-colors"
+                className="flex items-center p-2 text-text-main rounded-lg hover:bg-primary hover:text-white transition-colors"
               >
                 <GitPullRequestArrow className="pr-1" />
                 Solicitudes

@@ -4,14 +4,14 @@ import React, { useEffect } from "react";
 import { useSidebar } from "@/shared/hooks/useSidebar";
 import Sidebar from "@/shared/components/Layout/Sidebar";
 import ContentApp from "@/shared/components/Layout/ContentApp";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
+import { mockTracks } from "./Mocks/tracks";
 import { Spinner } from "@/shared/components/UI/Spinner";
+import AudioPlayer from "./components/AudioPlayer";
 
 const AuthLoader = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
-      {/* Podrías poner un spinner o cualquier animación aquí */}
       <Spinner />
     </div>
   );
@@ -36,16 +36,19 @@ export default function MusicAppLayout({
     return <AuthLoader />;
   }
 
-    return (
-        <div className="flex min-h-screen bg-background">
-            <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+  return (
+    <div className="flex h-screen bg-background">
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
-            <ContentApp onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}>
-                {children}
-                <div className="fixed left-0 md:left-64 right-0 bottom-0 px-4 py-3 z-30">
-                    <AudioPlayer initialQueue={mockTracks} />
-                </div>
-            </ContentApp>
+      <div className="flex-1 relative flex flex-col overflow-hidden">
+        <ContentApp onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}>
+          {children}
+        </ContentApp>
+
+        <div className="absolute bottom-0 left-0 right-0 z-30">
+          <AudioPlayer initialQueue={mockTracks} />
         </div>
-    );
+      </div>
+    </div>
+  );
 }

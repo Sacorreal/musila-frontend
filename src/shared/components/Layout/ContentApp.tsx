@@ -11,8 +11,8 @@ export default function ContentApp({
   onToggleSidebar: () => void;
 }>) {
   return (
-    <main className="flex-1 flex flex-col bg-transparent">
-      <header className="bg-background shadow-md p-4 flex items-center justify-between">
+    <main className="flex-1 flex flex-col bg-transparent overflow-y-auto">
+      <header className="sticky top-0 bg-background/80 backdrop-blur-sm border-b border-assets p-6 flex items-center justify-between z-20">
         <button
           onClick={onToggleSidebar}
           className="text-text-main dark:text-white focus:outline-none md:hidden"
@@ -34,14 +34,14 @@ export default function ContentApp({
           </svg>
         </button>
 
-        <h2 className="text-xl font-semibold text-foreground">
+        <h2 className="text-xl font-semibold text-foreground hidden sm:block">
           Contenido de la Aplicación
         </h2>
 
         <ToggleSwitch />
       </header>
 
-      <div className="flex-1 p-6">{children}</div>
+      <div className="flex-1 p-6 pb-32">{children}</div>
     </main>
   );
 }

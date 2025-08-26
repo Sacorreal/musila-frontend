@@ -76,7 +76,7 @@ const SongRequestsTable = ({ requests, onViewRequest }: SongRequestsTableProps) 
                 >
                   <button
                     onClick={() => onViewRequest(request)}
-                    className="text-foreground cursor-pointer hover:text-white"
+                    className="text-foreground cursor-pointer hover:text-assets"
                   >
                     Ver
                   </button>
