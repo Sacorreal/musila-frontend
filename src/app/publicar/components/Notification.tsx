@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React from "react";
 import { useNotification } from "../hooks/useNotification";
 import { Notification as NotificationType } from "../types";
 

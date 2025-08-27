@@ -16,14 +16,14 @@ type SongFormData = z.infer<typeof songSchema>;
 export function SongPublishForm() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { showSuccess, showError } = useNotification();
-    const { uploadStatus, uploadFiles, resetUpload } = useUpload();
+    const { uploadStatus } = useUpload();
 
     const {
         register,
         handleSubmit,
         formState: { errors },
         setValue,
-        watch,
+        // watch,
     } = useForm<SongFormData>({
         resolver: zodResolver(songSchema),
         defaultValues: {
@@ -35,14 +35,14 @@ export function SongPublishForm() {
         },
     });
 
-    const watchedImage = watch("image");
-    const watchedSong = watch("song");
+    // const watchedImage = watch("image");
+    // const watchedSong = watch("song");
 
     const handleImageUpload = async (file: File) => {
         try {
             setValue("image", file);
             showSuccess("Imagen seleccionada", "La imagen se subirá cuando envíes el formulario");
-        } catch (error) {
+        } catch {
             showError("Error al procesar la imagen", "Por favor, intenta con otra imagen");
         }
     };
@@ -51,7 +51,7 @@ export function SongPublishForm() {
         try {
             setValue("song", file);
             showSuccess("Canción seleccionada", "La canción se subirá cuando envíes el formulario");
-        } catch (error) {
+        } catch {
             showError("Error al procesar la canción", "Por favor, intenta con otro archivo");
         }
     };
@@ -71,7 +71,7 @@ export function SongPublishForm() {
             setValue("genre", "");
             setValue("image", null);
             setValue("song", null);
-        } catch (error) {
+        } catch {
             showError("Error al publicar la canción", "Hubo un problema al publicar la canción");
         } finally {
             setIsSubmitting(false);
@@ -159,7 +159,6 @@ export function SongPublishForm() {
                             <FileUpload
                                 label="Imagen de Portada"
                                 id="image"
-                                register={register}
                                 error={errors.image}
                                 accept="image/jpeg,image/png,image/webp"
                                 maxSize={5}
@@ -175,7 +174,6 @@ export function SongPublishForm() {
                             <FileUpload
                                 label="Archivo de Audio *"
                                 id="song"
-                                register={register}
                                 error={errors.song}
                                 accept="audio/mpeg,audio/wav,audio/ogg"
                                 maxSize={50}

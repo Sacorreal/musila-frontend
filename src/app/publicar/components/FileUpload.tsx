@@ -1,14 +1,13 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { UseFormRegister, FieldError } from "react-hook-form";
+import { FieldError } from "react-hook-form";
 import { FieldValues, Path } from "react-hook-form";
-import { Upload, X, Music, Image } from "lucide-react";
+import { X, Music, Image as ImageIcon } from "lucide-react";
 
 interface FileUploadProps<T extends FieldValues> {
     label: string;
     id: Path<T>;
-    register: UseFormRegister<T>;
     error?: FieldError;
     accept: string;
     maxSize: number; // en MB
@@ -21,7 +20,6 @@ interface FileUploadProps<T extends FieldValues> {
 export const FileUpload = <T extends FieldValues>({
     label,
     id,
-    register,
     error,
     accept,
     maxSize,
@@ -29,7 +27,7 @@ export const FileUpload = <T extends FieldValues>({
     onFileSelect,
     progress = 0,
     isUploading = false,
-}: FileUploadProps<T>) => {
+}: Omit<FileUploadProps<T>, "register">) => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [dragActive, setDragActive] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -87,7 +85,7 @@ export const FileUpload = <T extends FieldValues>({
         if (fileType === "audio") {
             return <Music className="w-8 h-8 text-primary" />;
         }
-        return <Image className="w-8 h-8 text-primary" />;
+        return <ImageIcon className="w-8 h-8 text-primary" />;
     };
 
     return (
@@ -107,7 +105,7 @@ export const FileUpload = <T extends FieldValues>({
                 onDragOver={handleDrag}
                 onDrop={handleDrop}
             >
-                <input ref={fileInputRef} type="file" id={id as string} accept={accept} className="hidden" {...register(id)} onChange={handleInputChange} />
+                <input ref={fileInputRef} type="file" id={id as string} accept={accept} className="hidden" onChange={handleInputChange} />
 
                 {!selectedFile ? (
                     <div className="space-y-4">
@@ -158,5 +156,3 @@ export const FileUpload = <T extends FieldValues>({
         </div>
     );
 };
-
-

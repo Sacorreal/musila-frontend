@@ -2,6 +2,7 @@ import { ApolloWrapper } from "@/lib/apollo-wrapper";
 import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from "../domains/auth/store/authStore";
+import { AppThemeProvider } from "@/shared/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "Musila app",
@@ -14,12 +15,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
-      <ApolloWrapper>
-        <AuthProvider>
-          <body className={`antialiased`}>{children}</body>
-        </AuthProvider>
-      </ApolloWrapper>
+    <html lang="es" suppressHydrationWarning>
+      <body className="antialiased">
+        <AppThemeProvider>
+          <ApolloWrapper>
+            <AuthProvider>{children}</AuthProvider>
+          </ApolloWrapper>
+        </AppThemeProvider>
+      </body>
     </html>
   );
 }

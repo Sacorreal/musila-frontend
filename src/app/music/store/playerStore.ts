@@ -87,7 +87,7 @@ export const usePlayerStore = create<PlayerState>()(
                 set((state) => {
                     const list = queue ?? state.queue;
                     const index = list.findIndex((t) => t.id === track.id);
-                    const nextIndex = index >= 0 ? index : (list.length, -1);
+                    // const nextIndex = index >= 0 ? index : -1;
                     const newQueue = queue ? queue : state.queue.length ? state.queue : [track];
                     const idx = index >= 0 ? index : newQueue.findIndex((t) => t.id === track.id);
                     return {
@@ -102,7 +102,7 @@ export const usePlayerStore = create<PlayerState>()(
 
             next: () =>
                 set((state) => {
-                    const idx = getNextIndex(state as any);
+                    const idx = getNextIndex(state);
                     if (idx === -1) return state;
                     if (idx === state.currentIndex && state.repeat !== "one" && state.repeat !== "all" && !state.shuffle) {
                         return { ...state, isPlaying: false };
@@ -112,7 +112,7 @@ export const usePlayerStore = create<PlayerState>()(
 
             prev: () =>
                 set((state) => {
-                    const idx = getPrevIndex(state as any);
+                    const idx = getPrevIndex(state);
                     if (idx === -1) return state;
                     return { ...state, currentIndex: idx, isPlaying: true };
                 }),

@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useAuth } from "@/domains/auth/store/authStore";
-import LoginForm from "@/domains/auth/components/LoginForm";
+import LoginForm from "@/app/login/components/LoginForm";
 import ToggleSwitch from "@/shared/components/UI/Toggle";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";

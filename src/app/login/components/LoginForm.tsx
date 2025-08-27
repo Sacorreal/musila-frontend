@@ -42,7 +42,7 @@ export default function LoginForm({
     setTimeout(() => {
       onLoginSuccess(data.email);
       setIsSubmitting(false);
-      router.push(routes.music);
+      router.push(routes.dashboard);
     }, 1000);
   };
 
