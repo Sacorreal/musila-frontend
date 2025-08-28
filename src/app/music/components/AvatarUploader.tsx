@@ -35,7 +35,7 @@ export const AvatarUploader: React.FC<AvatarUploaderProps> = ({ currentAvatarUrl
             const avatarUrl = await simulateUploadAvatar(file);
             setPreviewUrl(avatarUrl);
             onAvatarChange(avatarUrl);
-        } catch (error) {
+        } catch {
             alert("Error al procesar la imagen");
         } finally {
             setIsUploading(false);
@@ -94,4 +94,3 @@ export const AvatarUploader: React.FC<AvatarUploaderProps> = ({ currentAvatarUrl
         </div>
     );
 };
-

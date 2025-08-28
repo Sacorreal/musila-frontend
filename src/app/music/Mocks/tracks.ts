@@ -4,7 +4,7 @@ import type { Track } from "../store/playerStore";
 // @ts-ignore - Next.js provee tipos para imports de imágenes; usamos un fallback a string
 import cover from "./387682.webp";
 
-const coverUrl: string = typeof cover === "string" ? cover : (cover as any)?.src;
+const coverUrl: string = typeof cover === "string" ? cover : (cover as { src: string })?.src;
 
 export const blackHoleSunTrack: Track = {
     id: "black-hole-sun",

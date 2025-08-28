@@ -4,6 +4,7 @@ import React, { useRef, useState } from "react";
 import { UseFormRegister, FieldError } from "react-hook-form";
 import { FieldValues, Path } from "react-hook-form";
 import { X, Music, Image } from "lucide-react";
+import NextImage from "next/image";
 
 interface FileUploadProps<T extends FieldValues> {
     label: string;
@@ -87,6 +88,7 @@ export const FileUpload = <T extends FieldValues>({
         if (fileType === "audio") {
             return <Music className="w-8 h-8 text-primary" />;
         }
+        // eslint-disable-next-line jsx-a11y/alt-text
         return <Image className="w-8 h-8 text-primary" />;
     };
 
@@ -107,13 +109,13 @@ export const FileUpload = <T extends FieldValues>({
                 onDragOver={handleDrag}
                 onDrop={handleDrop}
             >
-                <input ref={fileInputRef} type="file" id={id as string} accept={accept} className="hidden" {...register(id)} onChange={handleInputChange} />
+                <input type="file" id={id as string} accept={accept} className="hidden" {...register(id)} onChange={handleInputChange} ref={fileInputRef} />
 
                 {!selectedFile ? (
                     <div className="space-y-4">
                         {fileType === "image" ? (
                             <div className="space-y-4">
-                                <img src="/logo.webp" alt="Logo por defecto" className="w-16 h-16 mx-auto object-contain" />
+                                <NextImage src="/logo.webp" alt="Logo por defecto" width={64} height={64} className="w-16 h-16 mx-auto object-contain" />
                                 <div>
                                     <p className="text-sm text-text-secondary">
                                         Arrastra y suelta tu imagen aquí, o{" "}
@@ -175,5 +177,3 @@ export const FileUpload = <T extends FieldValues>({
         </div>
     );
 };
-
-

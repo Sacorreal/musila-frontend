@@ -11,7 +11,7 @@ export const useUpload = () => {
     });
 
     const simulateUpload = useCallback(async (file: File, type: "song" | "image"): Promise<string> => {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             let progress = 0;
             const interval = setInterval(() => {
                 progress += Math.random() * 15;

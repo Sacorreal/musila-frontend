@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/domains/auth/store/authStore";
 import { useModal } from "@/shared/hooks/useModal";
@@ -71,4 +70,3 @@ export const UserAvatarMenu: React.FC = () => {
         </>
     );
 };
-

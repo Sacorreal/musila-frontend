@@ -7,7 +7,6 @@ import ContentApp from "@/shared/components/Layout/ContentApp";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { mockTracks } from "./Mocks/tracks";
-import { UserAvatarMenu } from "./components/UserAvatarMenu";
 
 export default function MusicAppLayout({
     children,

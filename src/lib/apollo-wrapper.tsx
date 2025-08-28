@@ -21,7 +21,9 @@ function makeClient() {
                   ])
                 : httpLink,
         // Deshabilitar DevTools para evitar errores
-        connectToDevTools: false,
+        devtools: {
+            enabled: false,
+        },
     });
 }
 

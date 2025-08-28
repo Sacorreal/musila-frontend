@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm, useWatch, FieldError } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { FileUpload } from "./FileUpload";
@@ -31,7 +31,7 @@ export function SongPublishForm() {
         defaultValues: {
             name: "",
             author: "",
-            genre: "",
+            genre: "Rock" as const,
             subgenre: "",
             lyrics: "",
             image: null,
@@ -39,13 +39,11 @@ export function SongPublishForm() {
         },
     });
 
-    const genre = useWatch({ control, name: 'genre' });
+    const genre = useWatch({ control, name: "genre" });
     const subgenreOptions = genre ? SUBGENRES[genre] : [];
 
-
-
-    useEffect(() => { 
-        resetField('subgenre', { defaultValue: '' }) 
+    useEffect(() => {
+        resetField("subgenre", { defaultValue: "" });
     }, [genre, resetField]);
 
     const handleImageUpload = async (file: File) => {
@@ -69,8 +67,8 @@ export function SongPublishForm() {
     const onSubmit = async (data: SongFormData) => {
         setIsSubmitting(true);
         try {
-            const hasCoverFile = data.image instanceof File || (typeof File !== 'undefined' && data.image?.[0] instanceof File);
-            let coverUrl = '/logo.webp';
+            const hasCoverFile = data.image instanceof File || (typeof File !== "undefined" && data.image?.[0] instanceof File);
+            let coverUrl = "/logo.webp";
             if (hasCoverFile) {
                 coverUrl = await uploadCoverAndGetUrl(data.image);
             }
@@ -80,7 +78,7 @@ export function SongPublishForm() {
                 author: data.author,
                 genre: data.genre,
                 coverUrl,
-                audioFile: data.song
+                audioFile: data.song,
             };
 
             if (data.subgenre) payload.subgenre = data.subgenre;
@@ -91,7 +89,7 @@ export function SongPublishForm() {
 
             setValue("name", "");
             setValue("author", "");
-            setValue("genre", "");
+            setValue("genre", "Rock" as const);
             setValue("subgenre", "");
             setValue("lyrics", "");
             setValue("image", null);
@@ -103,8 +101,9 @@ export function SongPublishForm() {
         }
     };
 
-    const uploadCoverAndGetUrl = async () => {
-        return '/logo.webp';
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const uploadCoverAndGetUrl = async (_image: File | null) => {
+        return "/logo.webp";
     };
 
     return (
@@ -199,8 +198,14 @@ export function SongPublishForm() {
                                     errors.subgenre ? "border-error" : "border-gray-300 dark:border-gray-600"
                                 } dark:bg-gray-700 dark:text-white ${!genre ? "opacity-50 cursor-not-allowed" : ""}`}
                             >
-                                <option value="" disabled>Selecciona un subgénero</option>
-                                {subgenreOptions.map(s => (<option key={s} value={s}>{s}</option>))}
+                                <option value="" disabled>
+                                    Selecciona un subgénero
+                                </option>
+                                {subgenreOptions.map((s) => (
+                                    <option key={s} value={s}>
+                                        {s}
+                                    </option>
+                                ))}
                             </select>
                             {errors.subgenre && <p className="mt-2 text-error text-sm">{errors.subgenre.message}</p>}
                         </div>
@@ -228,7 +233,7 @@ export function SongPublishForm() {
                                 label="Imagen de Portada"
                                 id="image"
                                 register={register}
-                                error={errors.image}
+                                error={errors.image as FieldError | undefined}
                                 accept="image/jpeg,image/png,image/webp"
                                 maxSize={5}
                                 fileType="image"
@@ -244,7 +249,7 @@ export function SongPublishForm() {
                                 label="Archivo de Audio *"
                                 id="song"
                                 register={register}
-                                error={errors.song}
+                                error={errors.song as FieldError | undefined}
                                 accept="audio/mpeg,audio/wav,audio/ogg"
                                 maxSize={50}
                                 fileType="audio"

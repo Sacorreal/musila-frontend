@@ -4,11 +4,11 @@ import { GENRES } from "@domains/tracks/constants/genres";
 export const songSchema = z.object({
     name: z.string().min(2, "Requerido"),
     author: z.string().min(2, "Requerido"),
-    genre: z.enum(GENRES, { required_error: "Selecciona un género" }),
+    genre: z.enum(GENRES),
     subgenre: z.string().min(1, "Selecciona un subgénero"),
     lyrics: z.string().max(10000, "Máximo 10000 caracteres").optional(),
     image: z.any().optional(),
-    song: z.any()
+    song: z.any(),
 });
 
 export type SongFormData = z.infer<typeof songSchema>;

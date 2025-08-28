@@ -48,11 +48,10 @@ export const updateUser = async (input: Partial<User> & { passwordActual?: strin
         ...input,
     };
 
-    delete (updatedUser as any).passwordActual;
-    delete (updatedUser as any).passwordNueva;
+    delete (updatedUser as Partial<User> & { passwordActual?: string; passwordNueva?: string }).passwordActual;
+    delete (updatedUser as Partial<User> & { passwordActual?: string; passwordNueva?: string }).passwordNueva;
 
     localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(updatedUser));
 
     return updatedUser;
 };
-

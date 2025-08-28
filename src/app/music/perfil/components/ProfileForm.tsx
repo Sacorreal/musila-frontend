@@ -79,7 +79,6 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ user, onSuccess }) => 
         formState: { errors },
         setValue,
         reset,
-        watch,
     } = useForm<ProfileFormData>({
         resolver: zodResolver(profileSchema),
         defaultValues: {
@@ -96,8 +95,6 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ user, onSuccess }) => 
             avatarUrl: user.avatarUrl || "",
         },
     });
-
-    const watchedAvatarUrl = watch("avatarUrl");
 
     const handleAvatarChange = (avatarUrl: string) => {
         setValue("avatarUrl", avatarUrl);
@@ -246,8 +243,3 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ user, onSuccess }) => 
         </div>
     );
 };
-
-
-
-
-
