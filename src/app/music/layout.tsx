@@ -7,7 +7,7 @@ import ContentApp from "@/shared/components/Layout/ContentApp";
 import { useRouter } from "next/navigation";
 import { mockTracks } from "./Mocks/tracks";
 import { Spinner } from "@/shared/components/UI/Spinner";
-import AudioPlayer from "./components/AudioPlayer";
+import AudioPlayer from "../../domains/music/components/AudioPlayer";
 
 const AuthLoader = () => {
   return (
@@ -16,6 +16,7 @@ const AuthLoader = () => {
     </div>
   );
 };
+import { UserAvatarMenu } from "../../domains/music/components/UserAvatarMenu";
 
 export default function MusicAppLayout({
   children,

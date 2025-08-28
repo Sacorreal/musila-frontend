@@ -15,13 +15,13 @@ export const Modal = ({ isOpen, onClose, children, title }: ModalProps) => {
 
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
+      if (event.key === "Escape") {
         onClose();
       }
     };
-    window.addEventListener('keydown', handleEsc);
+    window.addEventListener("keydown", handleEsc);
     return () => {
-      window.removeEventListener('keydown', handleEsc);
+      window.removeEventListener("keydown", handleEsc);
     };
   }, [onClose]);
 
@@ -32,12 +32,12 @@ export const Modal = ({ isOpen, onClose, children, title }: ModalProps) => {
   return (
     <div
       className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4"
-      onClick={onClose} 
+      onClick={onClose}
     >
       <div
         ref={modalRef}
         className="bg-card-bg rounded-2xl shadow-xl w-full max-w-md p-6 text-foreground"
-        onClick={(e) => e.stopPropagation()} 
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-4">
           {title && <h2 className="text-xl font-bold">{title}</h2>}
@@ -47,12 +47,13 @@ export const Modal = ({ isOpen, onClose, children, title }: ModalProps) => {
             aria-label="Cerrar modal"
           >
             <XIcon />
-            </button>
+          </button>
         </div>
 
-        
         <div>{children}</div>
       </div>
     </div>
   );
 };
+
+export default Modal;

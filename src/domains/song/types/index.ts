@@ -1,13 +1,14 @@
 import { z } from "zod";
+import { GENRES } from "@domains/tracks/constants/genres";
 
 export const songSchema = z.object({
-    name: z.string().min(1, "El nombre de la canción es requerido").max(100, "El nombre es demasiado largo"),
-    author: z.string().min(1, "El autor es requerido").max(100, "El nombre del autor es demasiado largo"),
-    genre: z.string().min(1, "El género es requerido"),
-    image: z.instanceof(File).nullable().optional(),
-    song: z.instanceof(File).nullable().refine((file) => file !== null, {
-        message: "El archivo de audio es requerido",
-    }),
+    name: z.string().min(2, "Requerido"),
+    author: z.string().min(2, "Requerido"),
+    genre: z.enum(GENRES),
+    subgenre: z.string().min(1, "Selecciona un subgénero"),
+    lyrics: z.string().max(10000, "Máximo 10000 caracteres").optional(),
+    image: z.any().optional(),
+    song: z.any()
 });
 
 export type SongFormData = z.infer<typeof songSchema>;

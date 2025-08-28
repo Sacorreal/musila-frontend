@@ -9,23 +9,27 @@ export type Track = {
     artist: string;
     coverUrl?: string;
     audioUrl: string;
-    duration?: number; // segundos si se conoce
+    duration?: number; 
 };
 
 export type RepeatMode = "off" | "one" | "all";
 
+// Definimos un tipo parcial para las funciones auxiliares, para mayor claridad
+type PlayerSlice = Pick<PlayerState, 'queue' | 'currentIndex' | 'shuffle' | 'repeat'>;
+
 type PlayerState = {
     queue: Track[];
-    currentIndex: number; // -1 si vacío
+    currentIndex: number;
     isPlaying: boolean;
-    volume: number; // 0..1
+    volume: number; 
     muted: boolean;
     shuffle: boolean;
     repeat: RepeatMode;
-    // acciones
+    
     setQueue: (tracks: Track[], startIndex?: number) => void;
     playTrack: (track: Track, queue?: Track[]) => void;
     togglePlay: () => void;
+    play: () => void;
     pause: () => void;
     next: () => void;
     prev: () => void;
@@ -36,7 +40,9 @@ type PlayerState = {
     getCurrent: () => Track | undefined;
 };
 
-function getNextIndex(state: PlayerState & { queue: Track[]; currentIndex: number }) {
+// --- Funciones Auxiliares con Tipos Corregidos ---
+
+function getNextIndex(state: PlayerSlice): number {
     if (state.queue.length === 0) return -1;
     if (state.shuffle) {
         if (state.queue.length === 1) return state.currentIndex;
@@ -46,14 +52,14 @@ function getNextIndex(state: PlayerState & { queue: Track[]; currentIndex: numbe
         }
         return idx;
     }
-    const next = state.currentIndex + 1;
-    if (next >= state.queue.length) {
+    const nextIdx = state.currentIndex + 1;
+    if (nextIdx >= state.queue.length) {
         return state.repeat === "all" ? 0 : state.currentIndex;
     }
-    return next;
+    return nextIdx;
 }
 
-function getPrevIndex(state: PlayerState & { queue: Track[]; currentIndex: number }) {
+function getPrevIndex(state: PlayerSlice): number {
     if (state.queue.length === 0) return -1;
     if (state.shuffle) {
         if (state.queue.length === 1) return state.currentIndex;
@@ -63,12 +69,14 @@ function getPrevIndex(state: PlayerState & { queue: Track[]; currentIndex: numbe
         }
         return idx;
     }
-    const prev = state.currentIndex - 1;
-    if (prev < 0) {
+    const prevIdx = state.currentIndex - 1;
+    if (prevIdx < 0) {
         return state.repeat === "all" ? state.queue.length - 1 : state.currentIndex;
     }
-    return prev;
+    return prevIdx;
 }
+
+// --- Store de Zustand ---
 
 export const usePlayerStore = create<PlayerState>()(
     persist(
@@ -81,51 +89,59 @@ export const usePlayerStore = create<PlayerState>()(
             shuffle: false,
             repeat: "off",
 
-            setQueue: (tracks, startIndex = 0) => set(() => ({ queue: tracks, currentIndex: tracks.length ? startIndex : -1, isPlaying: tracks.length > 0 })),
+            setQueue: (tracks, startIndex = 0) => set({ 
+                queue: tracks, 
+                currentIndex: tracks.length ? startIndex : -1, 
+                isPlaying: !!tracks.length 
+            }),
 
             playTrack: (track, queue) =>
                 set((state) => {
-                    const list = queue ?? state.queue;
-                    const index = list.findIndex((t) => t.id === track.id);
-                    const nextIndex = index >= 0 ? index : (list.length, -1);
-                    const newQueue = queue ? queue : state.queue.length ? state.queue : [track];
-                    const idx = index >= 0 ? index : newQueue.findIndex((t) => t.id === track.id);
+                    const newQueue = queue ?? (state.queue.length ? state.queue : [track]);
+                    let trackIndex = newQueue.findIndex((t) => t.id === track.id);
+
+                    if (trackIndex === -1) {
+                        newQueue.unshift(track);
+                        trackIndex = 0;
+                    }
+                    
                     return {
                         queue: newQueue,
-                        currentIndex: idx >= 0 ? idx : 0,
+                        currentIndex: trackIndex,
                         isPlaying: true,
                     };
                 }),
 
-            togglePlay: () => set((s) => ({ isPlaying: !s.isPlaying })),
+            togglePlay: () => set((state) => ({ isPlaying: !state.isPlaying })),
             pause: () => set(() => ({ isPlaying: false })),
+            play: () => set(() => ({ isPlaying: true })),
 
             next: () =>
                 set((state) => {
-                    const idx = getNextIndex(state as any);
-                    if (idx === -1) return state;
-                    if (idx === state.currentIndex && state.repeat !== "one" && state.repeat !== "all" && !state.shuffle) {
-                        return { ...state, isPlaying: false };
+                    const idx = getNextIndex(state);
+                    if (idx === -1) return {};
+                    if (idx === state.currentIndex && state.repeat === "off" && !state.shuffle) {
+                        return { isPlaying: false };
                     }
-                    return { ...state, currentIndex: idx, isPlaying: true };
+                    return { currentIndex: idx, isPlaying: true }; 
                 }),
 
             prev: () =>
                 set((state) => {
-                    const idx = getPrevIndex(state as any);
-                    if (idx === -1) return state;
-                    return { ...state, currentIndex: idx, isPlaying: true };
+                    const idx = getPrevIndex(state);
+                    if (idx === -1) return {};
+                    return { currentIndex: idx, isPlaying: true }; 
                 }),
 
-            toggleShuffle: () => set((s) => ({ shuffle: !s.shuffle })),
+            toggleShuffle: () => set((state) => ({ shuffle: !state.shuffle })),
             cycleRepeat: () =>
-                set((s) => {
-                    const order: RepeatMode[] = ["off", "one", "all"];
-                    const next = order[(order.indexOf(s.repeat) + 1) % order.length];
-                    return { repeat: next };
+                set((state) => {
+                    const order: RepeatMode[] = ["off", "all", "one"];
+                    const nextIndex = (order.indexOf(state.repeat) + 1) % order.length;
+                    return { repeat: order[nextIndex] };
                 }),
-            setVolume: (v) => set(() => ({ volume: Math.max(0, Math.min(1, v)) })),
-            toggleMute: () => set((s) => ({ muted: !s.muted })),
+            setVolume: (v) => set(() => ({ volume: Math.max(0, Math.min(1, v)), muted: v === 0 })),
+            toggleMute: () => set((state) => ({ muted: !state.muted })),
             getCurrent: () => {
                 const { queue, currentIndex } = get();
                 return currentIndex >= 0 ? queue[currentIndex] : undefined;

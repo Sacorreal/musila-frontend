@@ -2,6 +2,7 @@
 
 import React from "react";
 import ToggleSwitch from "@/shared/components/UI/Toggle";
+import { UserAvatarMenu } from "@/domains/music/components/UserAvatarMenu";
 
 export default function ContentApp({
   children,
@@ -38,7 +39,10 @@ export default function ContentApp({
           Contenido de la Aplicación
         </h2>
 
-        <ToggleSwitch />
+        <div className="flex items-center gap-4">
+          <ToggleSwitch />
+          <UserAvatarMenu />
+        </div>
       </header>
 
       <div className="flex-1 p-6 pb-32">{children}</div>
