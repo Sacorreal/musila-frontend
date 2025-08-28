@@ -21,7 +21,7 @@ export default function AudioPlayer({ className, initialQueue, startIndex = 0, p
     const progressRef = useRef<HTMLInputElement | null>(null);
     const [currentTime, setCurrentTime] = useState(0);
 
-    const { isPlaying, volume, muted, shuffle, repeat, setQueue, togglePlay, next, prev, toggleShuffle, cycleRepeat, setVolume, toggleMute, getCurrent } = usePlayerStore();
+    const { isPlaying, volume, muted, shuffle, repeat, setQueue, togglePlay, play, next, prev, toggleShuffle, cycleRepeat, setVolume, toggleMute, getCurrent } = usePlayerStore();
 
     const current = getCurrent();
 
@@ -102,12 +102,12 @@ export default function AudioPlayer({ className, initialQueue, startIndex = 0, p
     return (
         <div className={`w-full bg-[#0c1420] text-white px-3 sm:px-4 md:px-6 py-3 md:py-4 border-t border-white/10 ${className ?? ""}`}>
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-6">
-                {/* Izquierda: carátula y info */}
                 <div className="flex items-center gap-3 sm:gap-4 min-w-0 md:flex-[2]">
                     {current?.coverUrl && <Image src={current.coverUrl} alt={current.title} width={56} height={56} className="w-10 h-10 sm:w-14 sm:h-14 rounded-lg object-cover" />}
                     <div className="min-w-0">
                         <div className="font-semibold truncate text-base sm:text-lg">{current?.title ?? "Título de la canción"}</div>
                         <div className="text-xs sm:text-sm text-white/70 truncate">{current?.artist ?? "Autor"}</div>
+                        {!isPlaying && current && <div className="text-xs text-white/50 truncate">Haz clic en play para reproducir</div>}
                     </div>
                     <button className="ml-2 text-white/70 hover:text-white transition-colors hidden sm:inline-flex" title="Opciones">
                         <EllipsisVertical className="w-5 h-5" />
@@ -117,13 +117,12 @@ export default function AudioPlayer({ className, initialQueue, startIndex = 0, p
                     </button>
                 </div>
 
-                {/* Centro: controles principales */}
                 <div className="flex items-center gap-4 sm:gap-5 justify-center md:flex-1">
                     <button onClick={prev} title="Anterior" className="text-white/80 hover:text-white transition-colors">
                         <SkipBack className="w-5 h-5 md:w-6 md:h-6" />
                     </button>
                     <button
-                        onClick={togglePlay}
+                        onClick={isPlaying ? togglePlay : play}
                         className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-white text-black flex items-center justify-center shadow-md hover:shadow-lg transition-shadow"
                         title={isPlaying ? "Pausar" : "Reproducir"}
                     >

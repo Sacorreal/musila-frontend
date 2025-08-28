@@ -26,6 +26,7 @@ type PlayerState = {
     setQueue: (tracks: Track[], startIndex?: number) => void;
     playTrack: (track: Track, queue?: Track[]) => void;
     togglePlay: () => void;
+    play: () => void;
     pause: () => void;
     next: () => void;
     prev: () => void;
@@ -81,7 +82,7 @@ export const usePlayerStore = create<PlayerState>()(
             shuffle: false,
             repeat: "off",
 
-            setQueue: (tracks, startIndex = 0) => set(() => ({ queue: tracks, currentIndex: tracks.length ? startIndex : -1, isPlaying: tracks.length > 0 })),
+            setQueue: (tracks, startIndex = 0) => set(() => ({ queue: tracks, currentIndex: tracks.length ? startIndex : -1, isPlaying: false })),
 
             playTrack: (track, queue) =>
                 set((state) => {
@@ -93,12 +94,13 @@ export const usePlayerStore = create<PlayerState>()(
                     return {
                         queue: newQueue,
                         currentIndex: idx >= 0 ? idx : 0,
-                        isPlaying: true,
+                        isPlaying: false, // No reproducir automáticamente
                     };
                 }),
 
             togglePlay: () => set((s) => ({ isPlaying: !s.isPlaying })),
             pause: () => set(() => ({ isPlaying: false })),
+            play: () => set(() => ({ isPlaying: true })),
 
             next: () =>
                 set((state) => {
@@ -107,14 +109,14 @@ export const usePlayerStore = create<PlayerState>()(
                     if (idx === state.currentIndex && state.repeat !== "one" && state.repeat !== "all" && !state.shuffle) {
                         return { ...state, isPlaying: false };
                     }
-                    return { ...state, currentIndex: idx, isPlaying: true };
+                    return { ...state, currentIndex: idx, isPlaying: false }; // No reproducir automáticamente
                 }),
 
             prev: () =>
                 set((state) => {
                     const idx = getPrevIndex(state as any);
                     if (idx === -1) return state;
-                    return { ...state, currentIndex: idx, isPlaying: true };
+                    return { ...state, currentIndex: idx, isPlaying: false }; // No reproducir automáticamente
                 }),
 
             toggleShuffle: () => set((s) => ({ shuffle: !s.shuffle })),
