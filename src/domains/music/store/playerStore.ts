@@ -9,7 +9,7 @@ export type Track = {
     artist: string;
     coverUrl?: string;
     audioUrl: string;
-    duration?: number; // segundos si se conoce
+    duration?: number; 
 };
 
 export type RepeatMode = "off" | "one" | "all";

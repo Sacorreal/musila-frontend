@@ -1,5 +1,5 @@
 import React from 'react';
-import { EditForm } from './components/EditForm';
+import { EditForm } from '../../../../../domains/canciones/components/EditForm';
 
 export default function EditSongPage() {
   

@@ -2,9 +2,12 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { useSidebar } from "@/shared/hooks/useSidebar"; 
 import { useAuth } from "@/domains/auth/store/authStore";
-import { routes } from "@/routes";
-import { House, ListMusic, Users, GitPullRequestArrow } from "lucide-react";
+import { SIDEBAR_LINKS } from "@/domains/music/constants";
+// import { routes } from "@/routes";
+// import { House, ListMusic, Users, GitPullRequestArrow } from "lucide-react";
 
 export default function Sidebar({
   isOpen,
@@ -14,6 +17,9 @@ export default function Sidebar({
   onClose: () => void;
 }) {
   const { logout } = useAuth();
+  const { role, isLoading } = useSidebar();
+
+  const navLinks = role ? SIDEBAR_LINKS[role] || [] : [];
 
   return (
     <>
@@ -71,45 +77,28 @@ export default function Sidebar({
 
         {/* Navegación del Sidebar */}
         <nav className="flex-grow">
-          <ul className="space-y-2">
-            <li>
-              <a
-                href={routes.dashboard}
-                className="flex items-center p-2 text-text-main rounded-lg hover:bg-primary hover:text-white transition-colors"
-              >
-                <House className="pr-1" />
-                Dashboard
-              </a>
-            </li>
-            <li>
-              <a
-                href={routes.songs}
-                className="flex items-center p-2 text-text-main rounded-lg hover:bg-primary hover:text-white transition-colors"
-              >
-                <ListMusic className="pr-1" />
-                Canciones
-              </a>
-            </li>
-            <li>
-              <a
-                href={routes.artists}
-                className="flex items-center p-2 text-text-main rounded-lg hover:bg-primary hover:text-white transition-colors"
-              >
-                <Users className="pr-1" />
-                Artistas
-              </a>
-            </li>
-            <li>
-              <a
-                href={routes.solicitudes}
-                className="flex items-center p-2 text-text-main rounded-lg hover:bg-primary hover:text-white transition-colors"
-              >
-                <GitPullRequestArrow className="pr-1" />
-                Solicitudes
-              </a>
-            </li>
-          </ul>
-        </nav>
+        <ul className="space-y-2">
+          {isLoading ? (
+            <p>Cargando...</p>
+          ) : (
+            navLinks.map((link) => {
+              const Icono = link.icon;
+              return (
+                <li key={link.name}>
+                  <Link
+                    href={link.href}
+                    className="flex items-center p-2 text-text-main rounded-lg hover:bg-primary hover:text-white transition-colors"
+                    onClick={onClose} 
+                  >
+                    <Icono className="mr-2 h-5 w-5" /> 
+                    {link.name}
+                  </Link>
+                </li>
+              );
+            })
+          )}
+        </ul>
+      </nav>
 
         <div className="mt-auto">
           <div className="flex justify-center mb-4"></div>

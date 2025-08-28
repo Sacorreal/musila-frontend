@@ -7,7 +7,7 @@ import ContentApp from "@/shared/components/Layout/ContentApp";
 import { useRouter } from "next/navigation";
 import { mockTracks } from "./Mocks/tracks";
 import { Spinner } from "@/shared/components/UI/Spinner";
-import AudioPlayer from "./components/AudioPlayer";
+import AudioPlayer from "../../shared/components/Layout/AudioPlayer";
 
 const AuthLoader = () => {
   return (
