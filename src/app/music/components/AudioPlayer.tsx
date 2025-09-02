@@ -100,7 +100,7 @@ export default function AudioPlayer({ className, initialQueue, startIndex = 0, p
     const [showPlaylists, setShowPlaylists] = useState(false);
 
     return (
-        <div className={`w-full bg-[#0c1420] text-white px-3 sm:px-4 md:px-6 py-3 md:py-4 border-t border-white/10 ${className ?? ""}`}>
+        <div className={`w-full bg-[#0c1420] text-white px-4 py-3 border-t border-white/10 shadow-lg ${className ?? ""}`}>
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-6">
                 <div className="flex items-center gap-3 sm:gap-4 min-w-0 md:flex-[2]">
                     {current?.coverUrl && <Image src={current.coverUrl} alt={current.title} width={56} height={56} className="w-10 h-10 sm:w-14 sm:h-14 rounded-lg object-cover" />}
@@ -173,7 +173,7 @@ export default function AudioPlayer({ className, initialQueue, startIndex = 0, p
             </div>
 
             {/* Barra de progreso */}
-            <div className="flex items-center gap-3 mt-3 md:mt-4">
+            <div className="flex items-center gap-3 mt-3">
                 <span className="text-[11px] sm:text-xs tabular-nums text-white/90">{formatTime(currentTime)}</span>
                 <input ref={progressRef} type="range" min={0} max={100} step={0.1} defaultValue={0} onChange={handleSeek} className="w-full accent-red-500 cursor-pointer" />
                 <span className="text-[11px] sm:text-xs tabular-nums text-white/90">

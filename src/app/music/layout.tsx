@@ -34,8 +34,8 @@ export default function MusicAppLayout({
             <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
             <ContentApp onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}>
-                {children}
-                <div className="fixed left-0 md:left-64 right-0 bottom-0 px-4 py-3 z-30">
+                <div className="pb-32">{children}</div>
+                <div className="fixed left-0 md:left-64 right-0 bottom-0 z-50">
                     <AudioPlayer initialQueue={mockTracks} />
                 </div>
             </ContentApp>
