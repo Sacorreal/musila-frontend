@@ -7,6 +7,7 @@ import ContentApp from "@/shared/components/Layout/ContentApp";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { mockTracks } from "./Mocks/tracks";
+import { useAuth } from "@/domains/auth/store/authStore";
 
 export default function MusicAppLayout({
     children,
@@ -14,15 +15,22 @@ export default function MusicAppLayout({
     children: React.ReactNode;
 }>) {
     const { isLoggedIn, isSidebarOpen, setIsSidebarOpen } = useSidebar();
-
+    const { isInitialized } = useAuth();
     const router = useRouter();
 
     useEffect(() => {
-        if (!isLoggedIn) {
+        // Solo redirigir si ya se inicializó la autenticación y no está logueado
+        if (isInitialized && !isLoggedIn) {
             router.replace("/login");
         }
-    }, [isLoggedIn, router]);
+    }, [isInitialized, isLoggedIn, router]);
 
+    // Mostrar nada mientras se inicializa la autenticación
+    if (!isInitialized) {
+        return null;
+    }
+
+    // Redirigir si no está logueado
     if (!isLoggedIn) {
         return null;
     }
