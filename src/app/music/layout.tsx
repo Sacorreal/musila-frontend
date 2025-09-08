@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { useSidebar } from "@/shared/hooks/useSidebar";
+import React, { useEffect, useState } from "react";
+import { useAuth } from "@/domains/auth/store/authStore";
 import Sidebar from "@/shared/components/Layout/Sidebar";
 import ContentApp from "@/shared/components/Layout/ContentApp";
 import { useRouter } from "next/navigation";
@@ -17,14 +17,13 @@ const AuthLoader = () => {
   );
 };
 
-export default function MusicAppLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const { isLoggedIn, isAuthLoading, isSidebarOpen, setIsSidebarOpen } =
-    useSidebar();
+export default function MusicAppLayout({ children }: { children: React.ReactNode }) {
+  // Usamos useAuth directamente, que es la fuente de la verdad
+  const { isLoggedIn, isAuthLoading } = useAuth();
   const router = useRouter();
+
+  // El estado de la sidebar vive aquí, en el layout que la controla
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (!isAuthLoading && !isLoggedIn) {
@@ -34,6 +33,10 @@ export default function MusicAppLayout({
 
   if (isAuthLoading) {
     return <AuthLoader />;
+  }
+
+  if (!isLoggedIn) {
+    return null;
   }
 
   return (

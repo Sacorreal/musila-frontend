@@ -17,8 +17,8 @@ export default function LoginPage() {
     }
   }, [isLoggedIn, router]);
 
-  const handleLoginSuccess = (email: string) => {
-    login(email);
+  const handleLoginSuccess = (token: string, userId: string) => {
+    login(token, userId);
   };
 
   if (isLoggedIn) {
