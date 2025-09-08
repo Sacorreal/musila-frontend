@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useAuth } from "@/domains/auth/store/authStore";
@@ -11,14 +12,14 @@ export default function LoginPage() {
   const { isLoggedIn, login } = useAuth();
   const router = useRouter();
 
-  useEffect(() => {
+    useEffect(() => {
     if (isLoggedIn) {
       router.push("/music");
     }
   }, [isLoggedIn, router]);
 
   const handleLoginSuccess = (token: string, userId: string) => {
-    login(token, userId);
+    login(token); 
   };
 
   if (isLoggedIn) {

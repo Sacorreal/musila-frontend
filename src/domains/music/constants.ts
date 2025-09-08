@@ -16,7 +16,7 @@ export interface NavItem {
   permission: string; 
 }
 
-export const ALL_SIDEBAR_LINKS: NavItem[] = [
+export const SIDEBAR_LINKS: NavItem[] = [
   { name: 'Inicio', href: '/music', icon: Home, permission: 'inicio' },
   { name: 'Buscar', href: '/music/buscar', icon: Search, permission: 'buscar' },
   { name: 'Solicitudes', href: '/music/solicitudes', icon: FileText, permission: 'solicitudes' },

@@ -35,8 +35,8 @@ export function SongPublishForm() {
         },
     });
 
-    const watchedImage = watch("image");
-    const watchedSong = watch("song");
+    // const watchedImage = watch("image");
+    // const watchedSong = watch("song");
 
     const handleImageUpload = async (file: File) => {
         try {

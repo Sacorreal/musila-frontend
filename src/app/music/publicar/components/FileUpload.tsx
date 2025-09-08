@@ -3,7 +3,7 @@
 import React, { useRef, useState } from "react";
 import { UseFormRegister, FieldError } from "react-hook-form";
 import { FieldValues, Path } from "react-hook-form";
-import { Upload, X, Music, Image } from "lucide-react";
+import { X, Music, Image } from "lucide-react";
 
 interface FileUploadProps<T extends FieldValues> {
     label: string;
@@ -107,7 +107,7 @@ export const FileUpload = <T extends FieldValues>({
                 onDragOver={handleDrag}
                 onDrop={handleDrop}
             >
-                <input ref={fileInputRef} type="file" id={id as string} accept={accept} className="hidden" {...register(id)} onChange={handleInputChange} />
+                <input type="file" id={id as string} accept={accept} className="hidden" {...register(id)} onChange={handleInputChange} />
 
                 {!selectedFile ? (
                     <div className="space-y-4">

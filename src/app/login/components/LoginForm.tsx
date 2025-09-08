@@ -6,8 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Input } from "@/shared/components/UI/Inputs";
 import { Button } from "@/shared/components/UI/Buttons";
-import { useRouter } from "next/navigation";
-import { routes } from "@/routes";
 import Link from "next/link";
 import { loginUser } from "@/domains/auth/services/auth.service";
 
@@ -29,7 +27,6 @@ interface LoginFormProps {
 export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loginError, setLoginError] = useState<string | null>(null);
-  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -44,12 +41,13 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
 
     try {
       const { token, userId } = await loginUser(data);
-      onLoginSuccess(token, userId);
-    } catch (error: any) {
+      onLoginSuccess(token, userId); // ATENTO QUE DESDE EL BACK NO ESTÁ LLEGANDO EL userId
+    } catch (error: unknown) {
       console.error("Error de login:", error);
       setLoginError(
-        error.message ||
-          "Credenciales incorrectas. Por favor, intenta de nuevo."
+        typeof error === "object" && error !== null && "message" in error
+          ? String((error as { message?: unknown }).message)
+          : "Credenciales incorrectas. Por favor, intenta de nuevo."
       );
     } finally {
       setIsSubmitting(false);

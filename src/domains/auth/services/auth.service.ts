@@ -4,6 +4,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://musila-develop-flke3
 
 interface LoginResponse {
   token: string;
+  userId: string; // no lo trae el backend
 }
 
 export const loginUser = async (credentials: LoginSchema): Promise<LoginResponse> => {

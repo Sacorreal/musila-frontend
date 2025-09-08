@@ -6,9 +6,11 @@ export const ROLES = {
   EDITOR: 'Editor',
 } as const;
 
-type Role = typeof ROLES[keyof typeof ROLES];
+type RoleValue = typeof ROLES[keyof typeof ROLES];
 
-const permissionsByRole: Record<Role, string[]> = {
+export type RoleKey = keyof typeof ROLES;
+
+const permissionsByRole: Record<RoleValue, string[]> = {
   [ROLES.AUTOR]: ['inicio', 'solicitudes', 'publicar', 'mensajes', 'dashboard'],
   [ROLES.CANTAUTOR]: ['inicio', 'buscar', 'publicar', 'mensajes', 'mi musica', 'solicitudes', 'dashboard', 'invitar usuario'],
   [ROLES.INTERPRETE]: ['inicio', 'buscar', 'mi musica', 'solicitudes', 'mensajes', 'invitar usuario'],
@@ -16,6 +18,8 @@ const permissionsByRole: Record<Role, string[]> = {
   [ROLES.EDITOR]: ['inicio', 'solicitudes', 'publicar', 'mensajes', 'dashboard'],
 };
 
-export const userHasPermission = (role: Role, requiredPermission: string): boolean => {
-  return permissionsByRole[role]?.includes(requiredPermission) ?? false;
+export const userHasPermission = (roleKey: RoleKey, requiredPermission: string): boolean => {
+  const roleValue = ROLES[roleKey]; 
+  if (!roleValue) return false;
+  return permissionsByRole[roleValue]?.includes(requiredPermission) ?? false;
 };
