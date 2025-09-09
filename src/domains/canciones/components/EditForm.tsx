@@ -187,7 +187,6 @@ export const EditForm = () => {
           />
         </label>
 
-        {/* Solicitudes */}
         <div>
           <h2 className="text-2xl font-bold border-b border-assets pb-2 mb-4">
             Solicitudes
