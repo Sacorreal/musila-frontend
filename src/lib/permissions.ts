@@ -1,4 +1,5 @@
 export const ROLES = {
+  ADMIN: 'Admin',
   AUTOR: 'Autor',
   CANTAUTOR: 'Cantautor',
   INTERPRETE: 'Interprete',
@@ -11,6 +12,7 @@ type RoleValue = typeof ROLES[keyof typeof ROLES];
 export type RoleKey = keyof typeof ROLES;
 
 const permissionsByRole: Record<RoleValue, string[]> = {
+  [ROLES.ADMIN]: ['inicio', 'solicitudes', 'publicar', 'mensajes','dashboard'],
   [ROLES.AUTOR]: ['inicio', 'solicitudes', 'publicar', 'mensajes', 'dashboard'],
   [ROLES.CANTAUTOR]: ['inicio', 'buscar', 'publicar', 'mensajes', 'mi musica', 'solicitudes', 'dashboard', 'invitar usuario'],
   [ROLES.INTERPRETE]: ['inicio', 'buscar', 'mi musica', 'solicitudes', 'mensajes', 'invitar usuario'],

@@ -11,16 +11,18 @@ import { jwtDecode } from "jwt-decode";
 
 interface JwtPayload {
   id: string;
-  rol: string;
+  email: string;
+  role: string;
   exp: number;
   iat: number;
 }
+
 interface AuthContextType {
   isLoggedIn: boolean;
   isAuthLoading: boolean;
   role: string | null;
   userId: string | null;
-  login: (token: string) => void;
+  login: (token: string) => void; 
   logout: () => void;
 }
 
@@ -34,13 +36,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     try {
+      // Solo necesitamos verificar el token
       const token = localStorage.getItem("jwt_token");
+
       if (token) {
         const decodedToken = jwtDecode<JwtPayload>(token);
 
         if (decodedToken.exp * 1000 > Date.now()) {
           setIsLoggedIn(true);
-          setRole(decodedToken.rol);
+          setRole(decodedToken.role.toUpperCase());
           setUserId(decodedToken.id); 
         } else {
           localStorage.removeItem("jwt_token");
@@ -54,13 +58,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  // 'login'
   const login = (token: string) => {
     try {
       const decodedToken = jwtDecode<JwtPayload>(token);
       localStorage.setItem("jwt_token", token);
       setIsLoggedIn(true);
-      setRole(decodedToken.rol);
+      setRole(decodedToken.role.toUpperCase());
       setUserId(decodedToken.id); 
     } catch (error) {
       console.error("Error al procesar el token de login:", error);
@@ -70,7 +73,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
     localStorage.removeItem("jwt_token");
-    localStorage.removeItem("user_id");
     setIsLoggedIn(false);
     setRole(null);
     setUserId(null);
@@ -90,3 +92,4 @@ export const useAuth = () => {
   }
   return context;
 };
+

@@ -9,5 +9,5 @@ export const routes = {
   register: "/register",
   forgotPassword: "/forgot-password",
   resetPassword: "/reset-password",
-  solicitudes: "/music/song-requests",
+  solicitudes: "/music/solicitudes",
 };
