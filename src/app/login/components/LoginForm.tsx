@@ -21,7 +21,7 @@ const loginSchema = z.object({
 export type LoginSchema = z.infer<typeof loginSchema>;
 
 interface LoginFormProps {
-  onLoginSuccess: (token: string, userId: string) => void;
+  onLoginSuccess: (token: string) => void;
 }
 
 export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
@@ -40,8 +40,8 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
     setLoginError(null);
 
     try {
-      const { token, userId } = await loginUser(data);
-      onLoginSuccess(token, userId); // ATENTO QUE DESDE EL BACK NO ESTÁ LLEGANDO EL userId
+      const { token } = await loginUser(data);
+      onLoginSuccess(token);
     } catch (error: unknown) {
       console.error("Error de login:", error);
       setLoginError(
