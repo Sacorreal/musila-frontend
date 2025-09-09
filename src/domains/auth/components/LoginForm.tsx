@@ -6,8 +6,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Input } from "@/shared/components/UI/Inputs";
 import { Button } from "@/shared/components/UI/Buttons";
+import { useRouter } from "next/navigation";
+import { routes } from "@/routes";
 import Link from "next/link";
-import { loginUser } from "@/domains/auth/services/auth.service";
 
 const loginSchema = z.object({
   email: z
@@ -18,15 +19,15 @@ const loginSchema = z.object({
     .min(5, { message: "La contraseña debe tener al menos 5 caracteres" }),
 });
 
-export type LoginSchema = z.infer<typeof loginSchema>;
+type LoginSchema = z.infer<typeof loginSchema>;
 
-interface LoginFormProps {
-  onLoginSuccess: (token: string) => void;
-}
-
-export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
+export default function LoginForm({
+  onLoginSuccess,
+}: {
+  onLoginSuccess: (email: string) => void;
+}) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [loginError, setLoginError] = useState<string | null>(null);
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -35,23 +36,14 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
+  const onSubmit: SubmitHandler<LoginSchema> = (data) => {
     setIsSubmitting(true);
-    setLoginError(null);
-
-    try {
-      const { token } = await loginUser(data);
-      onLoginSuccess(token);
-    } catch (error: unknown) {
-      console.error("Error de login:", error);
-      setLoginError(
-        typeof error === "object" && error !== null && "message" in error
-          ? String((error as { message?: unknown }).message)
-          : "Credenciales incorrectas. Por favor, intenta de nuevo."
-      );
-    } finally {
+    // llamada a una API en services/auth.service.ts
+    setTimeout(() => {
+      onLoginSuccess(data.email);
       setIsSubmitting(false);
-    }
+      router.push(routes.music);
+    }, 1000);
   };
 
   return (
@@ -60,7 +52,7 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
         label="Tu correo"
         id="email"
         type="email"
-        placeholder="name@correo.com"
+        placeholder="name@company.com"
         register={register}
         error={errors.email}
       />
@@ -92,24 +84,20 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
             </label>
           </div>
         </div>
-        <Link
-          href="#"
-          className="text-sm font-medium text-white hover:underline "
-        >
+        <Link href="#" className="text-sm font-medium text-white hover:underline ">
           ¿Olvidaste la contraseña?
         </Link>
       </div>
-
-      {loginError && (
-        <p className="text-sm font-medium text-red-500">{loginError}</p>
-      )}
 
       <Button type="submit" disabled={isSubmitting}>
         {isSubmitting ? "Iniciando sesión..." : "Iniciar sesión"}
       </Button>
       <p className="text-sm font-light text-secondary dark:text-gray-400">
         ¿No tienes una cuenta?{" "}
-        <a href="#" className="font-medium text-white hover:underline">
+        <a
+          href="#"
+          className="font-medium text-white hover:underline"
+        >
           Regístrate
         </a>
       </p>

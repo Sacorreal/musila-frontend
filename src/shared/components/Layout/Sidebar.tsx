@@ -2,10 +2,9 @@
 
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { useAuth } from "@/domains/auth/store/authStore";
-import { SIDEBAR_LINKS } from "@/domains/music/constants";
-import { userHasPermission, RoleKey } from "@/lib/permissions";
+import { routes } from "@/routes";
+import { House, ListMusic, Users } from "lucide-react";
 
 export default function Sidebar({
   isOpen,
@@ -14,16 +13,7 @@ export default function Sidebar({
   isOpen: boolean;
   onClose: () => void;
 }) {
-  // Usamos directamente useAuth, nuestra única fuente de verdad
-  const { logout, role, isAuthLoading } = useAuth();
-
-  // Filtramos la lista maestra de links.
-  // Si el usuario tiene el rol y el permiso, el link se muestra.
-  const navLinks = role
-    ? SIDEBAR_LINKS.filter((link) =>
-        userHasPermission(role as RoleKey, link.permission)
-      )
-    : [];
+  const { logout } = useAuth();
 
   return (
     <>
@@ -37,11 +27,11 @@ export default function Sidebar({
       {/* Sidebar principal */}
       <aside
         className={`
-        w-64 bg-background text-text-main
-        flex flex-col p-4 border-r border-assets
-        fixed inset-y-0 left-0 z-50
-        md:static md:translate-x-0
-        transform transition-transform duration-300 ease-in-out
+        w-64 bg-secondary dark:bg-gray-800 text-text-main dark:text-white
+        flex flex-col p-4 shadow-lg
+        fixed inset-y-0 left-0 z-50 // Posición fija para móvil
+        md:static md:translate-x-0 // Estático y visible en desktop
+        transform transition-transform duration-300 ease-in-out // Transición para el deslizamiento
         ${isOpen ? "translate-x-0" : "-translate-x-full"}
       `}
         onClick={(e) => e.stopPropagation()}
@@ -59,9 +49,10 @@ export default function Sidebar({
           {/* Botón de cerrar para móvil */}
           <button
             onClick={onClose}
-            className="ml-auto text-text-main focus:outline-none md:hidden"
+            className="ml-auto text-text-main dark:text-white focus:outline-none md:hidden"
             aria-label="Cerrar menú"
           >
+            {/* Icono de cerrar (X) */}
             <svg
               className="w-6 h-6"
               fill="none"
@@ -82,34 +73,47 @@ export default function Sidebar({
         {/* Navegación del Sidebar */}
         <nav className="flex-grow">
           <ul className="space-y-2">
-            {isAuthLoading ? (
-              <p>Cargando...</p>
-            ) : (
-              navLinks.map((link) => {
-                const Icono = link.icon;
-                return (
-                  <li key={link.name}>
-                    <Link
-                      href={link.href}
-                      className="flex items-center p-2 text-text-main rounded-lg hover:bg-primary hover:text-white transition-colors"
-                      onClick={onClose}
-                    >
-                      <Icono className="mr-2 h-5 w-5" />
-                      {link.name}
-                    </Link>
-                  </li>
-                );
-              })
-            )}
+            <li>
+              <a
+                href={routes.dashboard}
+                className="flex items-center p-2 text-text-main dark:text-gray-100 rounded-lg hover:bg-primary hover:text-white dark:hover:bg-primary-dark transition-colors"
+              >
+                {/* Icono de Dashboard */}
+                <House className="pr-1" />
+                Dashboard
+              </a>
+            </li>
+            <li>
+              <a
+                href={routes.songs}
+                className="flex items-center p-2 text-text-main dark:text-gray-100 rounded-lg hover:bg-primary hover:text-white dark:hover:bg-primary-dark transition-colors"
+              >
+                {/* Icono de Canciones */}
+                <ListMusic className="pr-1" />
+                Canciones
+              </a>
+            </li>
+            <li>
+              <a
+                href={routes.artists}
+                className="flex items-center p-2 text-text-main dark:text-gray-100 rounded-lg hover:bg-primary hover:text-white dark:hover:bg-primary-dark transition-colors"
+              >
+                {/* Icono de Artistas */}
+                <Users className="pr-1" />
+                Artistas
+              </a>
+            </li>
           </ul>
         </nav>
 
+        {/* Botón de Cerrar Sesión */}
         <div className="mt-auto">
           <div className="flex justify-center mb-4"></div>
           <button
             onClick={logout}
             className="w-full flex items-center justify-center p-2 mt-4 text-white bg-error rounded-lg hover:bg-red-500 transition-colors cursor-pointer"
           >
+            {/* Icono de Salir */}
             <svg
               className="w-5 h-5 mr-2"
               fill="none"

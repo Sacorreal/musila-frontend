@@ -1,61 +1,63 @@
 "use client";
 
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect } from "react";
 
-const ToggleSwitch = () => {
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+export default function Toggle() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    const theme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
 
-  if (!mounted) {
-    return <div className="h-8 w-16 rounded-full bg-assets" />;
-  }
+    if (theme === "dark" || (!theme && prefersDark)) {
+      document.documentElement.classList.add("dark");
+      setIsDarkMode(true);
+    } else {
+      document.documentElement.classList.remove("dark");
+      setIsDarkMode(false);
+    }
+  }, []);
 
-  const isDark = theme === "dark";
+  const handleToggle = () => {
+    const newIsDarkMode = !isDarkMode;
+    setIsDarkMode(newIsDarkMode);
 
-  const toggleTheme = () => {
-    setTheme(isDark ? "light" : "dark");
-  };
-
-  const spring = {
-    type: "spring" as const,
-    stiffness: 700,
-    damping: 30,
+    if (newIsDarkMode) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
   };
 
   return (
-    <button
-      onClick={toggleTheme}
-      className={`relative flex h-7 w-12 cursor-pointer items-center rounded-full p-1 transition-colors duration-300 ease-in-out ${
-        isDark ? "justify-end bg-primary" : "justify-start bg-assets"
-      }`}
-      aria-label="Toggle theme"
-    >
-      <span className="sr-only">Cambiar tema</span>
-      
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.span
-          key={isDark ? "moon" : "sun"}
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 20, opacity: 0 }}
-          transition={{ duration: 0.2 }}
-          className="absolute"
-          style={isDark ? { right: '0.35rem' } : { left: '0.35rem' }}
-        >
-        </motion.span>
-      </AnimatePresence>
-
-      <motion.div
-        className="h-5 w-5 rounded-full bg-white shadow-md"
-        layout
-        transition={spring}
+    <div className="flex items-center space-x-2">
+      <input
+        type="checkbox"
+        id="darkModeToggle"
+        className="sr-only"
+        checked={isDarkMode}
+        onChange={handleToggle}
       />
-    </button>
-  );
-};
 
-export default ToggleSwitch;
+      <label
+        htmlFor="darkModeToggle"
+        className={`
+          relative w-12 h-7 rounded-full cursor-pointer transition-colors duration-200 ease-in-out
+          flex items-center p-1 
+          ${isDarkMode ? "bg-[#9b8fcc]" : "bg-[#2a2249]"}
+        `}
+      >
+        <span
+          className={`
+            w-5 h-5 bg-white rounded-full transition-transform duration-200 ease-in-out shadow-md
+            ${isDarkMode ? "translate-x-5" : "translate-x-0"}
+          `}
+        />
+      </label>
+    </div>
+  );
+}

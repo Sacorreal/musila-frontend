@@ -1,9 +1,8 @@
 "use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import { useAuth } from "@/domains/auth/store/authStore";
-import LoginForm from "@/app/login/components/LoginForm";
+import LoginForm from "@/domains/auth/components/LoginForm";
 import ToggleSwitch from "@/shared/components/UI/Toggle";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -12,14 +11,14 @@ export default function LoginPage() {
   const { isLoggedIn, login } = useAuth();
   const router = useRouter();
 
-    useEffect(() => {
+  useEffect(() => {
     if (isLoggedIn) {
       router.push("/music");
     }
   }, [isLoggedIn, router]);
 
-  const handleLoginSuccess = (token: string) => {
-    login(token); 
+  const handleLoginSuccess = (email: string) => {
+    login(email);
   };
 
   if (isLoggedIn) {

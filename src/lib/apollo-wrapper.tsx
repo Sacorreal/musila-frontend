@@ -8,24 +8,10 @@ import {
   InMemoryCache,
   SSRMultipartLink,
 } from "@apollo/client-integration-nextjs";
-import { setContext } from "@apollo/client/link/context";
 
 function makeClient() {
   const httpLink = new HttpLink({
     uri: GRAPHQL_ENDPOINT,
-  });
-
-  const authLink = setContext((_, { headers }) => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("jwt_token");
-      return {
-        headers: {
-          ...headers,
-          authorization: token ? `Bearer ${token}` : "",
-        },
-      };
-    }
-    return { headers };
   });
 
   return new ApolloClient({
@@ -38,7 +24,7 @@ function makeClient() {
             }),
             httpLink,
           ])
-        : authLink.concat(httpLink), 
+        : httpLink,
   });
 }
 

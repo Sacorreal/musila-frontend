@@ -8,47 +8,18 @@ import { HowItWorks } from "./components/How";
 import { RequestSongSection } from "./components/RequestSong";
 import { Faq } from "./components/Faq";
 import { ContactForm } from "./components/ContactForm";
-import { motion, easeOut } from "framer-motion";
-
-const sectionVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: easeOut },
-  },
-};
-
-const cardContainerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
 
 export default function LandingPage() {
   return (
-    <div className="relative bg-background dark: flex size-full min-h-screen flex-col text-text-main group/design-root overflow-x-hidden">
+    <div className="relative bg-background dark:  flex size-full min-h-screen flex-col text-text-main group/design-root overflow-x-hidden">
       <div className="layout-container flex h-full grow flex-col">
         <Header />
 
+        {/*  MAIN CONTENT  */}
         <main className="md:px-40 flex flex-1 justify-center py-5">
           <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
             {/* Hero Section */}
-            <motion.section
-              className="@container"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
+            <section className="@container">
               <div className="@[480px]:p-4">
                 <div
                   className="flex min-h-[480px] flex-col text-white gap-6 bg-cover bg-center bg-no-repeat @[480px]:rounded-xl items-center justify-center p-4 text-center"
@@ -56,55 +27,30 @@ export default function LandingPage() {
                     backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url("https://cdn0.uncomo.com/es/posts/2/6/6/como_escribir_una_cancion_49662_orig.jpg")`,
                   }}
                 >
-                  <motion.h1
-                    className="text-4xl font-bold leading-tight tracking-[-0.033em] @[480px]:text-5xl"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                  >
+                  <h1 className="text-4xl font-bold leading-tight tracking-[-0.033em] @[480px]:text-5xl">
                     Crea, publica y descubre canciones inéditas
-                  </motion.h1>
-                  <motion.p
-                    className="text-md font-normal leading-normal max-w-2xl"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                  >
+                  </h1>
+                  <p className="text-md font-normal leading-normal max-w-2xl">
                     Musila es la plataforma para que compositores e intérpretes
                     colaboren y den vida a la música.
-                  </motion.p>
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.6 }}
+                  </p>
+                  <Link
+                    href="/login?plan=true"
+                    className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-primary text-foreground text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base hover:bg-main-landing/90"
                   >
-                    <Link
-                      href="/login?plan=true"
-                      className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-primary text-foreground text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base hover:bg-main-landing/90"
-                    >
-                      <span className="truncate">Elige un plan</span>
-                    </Link>
-                  </motion.div>
+                    <span className="truncate">Elige un plan</span>
+                  </Link>
                 </div>
               </div>
-            </motion.section>
+            </section>
 
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              variants={sectionVariants}
-            >
-              <HowItWorks />
-            </motion.div>
+            {/* HowItWorks Section */}
+            <HowItWorks />
 
-            <motion.section
+            {/* Benefits Section */}
+            <section
               id="benefits"
               className="flex w-full flex-col gap-8 py-10 px-4"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-              variants={sectionVariants}
             >
               <div className="flex flex-col gap-2">
                 <h2 className="text-3xl font-bold leading-tight tracking-[-0.015em] text-foreground">
@@ -116,14 +62,9 @@ export default function LandingPage() {
                 </p>
               </div>
 
-              <motion.div
-                className="grid w-full max-w-5xl grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
-                variants={cardContainerVariants}
-              >
-                <motion.div
-                  variants={cardVariants}
-                  className="flex flex-col gap-3 rounded-lg border border-[#3c3069] bg-card-bg p-6 text-left"
-                >
+              <div className="grid w-full max-w-5xl grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                {/* Beneficio 1 */}
+                <div className="flex flex-col gap-3 rounded-lg border border-[#3c3069] bg-card-bg p-6 text-left">
                   <div className="w-full aspect-[5/3] overflow-hidden rounded-md">
                     <Image
                       src="/autores.png"
@@ -141,12 +82,10 @@ export default function LandingPage() {
                     canciones inéditas con metadatos detallados y configuración
                     de permisos.
                   </p>
-                </motion.div>
+                </div>
 
-                <motion.div
-                  variants={cardVariants}
-                  className="flex flex-col gap-3 rounded-lg border border-[#3c3069] bg-card-bg p-6 text-left"
-                >
+                {/* Beneficio 2 */}
+                <div className="flex flex-col gap-3 rounded-lg border border-[#3c3069] bg-card-bg p-6 text-left">
                   <div className="w-full aspect-[5/3] overflow-hidden rounded-md">
                     <Image
                       src="/interpretes.jpeg"
@@ -164,12 +103,10 @@ export default function LandingPage() {
                     trabaja en equipo para facilitar la selección de canciones y
                     solicita permisos para usarlas.
                   </p>
-                </motion.div>
+                </div>
 
-                <motion.div
-                  variants={cardVariants}
-                  className="flex flex-col gap-3 rounded-lg border border-[#3c3069] bg-card-bg p-6 text-left"
-                >
+                {/* Beneficio 3 */}
+                <div className="flex flex-col gap-3 rounded-lg border border-[#3c3069] bg-card-bg p-6 text-left">
                   <div className="w-full aspect-[5/3] overflow-hidden rounded-md">
                     <Image
                       src="/publishing.png"
@@ -188,45 +125,25 @@ export default function LandingPage() {
                     registro del uso de cada canción para facilitar la gestión
                     de derechos y cobro de regalías.
                   </p>
-                </motion.div>
-              </motion.div>
-            </motion.section>
+                </div>
+              </div>
+            </section>
 
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              variants={sectionVariants}
-            >
-              <RequestSongSection />
-            </motion.div>
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              variants={sectionVariants}
-            >
-              <Pricing />
-            </motion.div>
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              variants={sectionVariants}
-            >
-              <Faq />
-            </motion.div>
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              variants={sectionVariants}
-            >
-              <ContactForm />
-            </motion.div>
+            {/* TimeLine Section */}
+            <RequestSongSection />
+
+            {/* Pricing Section */}
+            <Pricing />
+
+            {/* Faq Section */}
+            <Faq />
+
+            {/* Contact Section */}
+            <ContactForm />
           </div>
         </main>
 
+        {/* FOOTER */}
         <footer className="flex justify-center border-t border-solid border-assets">
           <div className="flex max-w-[960px] flex-1 flex-col items-center gap-6 px-5 py-10 text-center">
             <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 @[480px]:justify-around">
