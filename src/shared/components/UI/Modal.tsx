@@ -1,5 +1,7 @@
+"use client";
+
+import { XIcon } from "lucide-react";
 import React, { useEffect, useRef } from "react";
-import { createPortal } from "react-dom";
 
 interface ModalProps {
     isOpen: boolean;
@@ -8,54 +10,37 @@ interface ModalProps {
     title?: string;
 }
 
-export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, title }) => {
+export const Modal = ({ isOpen, onClose, children, title }: ModalProps) => {
     const modalRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const handleEscape = (e: KeyboardEvent) => {
-            if (e.key === "Escape") {
+        const handleEsc = (event: KeyboardEvent) => {
+            if (event.key === "Escape") {
                 onClose();
             }
         };
-
-        if (isOpen) {
-            document.addEventListener("keydown", handleEscape);
-            document.body.style.overflow = "hidden";
-        }
-
+        window.addEventListener("keydown", handleEsc);
         return () => {
-            document.removeEventListener("keydown", handleEscape);
-            document.body.style.overflow = "unset";
+            window.removeEventListener("keydown", handleEsc);
         };
-    }, [isOpen, onClose]);
+    }, [onClose]);
 
-    useEffect(() => {
-        if (isOpen && modalRef.current) {
-            modalRef.current.focus();
-        }
-    }, [isOpen]);
+    if (!isOpen) {
+        return null;
+    }
 
-    if (!isOpen) return null;
+    return (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" onClick={onClose}>
+            <div ref={modalRef} className="bg-card-bg rounded-2xl shadow-xl w-full max-w-md p-6 text-foreground" onClick={(e) => e.stopPropagation()}>
+                <div className="flex justify-between items-center mb-4">
+                    {title && <h2 className="text-xl font-bold">{title}</h2>}
+                    <button onClick={onClose} className="text-text-secondary hover:text-foreground ml-auto cursor-pointer" aria-label="Cerrar modal">
+                        <XIcon />
+                    </button>
+                </div>
 
-    return createPortal(
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <div className="fixed inset-0 bg-black bg-opacity-50" onClick={onClose} aria-hidden="true" />
-            <div
-                ref={modalRef}
-                className="relative bg-background rounded-lg shadow-xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto"
-                role="dialog"
-                aria-modal="true"
-                tabIndex={-1}
-            >
-                {title && (
-                    <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                        <h2 className="text-lg font-semibold text-foreground">{title}</h2>
-                    </div>
-                )}
-                <div className="p-6">{children}</div>
+                <div>{children}</div>
             </div>
-        </div>,
-        document.body,
+        </div>
     );
 };
-

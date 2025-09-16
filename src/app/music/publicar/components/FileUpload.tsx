@@ -4,7 +4,6 @@ import React, { useRef, useState } from "react";
 import { UseFormRegister, FieldError } from "react-hook-form";
 import { FieldValues, Path } from "react-hook-form";
 import { X, Music, Image } from "lucide-react";
-import NextImage from "next/image";
 
 interface FileUploadProps<T extends FieldValues> {
     label: string;
@@ -88,7 +87,6 @@ export const FileUpload = <T extends FieldValues>({
         if (fileType === "audio") {
             return <Music className="w-8 h-8 text-primary" />;
         }
-        // eslint-disable-next-line jsx-a11y/alt-text
         return <Image className="w-8 h-8 text-primary" />;
     };
 
@@ -109,37 +107,20 @@ export const FileUpload = <T extends FieldValues>({
                 onDragOver={handleDrag}
                 onDrop={handleDrop}
             >
-                <input type="file" id={id as string} accept={accept} className="hidden" {...register(id)} onChange={handleInputChange} ref={fileInputRef} />
+                <input type="file" id={id as string} accept={accept} className="hidden" {...register(id)} onChange={handleInputChange} />
 
                 {!selectedFile ? (
                     <div className="space-y-4">
-                        {fileType === "image" ? (
-                            <div className="space-y-4">
-                                <NextImage src="/logo.webp" alt="Logo por defecto" width={64} height={64} className="w-16 h-16 mx-auto object-contain" />
-                                <div>
-                                    <p className="text-sm text-text-secondary">
-                                        Arrastra y suelta tu imagen aquí, o{" "}
-                                        <button type="button" onClick={() => fileInputRef.current?.click()} className="text-primary hover:text-primary/80 underline">
-                                            selecciona una imagen
-                                        </button>
-                                    </p>
-                                    <p className="text-xs text-text-secondary mt-1">Máximo {maxSize}MB. Si no subes imagen, se usará el logo por defecto.</p>
-                                </div>
-                            </div>
-                        ) : (
-                            <>
-                                {getFileIcon()}
-                                <div>
-                                    <p className="text-sm text-text-secondary">
-                                        Arrastra y suelta tu archivo aquí, o{" "}
-                                        <button type="button" onClick={() => fileInputRef.current?.click()} className="text-primary hover:text-primary/80 underline">
-                                            selecciona un archivo
-                                        </button>
-                                    </p>
-                                    <p className="text-xs text-text-secondary mt-1">Máximo {maxSize}MB</p>
-                                </div>
-                            </>
-                        )}
+                        {getFileIcon()}
+                        <div>
+                            <p className="text-sm text-text-secondary">
+                                Arrastra y suelta tu archivo aquí, o{" "}
+                                <button type="button" onClick={() => fileInputRef.current?.click()} className="text-primary hover:text-primary/80 underline">
+                                    selecciona un archivo
+                                </button>
+                            </p>
+                            <p className="text-xs text-text-secondary mt-1">Máximo {maxSize}MB</p>
+                        </div>
                     </div>
                 ) : (
                     <div className="space-y-3">

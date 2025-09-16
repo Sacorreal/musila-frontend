@@ -1,14 +1,13 @@
 export const routes = {
     login: "/",
-    dashboard: "/dashboard",
-    music: "/music",
+    dashboard: "/music",
     artists: "/artists",
     songs: "/songs",
-    profile: "/music/perfil",
+    profile: "/profile",
     settings: "/settings",
     logout: "/logout",
     register: "/register",
     forgotPassword: "/forgot-password",
     resetPassword: "/reset-password",
-    verifyEmail: "/verify-email",
+    solicitudes: "/music/solicitudes",
 };

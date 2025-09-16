@@ -1,24 +1,40 @@
 export const GENRES = [
-  'Rock','Pop','Hip Hop','Reggaeton','Electronica','Jazz','Clasica','Folk','Metal','Indie','R&B','Trap','Salsa','Cumbia','Tango','Latina'
-] as const
+    "Rock",
+    "Pop",
+    "Hip Hop",
+    "Reggaeton",
+    "Electronica",
+    "Jazz",
+    "Clasica",
+    "Folk",
+    "Metal",
+    "Indie",
+    "R&B",
+    "Trap",
+    "Salsa",
+    "Cumbia",
+    "Tango",
+    "Latina",
+    "",
+] as const;
 
-export type Genre = typeof GENRES[number]
+export type Genre = (typeof GENRES)[number];
 
 export const SUBGENRES: Record<Genre, string[]> = {
-  Rock: ['Alternativo','Clasico','Punk','Hard Rock','Progresivo'],
-  Pop: ['Electropop','Synthpop','Dance Pop','Indie Pop'],
-  'Hip Hop': ['Boom Bap','Trap','Lo-Fi','Consciente'],
-  Reggaeton: ['Old School','Popetón','Trapeton'],
-  Electronica: ['House','Techno','Trance','Drum and Bass','Dubstep'],
-  Jazz: ['Bebop','Fusión','Smooth','Swing'],
-  Clasica: ['Barroco','Romantica','Contemporanea'],
-  Folk: ['Acustico','Celta','Andino'],
-  Metal: ['Heavy','Thrash','Death','Power','Symphonic'],
-  Indie: ['Indie Rock','Indie Folk','Indie Electronic'],
-  'R&B': ['Contemporaneo','Neo-Soul','Alt R&B'],
-  Trap: ['Latino','Melódico'],
-  Salsa: ['Dura','Romantica'],
-  Cumbia: ['Villera','Colombiana','Pop'],
-  Tango: ['Tradicional','Nuevo'],
-  Latina: ['Bachata','Merengue','Regional','Urbana']
-}
+    "Rock": ["Alternativo", "Clasico", "Punk", "Hard Rock", "Progresivo"],
+    "Pop": ["Electropop", "Synthpop", "Dance Pop", "Indie Pop"],
+    "Hip Hop": ["Boom Bap", "Trap", "Lo-Fi", "Consciente"],
+    "Reggaeton": ["Old School", "Popetón", "Trapeton"],
+    "Electronica": ["House", "Techno", "Trance", "Drum and Bass", "Dubstep"],
+    "Jazz": ["Bebop", "Fusión", "Smooth", "Swing"],
+    "Clasica": ["Barroco", "Romantica", "Contemporanea"],
+    "Folk": ["Acustico", "Celta", "Andino"],
+    "Metal": ["Heavy", "Thrash", "Death", "Power", "Symphonic"],
+    "Indie": ["Indie Rock", "Indie Folk", "Indie Electronic"],
+    "R&B": ["Contemporaneo", "Neo-Soul", "Alt R&B"],
+    "Trap": ["Latino", "Melódico"],
+    "Salsa": ["Dura", "Romantica"],
+    "Cumbia": ["Villera", "Colombiana", "Pop"],
+    "Tango": ["Tradicional", "Nuevo"],
+    "Latina": ["Bachata", "Merengue", "Regional", "Urbana"],
+};

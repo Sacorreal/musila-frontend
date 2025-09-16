@@ -10,6 +10,8 @@
   --color-error: #ef4444;
   --color-assets: #beb4e8;
   --color-card-bg: #f9fafb;
+  --color-approved: #22c55e;
+  --color-rejected: #ef4444;
 
   --color-text-main: #111827;
   --color-text-secondary: #6b7280;
@@ -27,8 +29,10 @@ html.dark,
   --color-secondary: #2a2249;
   --color-assets: #3c3069;
   --color-card-bg: #1e1834;
+  --color-approved: #86efac;
+  --color-rejected: #fda5a4;
 
-  --color-text-main: #f9fafb;
+  --color-text-main: #d1d5db;
   --color-text-secondary: #9b8fcc;
   --color-secondary-bg: #151123;
 

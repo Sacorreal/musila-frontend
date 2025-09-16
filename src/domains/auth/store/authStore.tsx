@@ -1,10 +1,22 @@
 "use client";
+
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { jwtDecode } from "jwt-decode";
+
+interface JwtPayload {
+    id: string;
+    email: string;
+    role: string;
+    exp: number;
+    iat: number;
+}
 
 interface AuthContextType {
     isLoggedIn: boolean;
-    isInitialized: boolean;
-    login: (email: string) => void;
+    isAuthLoading: boolean;
+    role: string | null;
+    userId: string | null;
+    login: (token: string) => void;
     logout: () => void;
 }
 
@@ -12,37 +24,55 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [isInitialized, setIsInitialized] = useState(false);
+    const [isAuthLoading, setIsAuthLoading] = useState(true);
+    const [role, setRole] = useState<string | null>(null);
+    const [userId, setUserId] = useState<string | null>(null);
 
     useEffect(() => {
-        const session = localStorage.getItem("userSession");
-        if (session) {
-            try {
-                const parsedSession = JSON.parse(session);
-                if (parsedSession.loggedIn) {
+        try {
+            // Solo necesitamos verificar el token
+            const token = localStorage.getItem("jwt_token");
+
+            if (token) {
+                const decodedToken = jwtDecode<JwtPayload>(token);
+
+                if (decodedToken.exp * 1000 > Date.now()) {
                     setIsLoggedIn(true);
+                    setRole(decodedToken.role.toUpperCase());
+                    setUserId(decodedToken.id);
+                } else {
+                    localStorage.removeItem("jwt_token");
                 }
-            } catch (error) {
-                console.error("Error parsing session:", error);
-                localStorage.removeItem("userSession");
             }
+        } catch (error) {
+            console.error("Error al leer el token:", error);
+            localStorage.removeItem("jwt_token");
+        } finally {
+            setIsAuthLoading(false);
         }
-        setIsInitialized(true);
     }, []);
 
-    // Función para iniciar sesión
-    const login = (email: string) => {
-        localStorage.setItem("userSession", JSON.stringify({ email, loggedIn: true }));
-        setIsLoggedIn(true);
+    const login = (token: string) => {
+        try {
+            const decodedToken = jwtDecode<JwtPayload>(token);
+            localStorage.setItem("jwt_token", token);
+            setIsLoggedIn(true);
+            setRole(decodedToken.role.toUpperCase());
+            setUserId(decodedToken.id);
+        } catch (error) {
+            console.error("Error al procesar el token de login:", error);
+            logout();
+        }
     };
 
-    // Función para cerrar sesión
     const logout = () => {
-        localStorage.removeItem("userSession");
+        localStorage.removeItem("jwt_token");
         setIsLoggedIn(false);
+        setRole(null);
+        setUserId(null);
     };
 
-    return <AuthContext.Provider value={{ isLoggedIn, isInitialized, login, logout }}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={{ isLoggedIn, isAuthLoading, role, userId, login, logout }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {
