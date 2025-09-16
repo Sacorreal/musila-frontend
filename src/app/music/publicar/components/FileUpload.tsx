@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { UseFormRegister, FieldError } from "react-hook-form";
+import { UseFormRegister } from "react-hook-form";
 import { FieldValues, Path } from "react-hook-form";
 import { X, Music, Image } from "lucide-react";
 
@@ -9,7 +9,7 @@ interface FileUploadProps<T extends FieldValues> {
     label: string;
     id: Path<T>;
     register: UseFormRegister<T>;
-    error?: FieldError;
+    error?: { message?: string };
     accept: string;
     maxSize: number; // en MB
     fileType: "audio" | "image";
@@ -98,9 +98,9 @@ export const FileUpload = <T extends FieldValues>({
 
             <div
                 className={`
-          relative border-2 border-dashed rounded-lg p-6 text-center transition-colors
-          ${dragActive ? "border-primary bg-primary/5" : error ? "border-error bg-error/5" : "border-gray-300 hover:border-primary/50"}
-          ${isUploading ? "pointer-events-none opacity-75" : ""}
+            relative border-2 border-dashed rounded-lg p-6 text-center transition-colors
+            ${dragActive ? "border-primary bg-primary/5" : error ? "border-error bg-error/5" : "border-gray-300 hover:border-primary/50"}
+            ${isUploading ? "pointer-events-none opacity-75" : ""}
         `}
                 onDragEnter={handleDrag}
                 onDragLeave={handleDrag}
