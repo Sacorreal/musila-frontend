@@ -10,6 +10,7 @@ import { Button } from "@/shared/components/UI/Buttons";
 import { AvatarUploader } from "../../components/AvatarUploader";
 import { updateUser } from "@/domains/auth/services/userService";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { User } from "@/domains/auth/types";
 
 const profileSchema = z
     .object({

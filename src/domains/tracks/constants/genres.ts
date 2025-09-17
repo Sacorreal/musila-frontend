@@ -15,7 +15,6 @@ export const GENRES = [
     "Cumbia",
     "Tango",
     "Latina",
-    "",
 ] as const;
 
 export type Genre = (typeof GENRES)[number];

@@ -87,6 +87,7 @@ export const FileUpload = <T extends FieldValues>({
         if (fileType === "audio") {
             return <Music className="w-8 h-8 text-primary" />;
         }
+        // eslint-disable-next-line jsx-a11y/alt-text
         return <Image className="w-8 h-8 text-primary" />;
     };
 

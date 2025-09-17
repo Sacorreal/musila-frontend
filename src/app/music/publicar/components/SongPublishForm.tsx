@@ -28,7 +28,7 @@ export function SongPublishForm() {
         defaultValues: {
             name: "",
             author: "",
-            genre: "",
+            genre: "Rock",
             image: null,
             song: null,
         },
@@ -67,7 +67,7 @@ export function SongPublishForm() {
             // Reset form
             setValue("name", "");
             setValue("author", "");
-            setValue("genre", "");
+            setValue("genre", "Rock");
             setValue("image", null);
             setValue("song", null);
         } catch {
