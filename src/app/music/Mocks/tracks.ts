@@ -1,10 +1,15 @@
-import type { Track } from "../store/playerStore";
+import type { Track } from "../../../domains/music/store/playerStore";
 // Import estático de la carátula (Next transformará a una URL accesible en tiempo de ejecución)
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore - Next.js provee tipos para imports de imágenes; usamos un fallback a string
 import cover from "./387682.webp";
 
-const coverUrl: string = typeof cover === "string" ? cover : (cover as { src: string })?.src;
+type StaticImageImport = {
+    src: string;
+    height: number;
+    width: number;
+    blurDataURL?: string;
+};
+
+const coverUrl: string = typeof cover === "string" ? cover : (cover as StaticImageImport)?.src;
 
 export const blackHoleSunTrack: Track = {
     id: "black-hole-sun",

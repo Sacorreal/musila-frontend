@@ -1,14 +1,15 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { FieldError } from "react-hook-form";
+import { UseFormRegister } from "react-hook-form";
 import { FieldValues, Path } from "react-hook-form";
-import { X, Music, Image as ImageIcon } from "lucide-react";
+import { X, Music, Image } from "lucide-react";
 
 interface FileUploadProps<T extends FieldValues> {
     label: string;
     id: Path<T>;
-    error?: FieldError;
+    register: UseFormRegister<T>;
+    error?: { message?: string };
     accept: string;
     maxSize: number; // en MB
     fileType: "audio" | "image";
@@ -85,7 +86,8 @@ export const FileUpload = <T extends FieldValues>({
         if (fileType === "audio") {
             return <Music className="w-8 h-8 text-primary" />;
         }
-        return <ImageIcon className="w-8 h-8 text-primary" />;
+        // eslint-disable-next-line jsx-a11y/alt-text
+        return <Image className="w-8 h-8 text-primary" />;
     };
 
     return (
@@ -96,16 +98,16 @@ export const FileUpload = <T extends FieldValues>({
 
             <div
                 className={`
-          relative border-2 border-dashed rounded-lg p-6 text-center transition-colors
-          ${dragActive ? "border-primary bg-primary/5" : error ? "border-error bg-error/5" : "border-gray-300 hover:border-primary/50"}
-          ${isUploading ? "pointer-events-none opacity-75" : ""}
+            relative border-2 border-dashed rounded-lg p-6 text-center transition-colors
+            ${dragActive ? "border-primary bg-primary/5" : error ? "border-error bg-error/5" : "border-gray-300 hover:border-primary/50"}
+            ${isUploading ? "pointer-events-none opacity-75" : ""}
         `}
                 onDragEnter={handleDrag}
                 onDragLeave={handleDrag}
                 onDragOver={handleDrag}
                 onDrop={handleDrop}
             >
-                <input ref={fileInputRef} type="file" id={id as string} accept={accept} className="hidden" onChange={handleInputChange} />
+                <input type="file" id={id as string} accept={accept} className="hidden" ref={fileInputRef} onChange={handleInputChange} />
 
                 {!selectedFile ? (
                     <div className="space-y-4">

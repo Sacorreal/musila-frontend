@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { useNotification } from "../hooks/useNotification";
 import { Notification as NotificationType } from "../types";
 

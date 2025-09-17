@@ -27,3 +27,6 @@ export interface IntProperty {
   title: string;
   url: string;
 }
+
+
+export type { Track } from "../../../domains/music/store/playerStore";

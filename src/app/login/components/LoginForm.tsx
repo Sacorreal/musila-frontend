@@ -6,9 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Input } from "@/shared/components/UI/Inputs";
 import { Button } from "@/shared/components/UI/Buttons";
-import { useRouter } from "next/navigation";
-import { routes } from "@/routes";
 import Link from "next/link";
+import { loginUser } from "@/domains/auth/services/auth.service";
 
 const loginSchema = z.object({
   email: z
@@ -19,15 +18,15 @@ const loginSchema = z.object({
     .min(5, { message: "La contraseña debe tener al menos 5 caracteres" }),
 });
 
-type LoginSchema = z.infer<typeof loginSchema>;
+export type LoginSchema = z.infer<typeof loginSchema>;
 
-export default function LoginForm({
-  onLoginSuccess,
-}: {
-  onLoginSuccess: (email: string) => void;
-}) {
+interface LoginFormProps {
+  onLoginSuccess: (token: string) => void;
+}
+
+export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const router = useRouter();
+  const [loginError, setLoginError] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -36,14 +35,23 @@ export default function LoginForm({
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit: SubmitHandler<LoginSchema> = (data) => {
+  const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
     setIsSubmitting(true);
-    // llamada a una API en services/auth.service.ts
-    setTimeout(() => {
-      onLoginSuccess(data.email);
+    setLoginError(null);
+
+    try {
+      const { token } = await loginUser(data);
+      onLoginSuccess(token);
+    } catch (error: unknown) {
+      console.error("Error de login:", error);
+      setLoginError(
+        typeof error === "object" && error !== null && "message" in error
+          ? String((error as { message?: unknown }).message)
+          : "Credenciales incorrectas. Por favor, intenta de nuevo."
+      );
+    } finally {
       setIsSubmitting(false);
-      router.push(routes.dashboard);
-    }, 1000);
+    }
   };
 
   return (
@@ -52,7 +60,7 @@ export default function LoginForm({
         label="Tu correo"
         id="email"
         type="email"
-        placeholder="name@company.com"
+        placeholder="name@correo.com"
         register={register}
         error={errors.email}
       />
@@ -84,20 +92,24 @@ export default function LoginForm({
             </label>
           </div>
         </div>
-        <Link href="#" className="text-sm font-medium text-white hover:underline ">
+        <Link
+          href="#"
+          className="text-sm font-medium text-white hover:underline "
+        >
           ¿Olvidaste la contraseña?
         </Link>
       </div>
+
+      {loginError && (
+        <p className="text-sm font-medium text-red-500">{loginError}</p>
+      )}
 
       <Button type="submit" disabled={isSubmitting}>
         {isSubmitting ? "Iniciando sesión..." : "Iniciar sesión"}
       </Button>
       <p className="text-sm font-light text-secondary dark:text-gray-400">
         ¿No tienes una cuenta?{" "}
-        <a
-          href="#"
-          className="font-medium text-white hover:underline"
-        >
+        <a href="#" className="font-medium text-white hover:underline">
           Regístrate
         </a>
       </p>

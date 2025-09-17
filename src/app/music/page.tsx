@@ -1,31 +1,31 @@
+"use client";
+
 import React from 'react';
-import { UserSongsManager } from './components/UserSongsManager';
-
-type UserRole = 'Autor' | 'Cantautor' | 'Interprete' | 'Invitado' | 'Editor';
-
-const getCurrentUserRole = (): UserRole => {
-  return 'Autor'; 
-};
+import { useAuth } from '@/domains/auth/store/authStore'; 
+import { UserSongsManager } from '../../shared/components/Layout/UserSongsManager';
+import { Spinner } from '@/shared/components/UI/Spinner';
+import { userHasPermission, RoleKey } from '@/lib/permissions'; 
 
 const MusicHomePage = () => {
-  const userRole = getCurrentUserRole();
+  const { role, isAuthLoading } = useAuth();
 
-  const renderContentByRole = () => {
-    switch (userRole) {
-      case 'Autor':
-      case 'Cantautor':
-        return <UserSongsManager />;
-      
-      case 'Interprete':
-      case 'Invitado':
-        return <div className="p-8"><h1>Bienvenido, Intérprete/Invitado</h1></div>;
-        
-      default:
-        return <div className="p-8"><h1>Dashboard Principal</h1></div>;
-    }
-  };
+  if (isAuthLoading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <Spinner />
+      </div>
+    );
+  }
 
-  return renderContentByRole();
+  if (role && userHasPermission(role as RoleKey, 'publicar')) {
+    return <UserSongsManager />;
+  }
+  
+  if (role && userHasPermission(role as RoleKey, 'buscar')) {
+    return <div className="p-8"><h1>Bienvenido, aquí puedes buscar y escuchar música.</h1></div>;
+  }
+
+  return <div className="p-8"><h1>No tienes un rol asignado o permisos para ver esta sección.</h1></div>;
 };
 
 export default MusicHomePage;
