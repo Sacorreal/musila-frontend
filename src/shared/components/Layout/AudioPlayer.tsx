@@ -1,22 +1,22 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
 import {
-  Pause,
-  Play,
-  SkipBack,
-  SkipForward,
-  Shuffle,
-  Repeat,
-  Volume2,
-  VolumeX,
+  EllipsisVertical,
+  Heart,
   ListMusic,
   Maximize2,
-  Heart,
-  EllipsisVertical,
   Music,
+  Pause,
+  Play,
+  Repeat,
+  Shuffle,
+  SkipBack,
+  SkipForward,
+  Volume2,
+  VolumeX,
 } from "lucide-react";
 import Image from "next/image";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Track,
   usePlayerStore,
