@@ -16,7 +16,7 @@ export type RepeatMode = "off" | "one" | "all";
 
 type PlayerState = {
   queue: Track[];
-  currentIndex: number; 
+  currentIndex: number;
   isPlaying: boolean;
   volume: number;
   muted: boolean;
@@ -68,7 +68,7 @@ export const usePlayerStore = create<PlayerState>()(
             queue.push(track);
             trackIndex = queue.length - 1;
           }
-          
+
           return {
             queue,
             currentIndex: trackIndex,
@@ -94,7 +94,7 @@ export const usePlayerStore = create<PlayerState>()(
             }
             return { currentIndex: nextIndex, isPlaying: true };
           }
-          
+
           if (repeat === "one") {
             return { isPlaying: true };
           }
@@ -119,12 +119,12 @@ export const usePlayerStore = create<PlayerState>()(
           if (queue.length === 0) return {};
 
           if (shuffle) {
-             if (queue.length === 1) return { currentIndex };
-             let prevIndex = currentIndex;
-             while (prevIndex === currentIndex) {
-               prevIndex = Math.floor(Math.random() * queue.length);
-             }
-             return { currentIndex: prevIndex, isPlaying: true };
+            if (queue.length === 1) return { currentIndex };
+            let prevIndex = currentIndex;
+            while (prevIndex === currentIndex) {
+              prevIndex = Math.floor(Math.random() * queue.length);
+            }
+            return { currentIndex: prevIndex, isPlaying: true };
           }
 
           const isFirstTrack = currentIndex === 0;
@@ -134,7 +134,7 @@ export const usePlayerStore = create<PlayerState>()(
           }
 
           if (isFirstTrack) {
-            return {}; 
+            return {};
           }
 
           return { currentIndex: currentIndex - 1, isPlaying: true };
@@ -165,15 +165,15 @@ export const usePlayerStore = create<PlayerState>()(
       },
     }),
     {
-      name: "musila-player", 
+      name: "musila-player",
       // Opcional: solo persistir ciertas partes del estado para no guardar todo
       partialize: (state) => ({
-          queue: state.queue,
-          currentIndex: state.currentIndex,
-          volume: state.volume,
-          muted: state.muted,
-          shuffle: state.shuffle,
-          repeat: state.repeat,
+        queue: state.queue,
+        currentIndex: state.currentIndex,
+        volume: state.volume,
+        muted: state.muted,
+        shuffle: state.shuffle,
+        repeat: state.repeat,
       }),
     }
   )

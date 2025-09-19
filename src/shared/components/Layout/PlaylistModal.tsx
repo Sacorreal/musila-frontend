@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import { useState } from "react";
 
 type Props = {
   isOpen: boolean;
@@ -28,7 +28,7 @@ export default function PlaylistModal({
       <div className="w-[520px] rounded-xl bg-[#121a27] text-white p-6">
         {!creating ? (
           <>
-            <div className="text-xl font-semibold mb-4">Añadir a lista</div>
+            <div className="text-xl font-semibold mb-4">Añadir a la lista</div>
             <div className="max-h-80 overflow-auto space-y-3">
               {playlists.map((pl) => (
                 <button
