@@ -1,10 +1,8 @@
 "use client";
 
 import {
-  EllipsisVertical,
   Heart,
   ListMusic,
-  Maximize2,
   Music,
   Pause,
   Play,
@@ -53,7 +51,6 @@ export default function AudioPlayer({
     isPlaying,
     volume,
     muted,
-    shuffle,
     repeat,
     setQueue,
     togglePlay,
@@ -68,33 +65,91 @@ export default function AudioPlayer({
     getCurrentTrack,
   } = usePlayerStore();
 
-  // --- Y CORRECCIÓN AQUÍ ---
   const current = getCurrentTrack();
+  const getArtistName = (track: Track | undefined) => {
+    if (!track?.authors?.length) {
+      return "Artista Desconocido";
+    }
+    // Concatena Nombre y Apellido de todos los autores
+    return track.authors.map((a) => `${a.name} ${a.lastName}`).join(", ");
+  };
 
   useEffect(() => {
-    // Corregido: Comprobamos si initialQueue no es undefined antes de usarlo
     if (initialQueue && initialQueue.length) {
+      console.log(
+        `[PLAYER-INIT] Setting initial queue of ${initialQueue.length} tracks starting at index ${startIndex}.`
+      );
       setQueue(initialQueue, startIndex);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialQueue, startIndex]); // No incluir setQueue para evitar re-renders infinitos
+    } else {
+      console.log("[PLAYER-INIT] No initial queue provided.");
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialQueue, startIndex]);
 
   useEffect(() => {
-    if (!audioRef.current || !current) return;
+    if (!audioRef.current) {
+      console.log("[PLAYER-ERROR] Audio element not ready.");
+      return;
+    }
+    if (!current) {
+      console.log("[PLAYER-STATUS] No current track set.");
+      audioRef.current.pause();
+      return;
+    }
 
-    if (audioRef.current.src !== current.audioUrl) {
-      audioRef.current.src = current.audioUrl;
-      audioRef.current.load();
+    const audioEl = audioRef.current;
+    const currentAudioUrl = current.url; 
+
+    if (typeof currentAudioUrl !== 'string' || currentAudioUrl.length === 0) {
+      console.error(`[PLAYER-ERROR] Track URL is invalid or undefined for track: ${current.title}. Cannot load audio.`);
+      audioEl.pause();
+      return;
     }
 
-    if (isPlaying) {
-      audioRef.current
-        .play()
-        .catch((error) => console.error("Error al reproducir audio:", error));
-    } else {
-      audioRef.current.pause();
+    console.log(
+      `[PLAYER-CURRENT] Track: ${
+        current.title
+      }, URL: ${currentAudioUrl.substring(0, 50)}...` 
+    );
+
+    if (audioEl.src !== currentAudioUrl) {
+      console.log(
+        `[PLAYER-SRC-CHANGE] Loading new source for ${
+          current.title
+        }. Old SRC: ${audioEl.src.substring(0, 50)}...`
+      );
+      audioEl.src = currentAudioUrl;
+      audioEl.load();
+
+      if (isPlaying) {
+        console.log("[PLAYER-ACTION] Attempting play after SRC change.");
+        audioEl
+          .play()
+          .catch((error) =>
+            console.error(
+              "[PLAYER-ERROR] Error al reproducir audio tras cambio de src (CORS/Format):",
+              error
+            )
+          );
+      }
     }
-  }, [current, isPlaying]);
+    else {
+      console.log(`[PLAYER-STATUS] SRC is same. isPlaying: ${isPlaying}`);
+      if (isPlaying) {
+        console.log("[PLAYER-ACTION] Playing.");
+        audioEl
+          .play()
+          .catch((error) =>
+            console.error(
+              "[PLAYER-ERROR] Error al reproducir audio (CORS/Format):",
+              error
+            )
+          );
+      } else {
+        console.log("[PLAYER-ACTION] Pausing.");
+        audioEl.pause();
+      }
+    }
+  }, [current, isPlaying]); 
 
   useEffect(() => {
     if (!audioRef.current) return;
@@ -130,6 +185,7 @@ export default function AudioPlayer({
   };
 
   const onEnded = () => {
+    console.log(`[PLAYER-ENDED] Track ended. Repeat mode: ${repeat}`);
     if (repeat === "one") {
       if (audioRef.current) {
         audioRef.current.currentTime = 0;
@@ -153,16 +209,16 @@ export default function AudioPlayer({
 
   return (
     <div
-      className={`w-full bg-[#0c1420] text-white px-3 sm:px-4 md:px-6 py-3 md:py-4 border-t border-white/10 ${
+      className={`w-full bg-card-bg text-bg-card px-3 sm:px-4 md:px-6 py-3 md:py-4 border-t border-white/10 ${
         className ?? ""
       }`}
     >
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-6">
         {/* Izquierda: carátula y info */}
         <div className="flex items-center gap-3 sm:gap-4 min-w-0 md:flex-[2]">
-          {current?.coverUrl ? (
+          {current?.cover ? (
             <Image
-              src={current.coverUrl}
+              src={current.cover}
               alt={current.title}
               width={56}
               height={56}
@@ -177,21 +233,19 @@ export default function AudioPlayer({
             <div className="font-semibold truncate text-base sm:text-lg">
               {current?.title ?? "Ninguna canción"}
             </div>
-            <div className="text-xs sm:text-sm text-white/70 truncate">
-              {current?.artist ?? "Selecciona una canción para reproducir"}
+            <div className="text-xs sm:text-sm  truncate">
+                           {" "}
+              {current
+                ? getArtistName(current)
+                : "Selecciona una canción para reproducir"}
+                         {" "}
             </div>
           </div>
-          <button
-            className="ml-2 text-white/70 hover:text-white transition-colors hidden sm:inline-flex"
-            title="Opciones"
-          >
-            <EllipsisVertical className="w-5 h-5" />
-          </button>
           <button
             className="ml-2 hover:scale-105 transition-transform hidden sm:inline-flex"
             title="Me gusta"
           >
-            <Heart className="w-5 h-5 text-pink-500" />
+            <Heart className="w-5 h-5 text-red-500" />
           </button>
         </div>
 
@@ -200,14 +254,14 @@ export default function AudioPlayer({
           <button
             onClick={prev}
             title="Anterior"
-            className="text-white/80 hover:text-white transition-colors disabled:opacity-50"
+            className=" transition-colors disabled:opacity-50"
             disabled={!current}
           >
             <SkipBack className="w-5 h-5 md:w-6 md:h-6" />
           </button>
           <button
             onClick={togglePlay}
-            className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-white text-black flex items-center justify-center shadow-md hover:shadow-lg transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-white text-black flex items-center justify-center shadow-md hover:shadow-lg transition-shadow disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             title={isPlaying ? "Pausar" : "Reproducir"}
             disabled={!current}
           >
@@ -220,7 +274,7 @@ export default function AudioPlayer({
           <button
             onClick={next}
             title="Siguiente"
-            className="text-white/80 hover:text-white transition-colors disabled:opacity-50"
+            className=" transition-colors disabled:opacity-50"
             disabled={!current}
           >
             <SkipForward className="w-5 h-5 md:w-6 md:h-6" />
@@ -230,7 +284,7 @@ export default function AudioPlayer({
         {/* Derecha: lista, volumen, shuffle, repeat, fullscreen placeholder */}
         <div className="flex items-center gap-3 sm:gap-5 justify-end md:flex-1">
           <button
-            className="text-white/80 hover:text-white transition-colors hidden sm:inline-flex"
+            className=" transition-colors hidden sm:inline-flex"
             title="Lista"
             onClick={() => setShowPlaylists(true)}
           >
@@ -239,7 +293,7 @@ export default function AudioPlayer({
           <div className="flex items-center gap-2">
             <button
               onClick={toggleMute}
-              className="text-white/80 hover:text-white transition-colors"
+              className="transition-colors"
               title={muted ? "Activar sonido" : "Silenciar"}
             >
               {muted || volume === 0 ? (
@@ -255,36 +309,22 @@ export default function AudioPlayer({
               step={0.01}
               value={muted ? 0 : volume}
               onChange={(e) => setVolume(Number(e.target.value))}
-              className="w-20 sm:w-24 md:w-28 accent-white/90 hidden sm:block"
+              className="w-20 sm:w-24 md:w-28 hidden sm:block bg-primary"
             />
           </div>
           <button
             onClick={toggleShuffle}
-            className={`transition-colors hidden sm:inline-flex ${
-              shuffle
-                ? "text-red-400 hover:text-red-300"
-                : "text-white/80 hover:text-white"
-            }`}
+            className="transition-colors hidden sm:inline-flex"
             title="Aleatorio"
           >
             <Shuffle className="w-5 h-5" />
           </button>
           <button
             onClick={cycleRepeat}
-            className={`transition-colors hidden sm:inline-flex ${
-              repeat !== "off"
-                ? "text-red-400 hover:text-red-300"
-                : "text-white/80 hover:text-white"
-            }`}
+            className="transition-colors hidden sm:inline-flex"
             title="Repetir"
           >
             <Repeat className="w-5 h-5" />
-          </button>
-          <button
-            className="text-white/80 hover:text-white transition-colors hidden sm:inline-flex"
-            title="Pantalla completa"
-          >
-            <Maximize2 className="w-5 h-5" />
           </button>
         </div>
       </div>
@@ -302,15 +342,15 @@ export default function AudioPlayer({
           step={0.1}
           defaultValue={0}
           onChange={handleSeek}
-          className="w-full accent-red-500 cursor-pointer disabled:cursor-not-allowed"
+          className="w-full accent-primary cursor-pointer disabled:cursor-not-allowed"
           disabled={!current}
         />
         <span className="text-[11px] sm:text-xs tabular-nums text-white/90">
+                   {" "}
           {audioRef.current?.duration
             ? formatTime(audioRef.current.duration)
-            : current?.duration
-            ? formatTime(current.duration)
             : "0:00"}
+                 {" "}
         </span>
       </div>
 

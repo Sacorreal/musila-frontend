@@ -13,7 +13,7 @@ const TITLES: Record<string, string> = {
     "/music/dashboard": "Dashboard",
     "/music/mi-musica": "Mi Música",
     "/music/invitar": "Invitar Usuario",
-    "/music/buscar": "Buscar",
+    "/music/genres": "Buscar",
 };
 
 export default function ContentApp({

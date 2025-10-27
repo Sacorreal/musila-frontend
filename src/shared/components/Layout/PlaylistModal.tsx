@@ -55,7 +55,7 @@ export default function PlaylistModal({
             <div className="flex justify-center mt-6">
               <button
                 onClick={() => setCreating(true)}
-                className="bg-red-600 hover:bg-red-500 text-white rounded-full px-6 py-2"
+                className="bg-assets text-foreground font-medium hover:bg-text-secondary rounded-full transition-colors duration-200 px-6 py-2"
               >
                 Nueva lista
               </button>

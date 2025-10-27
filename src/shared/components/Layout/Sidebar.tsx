@@ -49,7 +49,7 @@ export default function Sidebar({
         {/* Encabezado del Sidebar */}
         <div className="flex items-center mb-6">
           <Image
-            className="w-10 h-10 mr-2 rounded-lg"
+            className="w-10 h-10 mr-2 rounded-lg object-contain"
             src="/logo.webp"
             alt="logo"
             width={40}
