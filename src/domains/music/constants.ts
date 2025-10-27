@@ -18,7 +18,7 @@ export interface NavItem {
 
 export const SIDEBAR_LINKS: NavItem[] = [
   { name: 'Inicio', href: '/music', icon: Home, permission: 'inicio' },
-  { name: 'Buscar', href: '/music/genres', icon: Search, permission: 'buscar' },
+  { name: 'Buscar', href: '/music/buscar', icon: Search, permission: 'buscar' },
   { name: 'Solicitudes', href: '/music/solicitudes', icon: FileText, permission: 'solicitudes' },
   { name: 'Publicar', href: '/music/publicar', icon: Send, permission: 'publicar' },
   { name: 'Mensajes', href: '/music/mensajes', icon: MessageSquare, permission: 'mensajes' },

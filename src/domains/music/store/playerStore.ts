@@ -8,13 +8,13 @@ export type Track = {
   title: string;
   cover: string;
   url: string;
-  duration?: number; 
+  duration?: number;
   authors?: Array<{
     name: string;
     lastName: string;
     role?: string;
   }>;
-}
+};
 
 export type RepeatMode = "off" | "one" | "all";
 
@@ -170,7 +170,6 @@ export const usePlayerStore = create<PlayerState>()(
     }),
     {
       name: "musila-player",
-      // Opcional: solo persistir ciertas partes del estado para no guardar todo
       partialize: (state) => ({
         queue: state.queue,
         currentIndex: state.currentIndex,

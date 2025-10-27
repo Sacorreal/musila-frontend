@@ -215,7 +215,7 @@ export default function AudioPlayer({
     >
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-6">
         {/* Izquierda: carátula y info */}
-        <div className="flex items-center gap-3 sm:gap-4 min-w-0 md:flex-[2]">
+        <div className="flex items-center gap-3 sm:gap-4 min-w-0 md:flex-2">
           {current?.cover ? (
             <Image
               src={current.cover}

@@ -3,13 +3,22 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Urls } from "../../../../shared/constants";
-import { ArrowLeft, Play, MoreVertical, X, ListPlus, Send } from "lucide-react";
+// 1. Importar Pause
+import {
+  ArrowLeft,
+  Play,
+  MoreVertical,
+  X,
+  ListPlus,
+  Send,
+  Pause, // <-- Añadido
+} from "lucide-react";
 import Image from "next/image";
 import {
   usePlayerStore,
   Track as PlayerTrack,
 } from "../../../../domains/music/store/playerStore";
-import { Spinner } from "@/shared/components/UI/Spinner";
+import { Spinner } from "../../../../shared/components/UI/Spinner";
 
 // --- Tipos de Datos ---
 type ApiTrack = {
@@ -18,7 +27,6 @@ type ApiTrack = {
   cover: string | null;
   url: string;
   duration?: number | string | null;
-
   authors: Array<{
     name: string;
     lastName: string;
@@ -66,7 +74,19 @@ export default function GenreDetailPage() {
   const [subGenreOptions, setSubGenreOptions] = useState<string[]>([]);
   const [languageOptions, setLanguageOptions] = useState<string[]>([]);
 
-  const { setQueue, playTrack } = usePlayerStore();
+  // 2. Obtener estado completo del player
+  const {
+  setQueue,
+  playTrack,
+  pauseTrack, 
+  isPlaying,
+} = usePlayerStore();
+
+// 2. "Selecciona" el track actual usando un selector
+// Esto le dice a Zustand que solo se vuelva a renderizar si esta pieza cambia
+const currentTrack = usePlayerStore((state) =>
+  state.currentIndex >= 0 ? state.queue[state.currentIndex] : undefined
+);
 
   // --- CAMBIO PRINCIPAL: Lógica de fetch actualizada ---
   useEffect(() => {
@@ -211,7 +231,7 @@ export default function GenreDetailPage() {
 
   // 4. HANDLER para reproducir toda la lista (Botón PLAY grande)
   const handlePlayAll = () => {
-    if (allTracks.length === 0) return; 
+    if (allTracks.length === 0) return;
 
     const playerQueue = allTracks
       .map(mapApiTrackToPlayerTrack)
@@ -310,53 +330,102 @@ export default function GenreDetailPage() {
                 </tr>
               </thead>
               <tbody>
-                {paginatedTracks.map((track, index) => (
-                  <tr
-                    key={track.id}
-                    className="hover:bg-assets transition-colors group"
-                    onClick={() => handlePlayTrack(track)}
-                  >
-                    <td className="p-4 text-center text-text-secondary">
-                      {startIndex + index + 1}
-                    </td>
-                    <td className="p-4 flex items-center gap-3">
-                      <Image
-                        src={
-                          track.cover ||
-                          "https://placehold.co/40x40/18181b/ffffff?text=?"
-                        }
-                        alt={track.title}
-                        height={10}
-                        width={20}
-                        className="w-10 h-10 rounded-md object-cover bg-zinc-700"
-                      />
-                      <span className="font-semibold">
-                        {track.title || "Título no disponible"}
-                      </span>
-                    </td>
-                    <td className="p-4 text-gray-400">
-                      {
-                        // Lógica correcta y segura:
+                {paginatedTracks.map((track, index) => {
+                  // 3. Comprobar si es la pista actual
+                  const isCurrentTrack = currentTrack?.id === track.id;
+
+                  return (
+                    <tr
+                      key={track.id}
+                      // 4. Aplicar bg-secondary y cursor-pointer
+                      className={`transition-colors group cursor-pointer ${
+                        isCurrentTrack
+                          ? "bg-card-bg"
+                          : "hover:bg-assets"
+                      }`}
+                      onClick={() => handlePlayTrack(track)}
+                    >
+                      {/* 5. Lógica de Play/Pause en la celda del número */}
+                      <td className="p-4 text-center text-text-secondary w-12">
+                        {isCurrentTrack ? (
+                          // --- Si es la pista actual  ---
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              if (isPlaying) {
+                                pauseTrack();
+                              } else {
+                                handlePlayTrack(track); // Reanuda la reproducción
+                              }
+                            }}
+                            // Destacar si está sonando
+                            className={isPlaying ? "text-primary" : ""}
+                          >
+                            {isPlaying ? (
+                              <Pause size={18} />
+                            ) : (
+                              <Play size={18} />
+                            )}
+                          </button>
+                        ) : (
+                          // --- Si NO es la pista actual ---
+                          <>
+                            {/* Mostrar número por defecto */}
+                            <span className="group-hover:hidden">
+                              {startIndex + index + 1}
+                            </span>
+                            {/* Mostrar Play en hover */}
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handlePlayTrack(track);
+                              }}
+                              className="hidden group-hover:block"
+                            >
+                              <Play size={18} />
+                            </button>
+                          </>
+                        )}
+                      </td>
+                      <td className="p-4 flex items-center gap-3">
+                        <Image
+                          src={
+                            track.cover ||
+                            "https://placehold.co/40x40/18181b/ffffff?text=?"
+                          }
+                          alt={track.title}
+                          height={10}
+                          width={20}
+                          className="w-10 h-10 rounded-md object-cover bg-zinc-700"
+                        />
+                        <span className="font-semibold">
+                          {track.title || "Título no disponible"}
+                        </span>
+                      </td>
+                      <td className="p-4 text-gray-400">
+                        {// Lógica correcta y segura:
                         track.authors
                           ?.filter((author) => author.role === "autor")
                           .map((a) => `${a.name} ${a.lastName}`)
-                          .join(", ") ||
-                          "N/A"
-                      }
-                    </td>
-                    <td className="p-4 text-gray-400">
-                      {track.subGenre || "N/A"}
-                    </td>
-                    <td className="p-4 text-center">
-                      <button
-                        onClick={() => openModal(track)}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity"
-                      >
-                        <MoreVertical size={20} />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                          .join(", ") || "N/A"}
+                      </td>
+                      <td className="p-4 text-gray-400">
+                        {track.subGenre || "N/A"}
+                      </td>
+                      <td className="p-4 text-center">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation(); // Evitar que el clic en el modal active el play
+                            openModal(track);
+}                         }
+                          className="opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <MoreVertical size={20} />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
             {filteredTracks.length === 0 && (
@@ -389,7 +458,6 @@ export default function GenreDetailPage() {
           )}
         </main>
       )}
-      
 
       {isModalOpen && selectedTrack && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
@@ -402,12 +470,10 @@ export default function GenreDetailPage() {
             </button>
             <h2 className="text-lg font-bold mb-2">{selectedTrack.title}</h2>
             <p className="text-sm text-gray-400 mb-6">
-              {
-                selectedTrack.authors
-                  ?.map((a) => `${a.name} ${a.lastName}`)
-                  .join(", ") || 'Autor(es) no disponible(s)'
-              }
-            </p>
+              {selectedTrack.authors
+                ?.map((a) => `${a.name} ${a.lastName}`)
+                .join(", ") || "Autor(es) no disponible(s)"}
+            </p>
             <div className="flex flex-col gap-3">
               <button className="w-full text-left p-3 hover:bg-white/10 rounded-md flex items-center gap-3 transition-colors">
                 <ListPlus size={20} /> Agregar a lista de reproducción
@@ -422,3 +488,4 @@ export default function GenreDetailPage() {
     </div>
   );
 }
+
