@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { useParams } from 'next/navigation'; 
 import { useAuth } from "@/domains/auth/store/authStore";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -317,14 +318,10 @@ const CollaboratorForm: React.FC<{
 };
 
 // --- Componente Principal de la Página de Detalle ---
-interface PlaylistDetailPageProps {
-  params: {
-    playlistId: string;
-  };
-}
-
-const PlaylistDetailPage: React.FC<PlaylistDetailPageProps> = ({ params }) => {
-  const { playlistId } = params;
+const PlaylistDetailPage: React.FC = () => { 
+  const params = useParams();
+  const playlistId = typeof params.playlistId === 'string' ? params.playlistId : null;
+  
   const [playlist, setPlaylist] = useState<PlaylistDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

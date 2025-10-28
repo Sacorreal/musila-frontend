@@ -15,11 +15,13 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
+import { AnimatePresence } from "framer-motion";
 import {
   Track,
   usePlayerStore,
 } from "../../../domains/music/store/playerStore";
 import PlaylistModal from "./PlaylistModal";
+import { SongUsageRequestForm } from "../../../domains/music/components";
 
 type Props = {
   className?: string;
@@ -86,30 +88,32 @@ export default function AudioPlayer({
   }, [initialQueue, startIndex]);
 
   useEffect(() => {
-    if (!audioRef.current) {
-      console.log("[PLAYER-ERROR] Audio element not ready.");
-      return;
-    }
-    if (!current) {
-      console.log("[PLAYER-STATUS] No current track set.");
-      audioRef.current.pause();
-      return;
-    }
+    if (!audioRef.current) {
+      console.log("[PLAYER-ERROR] Audio element not ready.");
+      return;
+    }
+    if (!current) {
+      console.log("[PLAYER-STATUS] No current track set.");
+      audioRef.current.pause();
+      return;
+    }
 
-    const audioEl = audioRef.current;
-    const currentAudioUrl = current.url; 
+    const audioEl = audioRef.current;
+    const currentAudioUrl = current.url;
 
-    if (typeof currentAudioUrl !== 'string' || currentAudioUrl.length === 0) {
-      console.error(`[PLAYER-ERROR] Track URL is invalid or undefined for track: ${current.title}. Cannot load audio.`);
+    if (typeof currentAudioUrl !== "string" || currentAudioUrl.length === 0) {
+      console.error(
+        `[PLAYER-ERROR] Track URL is invalid or undefined for track: ${current.title}. Cannot load audio.`
+      );
       audioEl.pause();
       return;
     }
 
-    console.log(
-      `[PLAYER-CURRENT] Track: ${
-        current.title
-      }, URL: ${currentAudioUrl.substring(0, 50)}...` 
-    );
+    console.log(
+      `[PLAYER-CURRENT] Track: ${
+        current.title
+      }, URL: ${currentAudioUrl.substring(0, 50)}...`
+    );
 
     if (audioEl.src !== currentAudioUrl) {
       console.log(
@@ -131,8 +135,7 @@ export default function AudioPlayer({
             )
           );
       }
-    }
-    else {
+    } else {
       console.log(`[PLAYER-STATUS] SRC is same. isPlaying: ${isPlaying}`);
       if (isPlaying) {
         console.log("[PLAYER-ACTION] Playing.");
@@ -149,7 +152,7 @@ export default function AudioPlayer({
         audioEl.pause();
       }
     }
-  }, [current, isPlaying]); 
+  }, [current, isPlaying]);
 
   useEffect(() => {
     if (!audioRef.current) return;
@@ -206,6 +209,28 @@ export default function AudioPlayer({
   };
 
   const [showPlaylists, setShowPlaylists] = useState(false);
+  const [showOptionsMenu, setShowOptionsMenu] = useState(false);
+  const [showRequestForm, setShowRequestForm] = useState(false);
+  const optionsMenuRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        optionsMenuRef.current &&
+        !optionsMenuRef.current.contains(event.target as Node)
+      ) {
+        setShowOptionsMenu(false);
+      }
+    };
+
+    if (showOptionsMenu) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showOptionsMenu]);
 
   return (
     <div
@@ -368,6 +393,18 @@ export default function AudioPlayer({
         onCreateList={(name) => onCreateList?.(name)}
         onAddToList={(id) => onAddToList?.(id, current ?? undefined)}
       />
+
+      <AnimatePresence>
+        {showRequestForm && current && (
+          <SongUsageRequestForm
+            songId={String(current.id)}
+            variant="modal"
+            open={showRequestForm}
+            onOpenChange={setShowRequestForm}
+            onSuccess={() => setShowRequestForm(false)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
