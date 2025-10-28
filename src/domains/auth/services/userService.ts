@@ -1,57 +1,100 @@
 import { User } from "../types";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://musila-develop-flke3.ondigitalocean.app";
 const USER_STORAGE_KEY = "musila:user";
 
-const createDefaultUser = (email: string): User => ({
-    id: "1",
-    nombre: "Usuario Demo",
-    email,
-    bio: "Músico apasionado por crear y compartir música",
-    ubicacion: "Bogotá, Colombia",
-    links: {
-        web: "https://mi-sitio-web.com",
-        instagram: "https://instagram.com/miusuario",
-        youtube: "https://youtube.com/@miusuario",
-        soundcloud: "https://soundcloud.com/miusuario",
-    },
-});
+/**
+ * Obtiene el usuario desde el backend
+ */
+export const fetchUserById = async (userId: string, token: string): Promise<User> => {
+    const response = await fetch(`${API_URL}/users/${userId}`, {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+    });
 
-export const getCurrentUser = async (): Promise<User> => {
-    const storedUser = localStorage.getItem(USER_STORAGE_KEY);
-
-    if (storedUser) {
-        return JSON.parse(storedUser);
+    if (!response.ok) {
+        if (response.status === 401 || response.status === 403) {
+            throw new Error("No autorizado");
+        }
+        if (response.status === 404) {
+            throw new Error("Usuario no encontrado");
+        }
+        throw new Error("Error al obtener usuario");
     }
 
-    const session = localStorage.getItem("userSession");
-    if (session) {
-        const { email } = JSON.parse(session);
-        const defaultUser = createDefaultUser(email);
-        localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(defaultUser));
-        return defaultUser;
+    const user = await response.json();
+
+    // Guardar en caché localStorage
+    if (typeof window !== "undefined") {
+        localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
     }
 
-    throw new Error("No hay sesión activa");
+    return user;
 };
 
-export const updateUser = async (input: Partial<User> & { passwordActual?: string; passwordNueva?: string }): Promise<User> => {
-    const currentUser = await getCurrentUser();
-
-    if (input.passwordActual && input.passwordNueva) {
-        if (input.passwordActual !== "demo123") {
-            throw new Error("La contraseña actual es incorrecta");
+/**
+ * Obtiene el usuario actual (desde caché o backend)
+ */
+export const getCurrentUser = async (): Promise<User> => {
+    // Intentar leer desde caché primero
+    if (typeof window !== "undefined") {
+        const storedUserRaw = localStorage.getItem(USER_STORAGE_KEY);
+        if (storedUserRaw) {
+            try {
+                const storedUser = JSON.parse(storedUserRaw);
+                // Retornar usuario en caché (la hidratación desde backend se hace en el provider)
+                return storedUser;
+            } catch (error) {
+                console.error("Error al parsear usuario guardado:", error);
+                localStorage.removeItem(USER_STORAGE_KEY);
+            }
         }
     }
 
-    const updatedUser = {
-        ...currentUser,
-        ...input,
-    };
+    throw new Error("No hay usuario en caché");
+};
 
-    delete (updatedUser as Partial<User> & { passwordActual?: string; passwordNueva?: string }).passwordActual;
-    delete (updatedUser as Partial<User> & { passwordActual?: string; passwordNueva?: string }).passwordNueva;
+/**
+ * Actualiza el usuario en el backend
+ */
+export const updateUser = async (userId: string, token: string, input: Partial<User> & { passwordActual?: string; passwordNueva?: string }): Promise<User> => {
+    const { passwordActual, passwordNueva, ...userData } = input;
+    void passwordActual;
+    void passwordNueva;
+    const body: Partial<User> = userData;
 
-    localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(updatedUser));
+    const response = await fetch(`${API_URL}/users/${userId}`, {
+        method: "PUT",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+        if (response.status === 401 || response.status === 403) {
+            throw new Error("No autorizado");
+        }
+        throw new Error("Error al actualizar usuario");
+    }
+
+    const updatedUser = await response.json();
+
+    // Actualizar caché
+    if (typeof window !== "undefined") {
+        localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(updatedUser));
+    }
 
     return updatedUser;
+};
+
+/**
+ * Actualiza solo el avatar del usuario
+ */
+export const updateAvatar = async (userId: string, token: string, avatarUrl: string): Promise<User> => {
+    return updateUser(userId, token, { avatar: avatarUrl });
 };

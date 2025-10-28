@@ -9,6 +9,7 @@ import { Textarea } from "@/shared/components/UI/Textarea";
 import { Button } from "@/shared/components/UI/Buttons";
 import { AvatarUploader } from "../../components/AvatarUploader";
 import { updateUser } from "@/domains/auth/services/userService";
+import { useAuth } from "@/domains/auth/store/authStore";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { User } from "@/domains/auth/types";
 
@@ -68,6 +69,7 @@ interface ProfileFormProps {
 }
 
 export const ProfileForm: React.FC<ProfileFormProps> = ({ user, onSuccess }) => {
+    const { updateAvatar, token, userId } = useAuth();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showPasswordSection, setShowPasswordSection] = useState(false);
     const [successMessage, setSuccessMessage] = useState("");
@@ -92,12 +94,23 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ user, onSuccess }) => 
                 youtube: user.links?.youtube || "",
                 soundcloud: user.links?.soundcloud || "",
             },
-            avatarUrl: user.avatarUrl || "",
+            avatarUrl: user.avatar || "",
         },
     });
 
-    const handleAvatarChange = (avatarUrl: string) => {
+    const handleAvatarChange = async (avatarUrl: string) => {
         setValue("avatarUrl", avatarUrl);
+
+        // Actualizar el contexto global y backend
+        try {
+            await updateAvatar(avatarUrl);
+            if (process.env.NODE_ENV !== "production") {
+                console.log("Avatar actualizado correctamente");
+            }
+        } catch (error) {
+            console.error("Error al actualizar avatar:", error);
+            setErrorMessage("Error al actualizar el avatar");
+        }
     };
 
     const onSubmit = async (data: ProfileFormData) => {
@@ -105,8 +118,14 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ user, onSuccess }) => 
         setSuccessMessage("");
         setErrorMessage("");
 
+        if (!userId || !token) {
+            setErrorMessage("No se encontró información de autenticación");
+            setIsSubmitting(false);
+            return;
+        }
+
         try {
-            const updatedUser = await updateUser(data);
+            const updatedUser = await updateUser(userId, token, data);
             onSuccess(updatedUser);
             setSuccessMessage("Perfil actualizado exitosamente");
 
@@ -135,7 +154,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ user, onSuccess }) => 
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="md:col-span-1">
-                            <AvatarUploader currentAvatarUrl={user.avatarUrl} onAvatarChange={handleAvatarChange} disabled={isSubmitting} />
+                            <AvatarUploader currentAvatarUrl={user.avatar} onAvatarChange={handleAvatarChange} disabled={isSubmitting} />
                         </div>
 
                         <div className="md:col-span-2 space-y-4">

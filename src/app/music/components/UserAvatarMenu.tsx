@@ -3,11 +3,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { useAuth } from "@/domains/auth/store/authStore";
 import { User, Settings, X } from "lucide-react";
 
 export const UserAvatarMenu: React.FC = () => {
-    const { isLoggedIn } = useAuth();
+    const { isLoggedIn, user } = useAuth();
     const router = useRouter();
     const [openProfileModal, setOpenProfileModal] = useState(false);
     const avatarButtonRef = useRef<HTMLButtonElement>(null);
@@ -91,15 +92,17 @@ export const UserAvatarMenu: React.FC = () => {
 
     if (!isLoggedIn) return null;
 
+    const hasAvatar = user?.avatar;
+
     return (
         <>
             <button
                 ref={avatarButtonRef}
                 onClick={() => setOpenProfileModal(true)}
-                className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50"
+                className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50 overflow-hidden"
                 aria-label="Abrir menú de usuario"
             >
-                <User className="w-4 h-4" />
+                {hasAvatar ? <Image src={user.avatar!} alt="Avatar del usuario" width={32} height={32} className="w-full h-full object-cover" /> : <User className="w-4 h-4" />}
             </button>
 
             {typeof window !== "undefined" && createPortal(modalContent, document.body)}
