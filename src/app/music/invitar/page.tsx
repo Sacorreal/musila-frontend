@@ -218,7 +218,7 @@ const InvitarPage = () => {
         <h1 className="text-3xl font-bold">Colaboradores</h1>
 
         {/* El botón ahora solo abre el modal usando el estado */}
-        <button onClick={() => setIsModalOpen(true)} className="flex items-center bg-primary hover:bg-primary/80 text-white py-2 px-4 rounded-full cursor-pointer">
+        <button onClick={() => setIsModalOpen(true)} className="flex items-center bg-primary text-white rounded-lg px-4 py-2 hover:bg-primary/80 cursor-pointer">
           <PlusCircle className="mr-2 h-4 w-4" />
           Añadir Colaborador
         </button>
