@@ -1,14 +1,9 @@
-export const MUSILA_ENDPOINT = process.env.MUSILA_ENDPOINT;
-export const JWT_MUSILA_BACKEND =
-  "Bearer " + localStorage.getItem("token") || "";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const Urls = {
   genres: {
-    all: `${MUSILA_ENDPOINT}/genre`,
-    getById: (id: string) => `${MUSILA_ENDPOINT}/genre/${id}`,
-  },
-  tracks: {
-    all: `${MUSILA_ENDPOINT}/track`,
-    getById: (id: string) => `${MUSILA_ENDPOINT}/track/${id}`,
+    all: `${API_BASE_URL}/musical-genre`,
+    one: (id: string | number) => `${API_BASE_URL}/musical-genre/${id}`,
   },
 };
+

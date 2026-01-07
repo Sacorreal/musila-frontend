@@ -6,10 +6,14 @@ import { persist } from "zustand/middleware";
 export type Track = {
   id: string;
   title: string;
-  artist: string;
-  coverUrl?: string;
-  audioUrl: string;
+  cover: string;
+  url: string;
   duration?: number;
+  authors?: Array<{
+    name: string;
+    lastName: string;
+    role?: string;
+  }>;
 };
 
 export type RepeatMode = "off" | "one" | "all";
@@ -26,7 +30,7 @@ type PlayerState = {
   setQueue: (tracks: Track[], startIndex?: number) => void;
   playTrack: (track: Track, queue?: Track[]) => void;
   togglePlay: () => void;
-  pause: () => void;
+  pauseTrack: () => void;
   next: () => void;
   prev: () => void;
   toggleShuffle: () => void;
@@ -79,7 +83,7 @@ export const usePlayerStore = create<PlayerState>()(
 
       togglePlay: () => set((state) => ({ isPlaying: !state.isPlaying })),
 
-      pause: () => set({ isPlaying: false }),
+      pauseTrack: () => set({ isPlaying: false }),
 
       next: () => {
         set((state) => {
@@ -166,7 +170,6 @@ export const usePlayerStore = create<PlayerState>()(
     }),
     {
       name: "musila-player",
-      // Opcional: solo persistir ciertas partes del estado para no guardar todo
       partialize: (state) => ({
         queue: state.queue,
         currentIndex: state.currentIndex,
