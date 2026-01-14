@@ -3,7 +3,7 @@ export type User = {
     nombre: string;
     email: string;
     bio?: string;
-    avatarUrl?: string;
+    avatar?: string;
     ubicacion?: string;
     links?: {
         web?: string;

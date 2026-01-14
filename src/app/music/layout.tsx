@@ -5,7 +5,6 @@ import { useAuth } from "@/domains/auth/store/authStore";
 import Sidebar from "@/shared/components/Layout/Sidebar";
 import ContentApp from "@/shared/components/Layout/ContentApp";
 import { useRouter } from "next/navigation";
-import { mockTracks } from "./Mocks/tracks";
 import { Spinner } from "@/shared/components/UI/Spinner";
 import AudioPlayer from "../../shared/components/Layout/AudioPlayer";
 
@@ -47,7 +46,7 @@ export default function MusicAppLayout({ children }: { children: React.ReactNode
                 <ContentApp onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}>{children}</ContentApp>
 
                 <div className="absolute bottom-0 left-0 right-0 z-30">
-                    <AudioPlayer initialQueue={mockTracks} />
+                    <AudioPlayer />
                 </div>
             </div>
         </div>
